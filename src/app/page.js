@@ -235,7 +235,7 @@ export default function Home() {
           <section className="py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 bg-white border border-slate-200 shadow-sm overflow-hidden rounded-xl">
               <div className="h-48 md:h-80 lg:h-auto overflow-hidden">
-                <img className="w-full h-full object-cover" loading="lazy" src={heroArticle?.mainImage || FALLBACK_IMAGE} alt="Your Trusted Authority" />
+                <img className="w-full h-full object-cover" src={heroArticle?.mainImage || FALLBACK_IMAGE} alt="Your Trusted Authority" />
               </div>
               <div className="p-6 md:p-10 flex flex-col justify-center">
                 <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1 self-start mb-4 md:mb-6 text-[10px] font-bold uppercase tracking-widest rounded-sm">

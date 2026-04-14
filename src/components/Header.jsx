@@ -41,7 +41,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 flex-shrink-0" onClick={closeMenu}>
             <img
               alt="Logo"
-              className="h-10 md:h-14 w-auto object-contain"
+              className="w-[155px] h-[48px] object-contain"
               src="/images/logo.png"
             />
           </Link>

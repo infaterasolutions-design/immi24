@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import ArticleSection from "./ArticleSection";
 import ScrollToTopButton from "./ScrollToTopButton";
+import SidebarWidgets from "./SidebarWidgets";
 import { fetchNextArticleAction } from "@/app/actions/article";
 
 const MAX_ARTICLES = 4;
@@ -103,11 +104,16 @@ export default function InfiniteScrollContainer({ initialArticle }) {
         </div>
       )}
 
-      {/* End of Feed Message */}
+      {/* End of Feed Message and Mobile Sidebar */}
       {(!hasMore || articles.length >= MAX_ARTICLES) && (
-        <div className="py-20 text-center text-slate-400 text-sm font-medium">
-          You've reached the end of the feed.
-        </div>
+        <>
+          <div className="block lg:hidden px-4 md:px-8 max-w-[1100px] mx-auto mt-12 mb-16">
+            <SidebarWidgets className="w-full" />
+          </div>
+          <div className="py-20 text-center text-slate-400 text-sm font-medium">
+            You've reached the end of the feed.
+          </div>
+        </>
       )}
 
       {/* Fixed Bottom "Up Next" Bar */}

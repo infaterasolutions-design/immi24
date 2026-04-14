@@ -1,6 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 export default function CategoryFeed({ title, description, articles }) {
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 6);
+  };
   return (
     <div className="max-w-[1200px] mx-auto px-3 md:px-4 lg:px-24 py-6 md:py-8 mb-12">
       
@@ -21,7 +29,7 @@ export default function CategoryFeed({ title, description, articles }) {
              </div>
            ) : (
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-               {articles.map((article) => (
+               {articles.slice(0, visibleCount).map((article) => (
                  <Link href={`/article/${article.id}`} key={article.id} className="group flex flex-col space-y-3 md:space-y-4 cursor-pointer block border border-transparent hover:border-slate-100 pb-4 rounded-xl transition-all hover:shadow-lg bg-white">
                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl w-full">
                      <img 
@@ -48,6 +56,18 @@ export default function CategoryFeed({ title, description, articles }) {
                    </div>
                  </Link>
                ))}
+             </div>
+           )}
+
+           {articles.length > visibleCount && (
+             <div className="mt-10 flex justify-center">
+               <button 
+                 onClick={handleLoadMore}
+                 className="bg-primary text-on-primary px-8 py-3 font-headline font-bold text-xs tracking-widest uppercase hover:bg-blue-800 transition-all rounded-full flex items-center gap-2"
+               >
+                 Load More Articles
+                 <span className="material-symbols-outlined text-[18px]">expand_more</span>
+               </button>
              </div>
            )}
 
