@@ -5,6 +5,17 @@ import { useState } from "react";
 
 export default function CategoryFeed({ title, description, articles }) {
   const [visibleCount, setVisibleCount] = useState(6);
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setIsSubscribed(true);
+      setTimeout(() => setIsSubscribed(false), 3000);
+      setEmail("");
+    }
+  };
 
   const handleLoadMore = () => {
     setVisibleCount(prev => prev + 6);
@@ -135,11 +146,21 @@ export default function CategoryFeed({ title, description, articles }) {
                 <span className="material-symbols-outlined mb-4 text-3xl opacity-90" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
                 <h3 className="font-extrabold text-xl mb-2 headline-font">Global Briefing</h3>
                 <p className="text-sm text-white/90 leading-relaxed mb-6">Stay updated with critical immigration law changes delivered to your inbox weekly.</p>
-                <form className="space-y-3">
-                  <input className="w-full bg-white/10 border border-white/20 rounded-lg py-3 px-4 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none transition-all" placeholder="Email address" type="email" />
-                  <button type="button" className="w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-xs uppercase tracking-widest hover:bg-slate-50 transition-colors">
-                    Subscribe Now
+                <form onSubmit={handleSubscribe} className="space-y-3 relative">
+                  <input 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full bg-white/10 border border-white/20 rounded-lg py-3 px-4 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none transition-all" 
+                    placeholder="Email address" 
+                    type="email" 
+                  />
+                  <button type="submit" className="w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-xs uppercase tracking-widest hover:bg-slate-50 transition-colors">
+                    {isSubscribed ? "Subscribed!" : "Subscribe Now"}
                   </button>
+                  {isSubscribed && (
+                    <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome aboard.</p>
+                  )}
                 </form>
               </div>
             </div>

@@ -1,6 +1,21 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 export default function SidebarWidgets({ className = "" }) {
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setIsSubscribed(true);
+      // Simulate API call
+      setTimeout(() => setIsSubscribed(false), 3000);
+      setEmail("");
+    }
+  };
   return (
     <aside className={`space-y-12 ${className}`}>
       {/* Sticky Sidebar Content wrapper */}
@@ -58,11 +73,21 @@ export default function SidebarWidgets({ className = "" }) {
             <span className="material-symbols-outlined mb-4" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
             <h3 className="font-headline font-bold text-xl mb-2 text-white">Editorial Digest</h3>
             <p className="text-sm text-white/80 leading-relaxed mb-6">Stay updated with critical immigration law changes delivered to your inbox weekly.</p>
-            <form className="space-y-3">
-              <input className="w-full bg-white/10 border-white/20 rounded-lg py-3 px-4 text-sm placeholder:text-white/40 focus:ring-2 focus:ring-white/50 focus:border-transparent outline-none transition-all text-white" placeholder="Email address" type="email" />
-              <button type="button" className="w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-sm hover:bg-slate-50 transition-colors">
-                Subscribe Now
+            <form onSubmit={handleSubscribe} className="space-y-3">
+              <input 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-white/10 border-white/20 rounded-lg py-3 px-4 text-sm placeholder:text-white/40 focus:ring-2 focus:ring-white/50 focus:border-transparent outline-none transition-all text-white" 
+                placeholder="Email address" 
+                type="email" 
+              />
+              <button type="submit" className="w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-sm hover:bg-slate-50 transition-colors">
+                {isSubscribed ? "Subscribed!" : "Subscribe Now"}
               </button>
+              {isSubscribed && (
+                <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Check your inbox.</p>
+              )}
             </form>
           </div>
           {/* Decorative Circle */}

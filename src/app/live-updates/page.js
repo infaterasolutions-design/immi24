@@ -47,6 +47,18 @@ export default function LiveUpdatesPage() {
   const [updates, setUpdates] = useState(INITIAL_UPDATES);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setIsSubscribed(true);
+      setTimeout(() => setIsSubscribed(false), 3000);
+      setEmail("");
+    }
+  };
 
   const handleLoadMore = () => {
     setIsLoading(true);
@@ -198,11 +210,21 @@ export default function LiveUpdatesPage() {
             <span className="material-symbols-outlined text-3xl md:text-4xl mb-4" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
             <h4 className="text-xl md:text-2xl font-extrabold font-headline leading-tight mb-4 text-white">The Daily Diplomat Intelligence</h4>
             <p className="text-sm opacity-90 leading-relaxed mb-6 md:mb-8 text-white/80">Get the latest immigration law updates and policy shifts delivered to your inbox every morning.</p>
-            <form className="space-y-4">
-              <input className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 rounded-lg p-3 md:p-4 font-headline text-sm outline-none" placeholder="Your professional email" type="email" />
-              <button type="button" className="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-3 md:py-4 rounded-lg hover:bg-surface-container-lowest transition-colors">
-                Subscribe Now
+            <form onSubmit={handleSubscribe} className="space-y-4 relative">
+              <input 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 rounded-lg p-3 md:p-4 font-headline text-sm outline-none" 
+                placeholder="Your professional email" 
+                type="email" 
+              />
+              <button type="submit" className="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-3 md:py-4 rounded-lg hover:bg-surface-container-lowest transition-colors">
+                {isSubscribed ? "Subscribed!" : "Subscribe Now"}
               </button>
+              {isSubscribed && (
+                <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Welcome to the Diplomat Intelligence!</p>
+              )}
             </form>
           </div>
         </aside>
@@ -220,11 +242,21 @@ export default function LiveUpdatesPage() {
           <div className="bg-primary p-5 text-on-primary rounded-xl shadow-xl shadow-primary/20">
             <h4 className="text-lg font-extrabold font-headline leading-tight mb-2 text-white">Daily Diplomat Intelligence</h4>
             <p className="text-sm opacity-90 leading-relaxed mb-4 text-white/80">Immigration updates delivered daily.</p>
-            <form className="space-y-3">
-              <input className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 rounded-lg p-3 font-headline text-sm outline-none" placeholder="Your email" type="email" />
-              <button type="button" className="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-3 rounded-lg hover:bg-surface-container-lowest transition-colors">
-                Subscribe Now
+            <form onSubmit={handleSubscribe} className="space-y-3 relative">
+              <input 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 rounded-lg p-3 font-headline text-sm outline-none" 
+                placeholder="Your email" 
+                type="email" 
+              />
+              <button type="submit" className="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-3 rounded-lg hover:bg-surface-container-lowest transition-colors">
+                {isSubscribed ? "Subscribed!" : "Subscribe Now"}
               </button>
+              {isSubscribed && (
+                <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success!</p>
+              )}
             </form>
           </div>
         </div>
