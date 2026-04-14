@@ -37,8 +37,8 @@ export default function LatestUpdatesFeed({ articles }) {
               {article.paragraphs[0] || article.imageCaption}
             </p>
           </Link>
-          <Link href={`/article/${article.id}`} className="w-[110px] h-[75px] md:w-[190px] md:h-[125px] overflow-hidden flex-shrink-0 block">
-            <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" src={article.mainImage} alt="News Image" />
+          <Link href={`/article/${article.id}`} className="w-[110px] h-[75px] md:w-[190px] md:h-[125px] overflow-hidden flex-shrink-0 block bg-slate-100">
+            <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src={article.mainImage} alt={article.title} />
           </Link>
         </article>
       ))}
