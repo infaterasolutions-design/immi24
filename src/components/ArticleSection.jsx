@@ -14,38 +14,17 @@ export default function ArticleSection({ article, isFirst = false }) {
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id}>
       <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
-        
-        {/* Floating Social Interaction Bar (Desktop) */}
+        {/* Un-clickable Floating Social Interaction Bar (Desktop) */}
         <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
-          <div className="sticky top-32 flex flex-col gap-4">
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border border-slate-200">
+          <div className="sticky top-32 flex flex-col gap-4 opacity-50 cursor-not-allowed pointer-events-none">
+             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
-             </button>
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border border-slate-200">
+             </div>
+             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
                <span className="material-symbols-outlined text-[20px]">bookmark</span>
-             </button>
-             <div className="relative group">
-               <button 
-                 onClick={() => setShowShareMenu(!showShareMenu)}
-                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white border-primary' : 'bg-transparent text-slate-500 border-slate-200 hover:bg-slate-100 hover:text-slate-900'} transition-all border`}
-               >
-                 <span className="material-symbols-outlined text-[20px]">share</span>
-               </button>
-               {/* Share Dropdown */}
-               <div className={`absolute top-0 left-14 bg-white rounded-full shadow-lg border border-slate-200 p-2 flex items-center gap-2 z-30 transition-all duration-300 ease-out origin-left ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/facebook.jpeg" alt="Facebook" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
-                 </button>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/X.jpg" alt="X" className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
-                 </button>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/linkedin.png" alt="LinkedIn" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
-                 </button>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/mail.jpeg" alt="Email" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
-                 </button>
-               </div>
+             </div>
+             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
+               <span className="material-symbols-outlined text-[20px]">share</span>
              </div>
           </div>
         </aside>
@@ -100,35 +79,39 @@ export default function ArticleSection({ article, isFirst = false }) {
             </div>
           </div>
 
-          {/* Mobile Action Bar (Hidden on Desktop) */}
-          <div className="flex lg:hidden justify-start gap-3 mb-6 relative w-full">
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent border border-slate-200 text-slate-500 hover:text-slate-900 transition-all shadow-sm">
+          {/* Action Bar (Above the image) */}
+          <div className="flex justify-end gap-2 md:gap-3 mb-3 md:mb-4 relative z-20 w-full">
+             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
              </button>
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent border border-slate-200 text-slate-500 hover:text-slate-900 transition-all shadow-sm">
+             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
                <span className="material-symbols-outlined text-[20px]">bookmark</span>
              </button>
              <div className="relative">
                <button 
                  onClick={() => setShowShareMenu(!showShareMenu)}
-                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white border-primary' : 'bg-transparent border-slate-200 text-slate-500'} hover:bg-primary hover:text-white transition-all shadow-sm border`}
+                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white' : 'bg-surface-container-lowest text-slate-600'} hover:text-white hover:bg-primary transition-all shadow-sm border border-outline-variant/10`}
                >
                  <span className="material-symbols-outlined text-[20px]">share</span>
                </button>
                
-               {/* Share Dropdown Mobile */}
-               <div className={`absolute top-12 left-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-2 flex items-center gap-2 z-30 transition-all duration-300 ease-out origin-top-left ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
-                 <button className="w-8 h-8 flex justify-center items-center">
+               {/* Share Dropdown */}
+               <div className={`absolute top-12 right-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-3 flex flex-col items-center gap-4 z-30 transition-all duration-700 ease-out origin-top-right ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
+                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/facebook.jpeg" alt="Facebook" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
-                 <button className="w-8 h-8 flex justify-center items-center">
+                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/X.jpg" alt="X" className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
                  </button>
-                 <button className="w-8 h-8 flex justify-center items-center">
+                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/linkedin.png" alt="LinkedIn" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
-                 <button className="w-8 h-8 flex justify-center items-center">
+                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/mail.jpeg" alt="Email" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                 </button>
+                 <div className="h-px w-6 bg-slate-200"></div>
+                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex justify-center items-center border border-slate-200/50">
+                   <span className="material-symbols-outlined text-[18px]">link</span>
                  </button>
                </div>
              </div>
