@@ -13,7 +13,7 @@ export default function ArticleSection({ article, isFirst = false }) {
 
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id}>
-      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-8 max-w-[1360px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
+      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
         
         {/* Floating Social Interaction Bar (Desktop) */}
         <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
@@ -73,14 +73,14 @@ export default function ArticleSection({ article, isFirst = false }) {
             <span className="text-slate-500 text-sm font-medium">{article.readTime}</span>
           </div>
 
-          {/* Title styling strictly matches stitch slide (Inter, tightest tracking, extremely bold, massive) */}
-          <h1 className="text-4xl md:text-5xl lg:text-[64px] font-black font-sans leading-[1.05] text-[#0f172a] mb-5 tracking-tighter">
+          {/* Title styling matched to Live Updates */}
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold font-headline tracking-tighter text-slate-900 mb-5 leading-[1.1]">
             {article.title}
           </h1>
 
           {/* Subtitle (Medium Style Description) */}
           {article.paragraphs && article.paragraphs[0] && (
-            <p className="text-[20px] md:text-[24px] text-slate-500 leading-[1.35] mb-8 font-normal font-sans pr-4 lg:pr-12">
+            <p className="text-[20px] md:text-[24px] text-slate-500 leading-[1.35] mb-8 font-normal font-headline pr-4 lg:pr-12">
               {article.paragraphs[0].split(' ').slice(0, 25).join(' ') + '...'}
             </p>
           )}

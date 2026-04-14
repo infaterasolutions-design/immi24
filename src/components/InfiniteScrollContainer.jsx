@@ -107,7 +107,7 @@ export default function InfiniteScrollContainer({ initialArticle }) {
       {/* End of Feed Message and Mobile Sidebar */}
       {(!hasMore || articles.length >= MAX_ARTICLES) && (
         <>
-          <div className="block lg:hidden px-4 md:px-8 max-w-[1360px] mx-auto mt-12 mb-16">
+          <div className="block lg:hidden px-4 md:px-8 max-w-[1298px] mx-auto mt-12 mb-16">
             <SidebarWidgets className="w-full" />
           </div>
           <div className="py-20 text-center text-slate-400 text-sm font-medium">
@@ -118,7 +118,7 @@ export default function InfiniteScrollContainer({ initialArticle }) {
 
       {/* Fixed Bottom "Up Next" Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-100 px-6 py-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] md:block hidden">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="max-w-[1298px] mx-auto flex justify-between items-center">
           <div className="flex items-center gap-6">
             <div className="hidden sm:block">
               <div className="text-[10px] font-extrabold text-primary uppercase tracking-widest mb-1">Currently Reading</div>
