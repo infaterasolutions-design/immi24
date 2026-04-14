@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Updates | The Digital Diplomat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "on-tertiary-container": "#fffbff",
+              "secondary-fixed-dim": "#b7c4ff",
+              "surface-container-highest": "#e2e1ee",
+              "inverse-surface": "#2f3039",
+              "on-surface": "#1a1b24",
+              "secondary-fixed": "#dde1ff",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#f1effc",
+              "surface": "#fbf8ff",
+              "primary": "#1c4ed8",
+              "on-surface-variant": "#434655",
+              "tertiary": "#a73400",
+              "on-primary-fixed-variant": "#0039b5",
+              "surface-dim": "#dad9e5",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "primary-fixed-dim": "#b7c4ff",
+              "outline": "#747686",
+              "on-tertiary-fixed-variant": "#832700",
+              "surface-variant": "#e2e1ee",
+              "secondary": "#4d5b94",
+              "on-secondary-fixed-variant": "#35437b",
+              "on-primary-fixed": "#001551",
+              "tertiary-fixed-dim": "#ffb59c",
+              "tertiary-container": "#c94c1b",
+              "surface-bright": "#fbf8ff",
+              "primary-container": "#4069f2",
+              "surface-container-high": "#e8e7f3",
+              "outline-variant": "#c4c5d7",
+              "on-primary-container": "#fffbff",
+              "background": "#fbf8ff",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#390c00",
+              "primary-fixed": "#dce1ff",
+              "on-background": "#1a1b24",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#3d4b84",
+              "inverse-primary": "#b7c4ff",
+              "surface-container": "#eeecf9",
+              "on-primary": "#ffffff",
+              "secondary-container": "#b0befe",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#ffdbcf",
+              "surface-container-low": "#f4f2ff",
+              "on-secondary-fixed": "#04164d",
+              "surface-tint": "#2151db"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes pulse-red {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-pulse-red {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar (Shared Component Execution) -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-extrabold tracking-tighter text-blue-800 dark:text-blue-300 font-headline">The Digital Diplomat</span>
+<div class="hidden lg:flex items-center gap-6">
+<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-700 dark:border-blue-400 pb-1 font-headline tracking-tight" href="#">Latest</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-600 dark:hover:text-blue-300 transition-colors font-headline tracking-tight" href="#">Global</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-600 dark:hover:text-blue-300 transition-colors font-headline tracking-tight" href="#">Visa Updates</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-600 dark:hover:text-blue-300 transition-colors font-headline tracking-tight" href="#">Policy</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-600 dark:hover:text-blue-300 transition-colors font-headline tracking-tight" href="#">Analysis</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-600 dark:hover:text-blue-300 transition-colors font-headline tracking-tight" href="#">Diplomacy</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-all text-slate-600">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-all text-slate-600">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-px w-full"></div>
+</nav>
+<!-- Main Content Layout with Side Ads -->
+<div class="pt-24 min-h-screen flex justify-center">
+<!-- Left Advertisement Margin -->
+<aside class="hidden xl:block w-[160px] h-[600px] mt-12 sticky top-24 bg-surface-container-low flex flex-col items-center justify-center border border-outline-variant/20">
+<span class="text-[10px] text-outline uppercase tracking-widest mb-4">Advertisement</span>
+<div class="w-32 h-[500px] bg-surface-container-high/50 flex items-center justify-center">
+<span class="text-xs text-outline italic">Place Ad Here</span>
+</div>
+</aside>
+<!-- Main Content Container (1200px) -->
+<main class="w-full max-w-[1200px] mx-8 grid grid-cols-12 gap-12">
+<!-- Article Header & Feed Section -->
+<section class="col-span-12 lg:col-span-8">
+<!-- Top Section -->
+<header class="mb-12">
+<div class="flex items-center gap-3 mb-6">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 text-xs font-bold tracking-widest flex items-center gap-2 uppercase">
+<span class="w-2 h-2 bg-white rounded-full animate-pulse-red"></span>
+                            LIVE UPDATES
+                        </span>
+<span class="text-xs text-outline font-medium tracking-wide uppercase">Breaking News • 12 mins ago</span>
+</div>
+<h1 class="text-5xl lg:text-6xl font-extrabold font-headline tracking-tighter text-on-surface mb-8 leading-[1.1]">
+                        Global Mobility Shift: European Union Proposes Streamlined Digital Nomad Visa Framework
+                    </h1>
+<div class="flex items-center gap-6 mb-10 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<img class="w-10 h-10 rounded-full" data-alt="professional portrait of a senior diplomatic correspondent in formal attire with a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd-UFpQy_DTberrpgBWcXafhDXulloA4T5sFTjLJ7Gmi-VQxT_rLpA9rWDB66_lQ_iCDlFxY38DQ6YYxQf8mNiWAGS2tUryN7o12dkvir-Q-XKyK0BaBNUMUayZhE8IcySP45LDV1QOyKpSdtjEsKwbduR7TFtN-jrxb_ony2Y8BUre6gvof2dYQbziCS248BZEhW015GyRDCJKQvINp_Fvb1Ul_7xVwEBV4A30i_YZQo6fv3dV64oDtSzDt0Et-a7088Q3KvI26o"/>
+<div>
+<span class="block text-sm font-bold font-headline">Julian Thorne</span>
+<span class="block text-xs uppercase tracking-tight">Chief Policy Correspondent</span>
+</div>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<div class="text-sm font-medium">
+                            Updated October 24, 2023 — 14:20 GMT
+                        </div>
+</div>
+<div class="relative w-full aspect-video overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="wide shot of the European Parliament building exterior in Brussels under a clear blue sky with flags fluttering" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3vXdA68Fhj-yO_BN-gb7NU1hCU266UT8GqqDZrdRY4PkvEg38oab7biQDQq7j9Uy69vx-ZOKrJ3TGgisHI-xO7ZeKG1KtHk06PzBM8qQK1JLF98HO6HuzMXdmaedMy47kS4yhL_J77EHJLXMMG9tmB47i4iL_lJRAHTPmMXqNB71qITtz93-O-OrxWLI_penqEOcp4cfHJdCgwcV4XG_h17PAwhun6-ivhAKix63XrYin1NIOfwcT3vMnn5WuqEphXm268eK65Ps"/>
+<div class="absolute bottom-4 left-4 bg-on-surface/80 backdrop-blur-sm text-white px-3 py-1 text-[10px] uppercase font-bold tracking-widest">
+                            Photo: Getty Images / European Press Agency
+                        </div>
+</div>
+</header>
+<!-- Live Feed: Vertical Chronological Timeline -->
+<div class="space-y-16 relative">
+<!-- Vertical Line Anchor -->
+<div class="absolute left-[7px] top-4 bottom-0 w-[2px] bg-primary/10"></div>
+<!-- Feed Item 1 -->
+<article class="relative pl-10 group">
+<div class="absolute left-0 top-2 w-4 h-4 bg-primary rounded-full ring-4 ring-surface"></div>
+<div class="flex flex-col gap-4">
+<header class="flex items-center gap-4">
+<span class="text-primary font-extrabold text-lg font-headline tracking-tighter">14:12 GMT</span>
+<h3 class="text-2xl font-bold font-headline tracking-tight text-on-surface group-hover:text-primary transition-colors">Draft resolution reveals 48-hour approval target</h3>
+</header>
+<p class="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
+                                The leaked document suggests a unified portal for all member states. This would eliminate the current patchwork of individual nation requirements, aiming for a 48-hour automated initial eligibility check.
+                            </p>
+<div class="bg-surface-container-low border-l-4 border-primary p-6 mt-2 italic text-on-surface font-medium">
+                                "This represents the most significant shift in European labor mobility since the creation of the Schengen Area." — EU Migration Commissioner
+                            </div>
+</div>
+</article>
+<!-- Feed Item 2 -->
+<article class="relative pl-10 group">
+<div class="absolute left-0 top-2 w-4 h-4 bg-primary/40 rounded-full ring-4 ring-surface"></div>
+<div class="flex flex-col gap-4">
+<header class="flex items-center gap-4">
+<span class="text-outline font-extrabold text-lg font-headline tracking-tighter">13:45 GMT</span>
+<h3 class="text-2xl font-bold font-headline tracking-tight text-on-surface">Member states react to tax reciprocity clause</h3>
+</header>
+<p class="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
+                                Spain and Italy have expressed concerns regarding the tax implications for remote workers staying longer than 180 days. Negotiations are currently focusing on a 'Dual Residence Recognition' model.
+                            </p>
+<div class="grid grid-cols-2 gap-4 mt-4">
+<img class="aspect-square object-cover" data-alt="close-up of a legal document with a stamp and fountain pen on a polished wooden desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXXFA4Lml5Vy6Kuq-AsMWtiUnd3WIHLpS2N9oAyii9tuujYC_m-001cuGEsqHHZeoam84bNtDWwVVRrU5zBZJEHjSueYJjwdHeZCSkiCu1zCJVT5pxEcN1l7meIr32c4MXYZnlVwq_cj4X2LJvppAIJLTf7i63ByEUkORPhueHhTefeNZs2s9QQ0OIiYzSrEDa2GwGKKR9vKmuk0YLrDlpS9A-tQeeIi-_ZR3rw-43UBj7aY-lT6aWPCrZ9l-ydZC4bNtLpUQtR6Q"/>
+<img class="aspect-square object-cover" data-alt="professional business meeting in a bright glass-walled boardroom with silhouettes of people discussing policies" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE4DOCW_MoTrWyN0Gm1LPN5Mey5b3YnydR2eEkskg2IP5lEnCcHFkP-hRBwXfqv_rWZ2wzeF001JDQhgberOL52S_ATuMPUY02y_GiYFU-DPSkfWqXl8JolBdD-Teh5vz8DEveATi-RemXbZcs9qR34dAoO610CIDHCeEGUklRKuymHq9sTXAqHrMPQAo0B7WPzxWL9CsTK6d2jTuynBhmsBu0_B2peqO0p-Djwi7GVzhrT9iQjBJJzisPnMWOamHtnnhwKWKtHbQ"/>
+</div>
+</div>
+</article>
+<!-- Feed Item 3 -->
+<article class="relative pl-10 group">
+<div class="absolute left-0 top-2 w-4 h-4 bg-primary/40 rounded-full ring-4 ring-surface"></div>
+<div class="flex flex-col gap-4">
+<header class="flex items-center gap-4">
+<span class="text-outline font-extrabold text-lg font-headline tracking-tighter">13:10 GMT</span>
+<h3 class="text-2xl font-bold font-headline tracking-tight text-on-surface">Tech Hubs in Berlin and Lisbon support the move</h3>
+</header>
+<p class="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
+                                Major European technology associations have released a joint statement welcoming the streamlined digital nomad visa, citing a projected 15% boost in local innovation ecosystems.
+                            </p>
+</div>
+</article>
+</div>
+<!-- Load More Button -->
+<div class="mt-16 flex justify-center">
+<button class="bg-primary text-on-primary px-8 py-4 font-headline font-bold text-sm tracking-widest uppercase hover:bg-primary-container transition-all flex items-center gap-3">
+                        Load Older Updates
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+</section>
+<!-- Sidebar Content -->
+<aside class="col-span-12 lg:col-span-4 space-y-12">
+<!-- Related Stories -->
+<div>
+<h4 class="text-sm font-bold tracking-[0.2em] uppercase text-primary mb-8 border-b border-primary/20 pb-4">Related Stories</h4>
+<div class="space-y-8">
+<a class="group block" href="#">
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Immigration Policy</span>
+<h5 class="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors">Portugal's D7 Visa: New requirements for 2024 revealed</h5>
+<span class="text-xs text-outline mt-2 block">4 hours ago</span>
+</a>
+<a class="group block" href="#">
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Global Markets</span>
+<h5 class="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors">How remote work is reshaping urban infrastructure in Southeast Asia</h5>
+<span class="text-xs text-outline mt-2 block">6 hours ago</span>
+</a>
+<a class="group block" href="#">
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Analysis</span>
+<h5 class="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors">The death of the 'Golden Visa'? Why Europe is tightening citizenship by investment</h5>
+<span class="text-xs text-outline mt-2 block">Yesterday</span>
+</a>
+</div>
+</div>
+<!-- Trending Topics (Chips) -->
+<div class="bg-surface-container p-8">
+<h4 class="text-sm font-bold tracking-[0.2em] uppercase text-on-surface mb-6">Trending Topics</h4>
+<div class="flex flex-wrap gap-2">
+<a class="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 hover:border-primary hover:text-primary transition-all" href="#">#DIGITALNOMAD</a>
+<a class="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 hover:border-primary hover:text-primary transition-all" href="#">#EU_VISA</a>
+<a class="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 hover:border-primary hover:text-primary transition-all" href="#">#MOBILITY</a>
+<a class="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 hover:border-primary hover:text-primary transition-all" href="#">#WORKREMOTE</a>
+<a class="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 hover:border-primary hover:text-primary transition-all" href="#">#IMMIGRATION_LAW</a>
+<a class="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 hover:border-primary hover:text-primary transition-all" href="#">#SCHENGEN</a>
+</div>
+</div>
+<!-- Newsletter CTA -->
+<div class="bg-primary p-10 text-on-primary">
+<span class="material-symbols-outlined text-4xl mb-4" data-icon="mail" style="font-variation-settings: 'FILL' 1;">mail</span>
+<h4 class="text-2xl font-extrabold font-headline leading-tight mb-4">The Daily Diplomat Intelligence</h4>
+<p class="text-sm opacity-90 leading-relaxed mb-8">Get the latest immigration law updates and policy shifts delivered to your inbox every morning.</p>
+<form class="space-y-4">
+<input class="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 p-4 font-headline text-sm" placeholder="Your professional email" type="email"/>
+<button class="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-4 hover:bg-surface-container-lowest transition-colors" type="submit">Subscribe Now</button>
+</form>
+</div>
+</aside>
+</main>
+<!-- Right Advertisement Margin -->
+<aside class="hidden xl:block w-[160px] h-[600px] mt-12 sticky top-24 bg-surface-container-low flex flex-col items-center justify-center border border-outline-variant/20">
+<span class="text-[10px] text-outline uppercase tracking-widest mb-4">Advertisement</span>
+<div class="w-32 h-[500px] bg-surface-container-high/50 flex items-center justify-center">
+<span class="text-xs text-outline italic">Place Ad Here</span>
+</div>
+</aside>
+</div>
+<!-- Footer (Shared Component Execution) -->
+<footer class="w-full mt-20 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-8 max-w-7xl mx-auto">
+<div class="mb-8 md:mb-0 text-center md:text-left">
+<span class="text-lg font-bold text-slate-900 dark:text-slate-100 block mb-2 font-headline">The Digital Diplomat</span>
+<p class="text-slate-500 dark:text-slate-500 font-['Inter'] text-sm leading-relaxed max-w-md">
+                    © 2024 The Digital Diplomat Editorial. All rights reserved. Professional Immigration Consultancy &amp; News.
+                </p>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-['Inter'] text-sm hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-['Inter'] text-sm hover:underline transition-all" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-['Inter'] text-sm hover:underline transition-all" href="#">Legal Disclaimer</a>
+<a class="text-slate-500 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-['Inter'] text-sm hover:underline transition-all" href="#">Editorial Guidelines</a>
+<a class="text-slate-500 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-['Inter'] text-sm hover:underline transition-all" href="#">Contact Us</a>
+</div>
+</div>
+</footer>
+</body></html>

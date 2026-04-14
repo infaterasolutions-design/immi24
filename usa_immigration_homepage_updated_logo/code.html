@@ -1,0 +1,536 @@
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Digital Diplomat | USA Immigration News</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary": "#ffffff", "inverse-primary": "#b7c4ff", "surface-container-high": "#e8e7f3", "on-secondary-fixed-variant": "#35437b", "on-secondary-fixed": "#04164d", "surface-tint": "#2151db", "primary-fixed": "#dce1ff", "on-surface": "#1a1b24", "on-surface-variant": "#434655", "surface-container-highest": "#e2e1ee", "surface-container-low": "#f4f2ff", "on-primary-fixed": "#001551", "on-secondary": "#ffffff", "secondary-fixed": "#dde1ff", secondary: "#4d5b94", "on-tertiary-container": "#fffbff", "secondary-container": "#b0befe", "on-primary-container": "#fffbff", primary: "#1c4ed8", background: "#fbf8ff", "surface-variant": "#e2e1ee", "tertiary-container": "#c94c1b", "outline-variant": "#c4c5d7", "on-error": "#ffffff", "surface-dim": "#dad9e5", "on-tertiary-fixed": "#390c00", "surface-bright": "#fbf8ff", "on-error-container": "#93000a", "error-container": "#ffdad6", "secondary-fixed-dim": "#b7c4ff", "on-background": "#1a1b24", "inverse-on-surface": "#f1effc", "tertiary-fixed": "#ffdbcf", "surface-container-lowest": "#ffffff", "on-tertiary": "#ffffff", "primary-fixed-dim": "#b7c4ff", "surface-container": "#eeecf9", outline: "#747686", "on-tertiary-fixed-variant": "#832700", "primary-container": "#4069f2", "on-secondary-container": "#3d4b84", error: "#ba1a1a", tertiary: "#a73400", "on-primary-fixed-variant": "#0039b5", "tertiary-fixed-dim": "#ffb59c", surface: "#fbf8ff", "inverse-surface": "#2f3039"}, fontFamily: {headline: ["Plus Jakarta Sans"], body: ["Inter"], label: ["Inter"], display: "Plus Jakarta Sans"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<style>
+          .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+          body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+          .headline-font { font-family: 'Poppins', sans-serif; }
+          .hide-scrollbar::-webkit-scrollbar { display: none; }
+          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+          /* Force sharp edges globally */
+          *, *::before, *::after { border-radius: 0px !important; }
+          /* Animation for dropdowns */
+          .nav-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: all 0.2s ease-out;
+          }
+          .nav-item:hover .nav-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+          }
+          /* Specific video rounding override - allowed by prompt */
+          .video-card-rounded, .video-card-rounded img { border-radius: 12px !important; }
+        </style>
+</head>
+<body class="text-on-surface overflow-x-hidden">
+<!-- Header: Multi-level Navigation -->
+<nav class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-200 ease-in-out">
+<div class="max-w-screen-2xl mx-auto flex items-center justify-between px-6 py-4 h-16">
+<!-- Logo -->
+<div class="flex items-center">
+<a class="text-2xl font-black tracking-tighter text-slate-900" href="#">
+<img alt="The Digital Diplomat Logo" class="w-auto object-contain h-12" src="https://lh3.googleusercontent.com/aida/ADBb0uiIawLyXdop92RJvruIeEUz6qgVy3_-MwwsDpf6L62bklELfilWE6Kf4W86GY4hNgI36XkIFTI1lkjAET8PeEvaUsYp1gJNgZBmxPjnjj5Z22QEJZ2IMyerAfO8RYtMDyDjVUm6pyaOKjJfvsarpKv5r1ebXzY3g0Dl1uvaEhlptNDsgm_nWwJwmOaSfxW0rFQqdr64aw1vgeyGhbbSLGavKz5JJwvOKIY4hkPYWwjDP6FnhzhU2C7qaYwnyzeq0K_PCyHispfGBg"/>
+</a>
+</div>
+<!-- Desktop Navigation Menu -->
+<div class="hidden lg:flex items-center gap-1 h-full">
+<!-- 1. Home -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-blue-700 border-b-2 border-blue-700 pb-1 transition-all" href="#">Home</a>
+<div class="nav-dropdown absolute top-full left-0 w-64 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Latest News</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Trending Immigration News</a>
+<div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-700">
+<p class="text-[10px] font-bold text-blue-700 uppercase tracking-widest mb-1">Visa Alerts</p>
+<p class="text-xs text-blue-900">USCIS expands premium processing for 2024</p>
+</div>
+</div>
+</div>
+<!-- 2. Visa News -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-0.5 transition-all" href="#">
+                        Visa News <span class="material-symbols-outlined text-xs">expand_more</span>
+</a>
+<div class="nav-dropdown absolute top-full left-0 w-60 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">H1B Visa</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Green Card</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">F1 &amp; OPT/CPT</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">B1/B2 (Tourist &amp; Business)</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">USCIS Updates</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Consulate Alerts</a>
+</div>
+</div>
+<!-- 3. Visa Guides -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-0.5 transition-all" href="#">
+                        Visa Guides <span class="material-symbols-outlined text-xs">expand_more</span>
+</a>
+<div class="nav-dropdown absolute top-full left-0 w-56 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">How-To Articles</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Application Steps</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">FAQs</a>
+</div>
+</div>
+<!-- 4. Visa Bulletin -->
+<div class="h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all" href="#">Visa Bulletin</a>
+</div>
+<!-- 5. Processing Times -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-0.5 transition-all" href="#">
+                        Processing Times <span class="material-symbols-outlined text-xs">expand_more</span>
+</a>
+<div class="nav-dropdown absolute top-full left-0 w-80 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">USCIS Service Center Timelines</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">State-wise Consulate Appointment Wait Times</a>
+</div>
+</div>
+<!-- 6. Fee Calculator -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-0.5 transition-all" href="#">
+                        Fee Calculator <span class="material-symbols-outlined text-xs">expand_more</span>
+</a>
+<div class="nav-dropdown absolute top-full left-0 w-56 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Tool Page</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Fee Breakdown</a>
+</div>
+</div>
+<!-- 7. Tools -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-0.5 transition-all" href="#">
+                        Tools <span class="material-symbols-outlined text-xs">expand_more</span>
+</a>
+<div class="nav-dropdown absolute top-full right-0 w-64 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Visa Status Checker</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">USCIS Case Tracker</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">H1B Lottery Tracker</a>
+</div>
+</div>
+<!-- 8. About -->
+<div class="nav-item group relative h-full flex items-center px-2">
+<a class="font-['Plus_Jakarta_Sans'] tracking-tight text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-0.5 transition-all" href="#">
+                        About <span class="material-symbols-outlined text-xs">expand_more</span>
+</a>
+<div class="nav-dropdown absolute top-full right-0 w-60 bg-white border border-slate-200 shadow-xl p-2 z-[60]">
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Mission Statement</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Disclaimer</a>
+<a class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-100/50 hover:text-slate-900 transition-colors" href="#">Contact Info</a>
+</div>
+</div>
+</div>
+<!-- Action Items -->
+<div class="flex items-center gap-4">
+<div class="hidden xl:flex items-center bg-slate-100 px-4 py-1.5 border border-slate-200">
+<span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-32" placeholder="Search news..." type="text"/>
+</div>
+<button class="bg-primary text-white px-6 py-2 font-bold text-sm tracking-wide uppercase hover:opacity-90 transition-all scale-100 active:scale-[0.98]">Subscribe</button>
+</div>
+</div>
+</nav>
+<!-- Main Layout Container -->
+<main class="mt-4 px-4 md:px-0">
+<div class="max-w-[1520px] mx-auto flex justify-center gap-8">
+<!-- Left Advertisement Margin -->
+<aside class="hidden xl:block w-[160px] flex-shrink-0">
+<div class="sticky top-24 w-[160px] h-[600px] bg-slate-50 border border-slate-200 flex flex-col items-center justify-center p-4">
+<span class="text-[10px] uppercase tracking-widest text-slate-400 mb-4">Advertisement</span>
+<div class="w-full h-full bg-slate-100 flex items-center justify-center italic text-[10px] text-slate-400 text-center">
+                        Premium Placement Space
+                    </div>
+</div>
+</aside>
+<!-- Center Content (1200px) -->
+<div class="flex-grow max-w-[1200px] space-y-8">
+<!-- Breaking News -->
+<div class="flex items-center gap-4 bg-white p-2 border border-slate-100 shadow-sm">
+<span class="bg-tertiary text-white px-4 py-1 text-xs font-bold uppercase tracking-wider">Breaking</span>
+<p class="text-sm font-medium truncate">U.S. Citizenship and Immigration Services Announces New Premium Processing Expansion for 2024</p>
+<span class="material-symbols-outlined text-primary ml-auto mr-2">arrow_forward</span>
+</div>
+<!-- Hero Section: 50/50 Balance -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Left: Featured Story -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[16/10] overflow-hidden mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATI85OtLzj_sQ0MJSzY7OKWNh756JbG2932o_Ri9ycQHBm4OUaRqbyh-FeoXP0XLK493eluw7EUp-4FIA4-9luW02by7tRs_mL_MR_Ws222g37OrmvEvjAYGl9unpTvv8orNCrC9rejkU4y7tGbBYbgwpbx9fjIe5PLKHuEmm0OMlCoPk09_tkiejWjtYv2DTF5AsYoI39e1G3_eTfY8wHtn03Bugod6gUkWAKFyunVqistTzLjMBr3-q_ODnv9-mLSblCOpny5Vs"/>
+</div>
+<div class="space-y-3">
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Policy Update</span>
+<h1 class="text-on-surface text-3xl font-extrabold headline-font leading-tight group-hover:text-primary transition-colors">
+                                Strategic Shifts: The Future of H-1B Visa Modernization and Global Talent Acquisition
+                            </h1>
+<p class="text-on-surface-variant text-base leading-relaxed line-clamp-2">
+                                The Department of Homeland Security proposes significant structural changes to the specialty occupation visa program to enhance integrity and flexibility for tech employers.
+                            </p>
+</div>
+</div>
+<!-- Right: 2x2 Grid -->
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOUgkbn0ejx90kCo_WeuweNcC65_qQXwgeYf0l_IkxuatVrUe987ygmQ6qrFxfTEj1neDn7iQXX9JTzQaRhcH_f7xPo4kq5bIUNlRibi9DukYjZvnk0kP2w0gEc9ZZaqG0K-1lZwmGT1e5ZQ9XxahHOsJRXf9s83cryBJmDoeO1t7G6zt6Nsl6PPZ9Ephlcr4fWzHt6UtzjqAkf2eXYkBSawGCgUxNfjJEM-I8AdbfyveerG3Ivnl0OyJPP6z5RCBAlP1qjUHkMbo"/>
+</div>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Visa Process</span>
+<h3 class="font-bold headline-font text-sm leading-tight group-hover:text-primary transition-colors">Digital Nomad Visa Options for 2024</h3>
+<p class="text-[10px] text-slate-400 font-medium">2 HOURS AGO</p>
+</div>
+<div class="space-y-2 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKyR3TjqB6H5OPwDD5Vz__oLTQIgC0VBZ9C2ZYm0RyBpgwXOH7WTjXTgwXJqWkuf7gRFQsTLhbqloYl9yK55LeUDv8sKXz1ekJHun-CZk70aVh5t5VEAxPFqHGZhcNKKjySgnb-cr9Endyb8WZaM1-i-HhW2s5LrwsuMcpUNBBkzzfJUa5SI_56b3PrbUkM48CFUJsvPnOULDbOk-7MbOO2Pfvwp6Adwopm5-RRqt7piQ5YH79s2ShR6BJ8_KPM-Y-cw18-MzUinI"/>
+</div>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Legal Affairs</span>
+<h3 class="font-bold headline-font text-sm leading-tight group-hover:text-primary transition-colors">Supreme Court Rules on Asylum Protections</h3>
+<p class="text-[10px] text-slate-400 font-medium">5 HOURS AGO</p>
+</div>
+<div class="space-y-2 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoplYKZG0QKQQ9IQdfcHZhK3y9AwyMxcMCse8pg22L8N4EOb0u0_21wvZOODKiTWUVzzDhXQCmC43rxzxi0rVKUTgaZng0AS2OgM_o1LTi_RI9W3oyxRlnfT5_2BD4g2Nu8BUymyUE3WPC_GgPuhCxWVjk-tcRHE1DVQzXQ5Q534fbhwgIMqeyshtNl3L6idfwwlp1HYcfNxPD5NMSe1mI4hoJdTytWjFQ_w3wZVPRW9FQtf6KsesizAgwvuEUJQ2KEHNYc-BzLDA"/>
+</div>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Global Talent</span>
+<h3 class="font-bold headline-font text-sm leading-tight group-hover:text-primary transition-colors">Tech Hubs Push for EB-1 Expansion</h3>
+<p class="text-[10px] text-slate-400 font-medium">MAR 14, 2024</p>
+</div>
+<div class="space-y-2 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdy4uD-BQ03LhtM8lZrABIkK0qOX4d2sGQJkbi3giDIUF3KG86OFIwheFA9pZSh0OgSzW4yVfpZ2UgQ1im5w7KDIy0sTg01HBEFW6gFmw2h4vGlWaacqGnI4JQRxu3EjG9dqreIp2AJ6qUXM-SPetQ75U0J0VRH0I3jxVuvyHzlZdV_sNcqeAd22jJfCF03ZnRQlkp4dnfRpL3s9igCZOrC5pJcVXMgfue_QyH0itIy8ojMUiWizLukhQDcurQgTsz9NiSSBcFMXQ"/>
+</div>
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Community</span>
+<h3 class="font-bold headline-font text-sm leading-tight group-hover:text-primary transition-colors">New Grant Programs for Immigrant Founders</h3>
+<p class="text-[10px] text-slate-400 font-medium">MAR 13, 2024</p>
+</div>
+</div>
+</section>
+<!-- Top Stories: Refined Card Style + Horizontal Slider -->
+<section class="py-4 border-y border-slate-100">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-extrabold headline-font border-l-4 border-primary pl-4 uppercase tracking-tight">Top Stories</h2>
+<div class="flex items-center gap-2">
+<button class="p-1.5 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-1.5 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x">
+<!-- Card 1 -->
+<div class="flex-shrink-0 w-[280px] snap-start group cursor-pointer">
+<div class="relative aspect-[16/10] w-full overflow-hidden mb-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATI85OtLzj_sQ0MJSzY7OKWNh756JbG2932o_Ri9ycQHBm4OUaRqbyh-FeoXP0XLK493eluw7EUp-4FIA4-9luW02by7tRs_mL_MR_Ws222g37OrmvEvjAYGl9unpTvv8orNCrC9rejkU4y7tGbBYbgwpbx9fjIe5PLKHuEmm0OMlCoPk09_tkiejWjtYv2DTF5AsYoI39e1G3_eTfY8wHtn03Bugod6gUkWAKFyunVqistTzLjMBr3-q_ODnv9-mLSblCOpny5Vs"/>
+<div class="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter">POLICY</div>
+</div>
+<h4 class="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">Supreme Court Hearing on Dreamers Act Set for June</h4>
+<div class="flex items-center gap-3 text-[10px] text-slate-500 font-medium">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">visibility</span><span>12k</span></div>
+<span>•</span><span>4h ago</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex-shrink-0 w-[280px] snap-start group cursor-pointer">
+<div class="relative aspect-[16/10] w-full overflow-hidden mb-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKs0Kp0aBoh8ydCgZzM4KwfpiM3qCjegaJqFzBP4vQpITa4xP7FwBjBwaqMJDszQRyfMTxdDdwG-tqc5bIUdPEcmoyWQJPQbDzFdsOsTjwwDmIyY1dbuV0JdPVuVAKedrbRT7z1wJOV23Jrfe5Luy8lRk2kGiZ-yfqPXbVoZKqrxszIB5FsxT_szvcPdBzR07-lGT75o2eW8PqXKHF2j4v448g5e_28trTBeZO2L97lDX2Nfc3LmkLW2_gVBrnBwhtO4h-JtINVFg"/>
+<div class="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter">EMPLOYMENT</div>
+</div>
+<h4 class="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">Labor Shortages Drive New L-1 Visa Expediting</h4>
+<div class="flex items-center gap-3 text-[10px] text-slate-500 font-medium">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">visibility</span><span>8.5k</span></div>
+<span>•</span><span>6h ago</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex-shrink-0 w-[280px] snap-start group cursor-pointer">
+<div class="relative aspect-[16/10] w-full overflow-hidden mb-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKyR3TjqB6H5OPwDD5Vz__oLTQIgC0VBZ9C2ZYm0RyBpgwXOH7WTjXTgwXJqWkuf7gRFQsTLhbqloYl9yK55LeUDv8sKXz1ekJHun-CZk70aVh5t5VEAxPFqHGZhcNKKjySgnb-cr9Endyb8WZaM1-i-HhW2s5LrwsuMcpUNBBkzzfJUa5SI_56b3PrbUkM48CFUJsvPnOULDbOk-7MbOO2Pfvwp6Adwopm5-RRqt7piQ5YH79s2ShR6BJ8_KPM-Y-cw18-MzUinI"/>
+<div class="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter">GUIDE</div>
+</div>
+<h4 class="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">10 Common Mistakes in Citizenship Applications</h4>
+<div class="flex items-center gap-3 text-[10px] text-slate-500 font-medium">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">visibility</span><span>25k</span></div>
+<span>•</span><span>1d ago</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex-shrink-0 w-[280px] snap-start group cursor-pointer">
+<div class="relative aspect-[16/10] w-full overflow-hidden mb-3">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOUgkbn0ejx90kCo_WeuweNcC65_qQXwgeYf0l_IkxuatVrUe987ygmQ6qrFxfTEj1neDn7iQXX9JTzQaRhcH_f7xPo4kq5bIUNlRibi9DukYjZvnk0kP2w0gEc9ZZaqG0K-1lZwmGT1e5ZQ9XxahHOsJRXf9s83cryBJmDoeO1t7G6zt6Nsl6PPZ9Ephlcr4fWzHt6UtzjqAkf2eXYkBSawGCgUxNfjJEM-I8AdbfyveerG3Ivnl0OyJPP6z5RCBAlP1qjUHkMbo"/>
+<div class="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter">TRAVEL</div>
+</div>
+<h4 class="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2">ESTA Updates: New Protocols for Travelers</h4>
+<div class="flex items-center gap-3 text-[10px] text-slate-500 font-medium">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">visibility</span><span>5.2k</span></div>
+<span>•</span><span>2h ago</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Browse by Category: Soft-colored Grid -->
+<section class="py-4">
+<h2 class="text-xl font-extrabold headline-font border-l-4 border-primary pl-4 uppercase tracking-tight mb-6">Browse by Category</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="bg-blue-50/50 hover:bg-blue-100 transition-colors p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-blue-100/50">
+<span class="material-symbols-outlined text-blue-600 text-3xl mb-3">school</span>
+<span class="font-bold headline-font text-[11px] uppercase tracking-widest">F1 Student</span>
+</div>
+<div class="bg-indigo-50/50 hover:bg-indigo-100 transition-colors p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-indigo-100/50">
+<span class="material-symbols-outlined text-indigo-600 text-3xl mb-3">work</span>
+<span class="font-bold headline-font text-[11px] uppercase tracking-widest">H1B Work</span>
+</div>
+<div class="bg-emerald-50/50 hover:bg-emerald-100 transition-colors p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-emerald-100/50">
+<span class="material-symbols-outlined text-emerald-600 text-3xl mb-3">style</span>
+<span class="font-bold headline-font text-[11px] uppercase tracking-widest">Green Card</span>
+</div>
+<div class="bg-rose-50/50 hover:bg-rose-100 transition-colors p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-rose-100/50">
+<span class="material-symbols-outlined text-rose-600 text-3xl mb-3">family_restroom</span>
+<span class="font-bold headline-font text-[11px] uppercase tracking-widest">Family Base</span>
+</div>
+<div class="bg-amber-50/50 hover:bg-amber-100 transition-colors p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-amber-100/50">
+<span class="material-symbols-outlined text-amber-600 text-3xl mb-3">gavel</span>
+<span class="font-bold headline-font text-[11px] uppercase tracking-widest">Asylum</span>
+</div>
+<div class="bg-slate-100/50 hover:bg-slate-200 transition-colors p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-slate-200/50">
+<span class="material-symbols-outlined text-slate-600 text-3xl mb-3">flight</span>
+<span class="font-bold headline-font text-[11px] uppercase tracking-widest">B1/B2 Visitor</span>
+</div>
+</div>
+</section>
+<!-- Video Highlights: Rounded Cards (12px) -->
+<section class="py-4">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-extrabold headline-font border-l-4 border-primary pl-4 uppercase tracking-tight">Video Highlights</h2>
+<div class="flex gap-2">
+<button class="p-1.5 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-1.5 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x">
+<!-- Video Card 1 -->
+<div class="flex-shrink-0 w-44 snap-start group cursor-pointer">
+<div class="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA20aaU7PB6QJLhRvTKC94_p1IeFNZT_gHgmQzeJLvAmbDpOSprkXRe0xwoXbkm90ZFoo2-4AT2KgahGHrl3SSHhPXtOO4xh3s6WLou7qI-gnNYZXDfxVzQLyzPzvDdm8kKmkyqVw1i3IoqI8fcrshmnM4rAT4U7Ppu-ARjodYID7qKFoZkKCGPhqJCNgRoCShfGcKCFd-orQJkJrNog2yQM9f3ip7ydbVvYj_lUXm3zH6OSDIXlPRs_YZKY84geAdsdA9rwRt2QPg"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold">1:24</div>
+</div>
+<h4 class="text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors">Understanding 2024 Citizenship Path</h4>
+</div>
+<!-- Video Card 2 -->
+<div class="flex-shrink-0 w-44 snap-start group cursor-pointer">
+<div class="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFb9beblN3MgHfnUBeU6Wy9p8_YXGuxcbQN9FF3do1_QrnImWCzKvHOym8HGB3VsYqY-QVokckgGybI0aXA5r4mnWVrY1PUU3XtbCErgaZoZlad1475HO49wX09A-HVgWnn-kAIZxc4efxzvSm-Pe9UuHWFraRl70xF-6bJMYeY2T9LxsW1Kuymmq-EXTV5W2Ok4kAKG4xYivcwpo3fpDGyWKHAHoKU9r6x3MJZZjuz6BWfp1iqxgkD5Wh6V04ZFuW6w8hr-Xc-WA"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold">0:58</div>
+</div>
+<h4 class="text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors">AI Impact on Visa Interviews</h4>
+</div>
+<!-- Video Card 3 -->
+<div class="flex-shrink-0 w-44 snap-start group cursor-pointer">
+<div class="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTa0bzeNHFntR5rgtSPYmlr5Pn6ZtKhGEsyWYCV6i6o-LTZdwPjqQAoZpjXXHUTmz75SSlioY0L74AGZ8gDK9vlNvlR-NEw8x1l2_b_BArN9MHSlCFIQ8L_7DRjylAJQr2YfQUdmgT0ABVRQXHE4TmfQEGHaEYWk1FC_w52iebQTZbMjpU3PqGBpAKd8OWtcwFtsQfae4itt6CKxQgQ9TYQJRhflL6l_dLYxzi1uGxN8Y0-K6efFFn3Z0Xq-Wk0X6jNCFajow_600"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold">2:15</div>
+</div>
+<h4 class="text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors">New F-1 Work Authorization</h4>
+</div>
+<!-- Video Card 4 -->
+<div class="flex-shrink-0 w-44 snap-start group cursor-pointer">
+<div class="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOUgkbn0ejx90kCo_WeuweNcC65_qQXwgeYf0l_IkxuatVrUe987ygmQ6qrFxfTEj1neDn7iQXX9JTzQaRhcH_f7xPo4kq5bIUNlRibi9DukYjZvnk0kP2w0gEc9ZZaqG0K-1lZwmGT1e5ZQ9XxahHOsJRXf9s83cryBJmDoeO1t7G6zt6Nsl6PPZ9Ephlcr4fWzHt6UtzjqAkf2eXYkBSawGCgUxNfjJEM-I8AdbfyveerG3Ivnl0OyJPP6z5RCBAlP1qjUHkMbo"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold">1:05</div>
+</div>
+<h4 class="text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors">Step-by-Step Renewals</h4>
+</div>
+<!-- Video Card 5 -->
+<div class="flex-shrink-0 w-44 snap-start group cursor-pointer">
+<div class="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIR_qsdCPdaytnz1Fn2FLGjXiUYafBq5t8jLnSnkHfMljIbEC4Ayg18IzHidKAx8rPjnLldTs0NQkHypXNY1LwPEh149oi7MfBRtFS-WtvW6bowA7lNClgVNBi7cjN6QC2_8T1k2xd9-r1HXMpAfj2Tq6FmaAprB8RXmZEMyFb_n2UL7knjkb-cqu96KWLahR2sS665efpstTHC0K-x0WNgBlWJxRMHKUNkull7eERkElatQS3Zm01JmR0EGAHG3sjmX2pSY9uWEY"/>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+<div class="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold">0:45</div>
+</div>
+<h4 class="text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors">AI Founders and O-1 Visas</h4>
+</div>
+</div>
+</section>
+<!-- Latest Updates Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-12 py-4 border-t border-slate-100">
+<div class="lg:col-span-2 space-y-6">
+<h2 class="text-xl font-extrabold headline-font border-l-4 border-primary pl-4 uppercase tracking-tight">Latest Updates</h2>
+<!-- Feed Item 1 -->
+<article class="group pb-6 border-b border-slate-100 flex gap-6">
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Policy</span>
+<span class="w-1 h-1 bg-slate-300"></span>
+<span class="text-[10px] text-slate-400 font-medium uppercase">2 HOURS AGO</span>
+</div>
+<h3 class="text-lg font-bold headline-font group-hover:text-primary transition-colors mb-2">House Committee Passes New Employment Verification Bill</h3>
+<p class="text-sm text-slate-600 leading-relaxed line-clamp-2">The legislation aims to mandate E-Verify for all agricultural employers by the end of the fiscal year.</p>
+</div>
+<div class="w-32 h-20 overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ZoBZ1yL9qO2FirlFxN5SWJI9GjoCuiRJRG2mrB6tL4dRvn2ToeTjM83RDnhyI3XiKnbKXbw8C3bklN42LpkxD3Gd-yZg-AjW41k-rshwEjmN8vSqiXMdNM5hFYJdP5XEQpXiWgb2iKttuplx2Qh_hsnT2s3YlkF9Me-HuM1vNi6y6Eb1f8eZQpSf4HJifM2M7IlwjkvVpfrfSSMmKjR9ybToNFdEN1ro4uAfl7UpDV5OPPAuW2P-7V0vkb9gm6W7olroJyg9zCY"/>
+</div>
+</article>
+<!-- Feed Item 2 -->
+<article class="group pb-6 border-b border-slate-100 flex gap-6">
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Community</span>
+<span class="w-1 h-1 bg-slate-300"></span>
+<span class="text-[10px] text-slate-400 font-medium uppercase">5 HOURS AGO</span>
+</div>
+<h3 class="text-lg font-bold headline-font group-hover:text-primary transition-colors mb-2">Immigration Clinics Provide Free Legal Aid</h3>
+<p class="text-sm text-slate-600 leading-relaxed line-clamp-2">Mobile legal units are assisting thousands with TPS renewals across the Midwest.</p>
+</div>
+<div class="w-32 h-20 overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmUDpKYWdBeoaoHAOV4xaoNEm5Te_qhpRGR-VFmeV_rxgxzyh5Eop2IUHiz3S_JpzP4Qm_jOguAWGkzBygxhAnJLQC5O85w_c1Q0gD6iC514QeIfu6VWzKm5UIeMliBBlaSkF7htBVVnN2LWmlxQ2UNVbXbCluyflsUD4HZ_pny-OPZkP285PNnHeCbgkY1L4QVhJNI7GIzwkzb8YiJImheOD672zwH6POz3RqvIMcUHbronKS9UdbEFZx9HBJyUWQGegn4eEOcBQ"/>
+</div>
+</article><article class="group pb-6 border-b border-slate-100 flex gap-6">
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Visa Process</span>
+<span class="w-1 h-1 bg-slate-300"></span>
+<span class="text-[10px] text-slate-400 font-medium uppercase">8 HOURS AGO</span>
+</div>
+<h3 class="text-lg font-bold headline-font group-hover:text-primary transition-colors mb-2">Consulate Appointment Wait Times Drop in Major Hubs</h3>
+<p class="text-sm text-slate-600 leading-relaxed line-clamp-2">New data shows a significant decrease in wait times for B1/B2 visa interviews across several Southeast Asian consulates.</p>
+</div>
+<div class="w-32 h-20 overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATI85OtLzj_sQ0MJSzY7OKWNh756JbG2932o_Ri9ycQHBm4OUaRqbyh-FeoXP0XLK493eluw7EUp-4FIA4-9luW02by7tRs_mL_MR_Ws222g37OrmvEvjAYGl9unpTvv8orNCrC9rejkU4y7tGbBYbgwpbx9fjIe5PLKHuEmm0OMlCoPk09_tkiejWjtYv2DTF5AsYoI39e1G3_eTfY8wHtn03Bugod6gUkWAKFyunVqistTzLjMBr3-q_ODnv9-mLSblCOpny5Vs"/>
+</div>
+</article><article class="group pb-6 border-b border-slate-100 flex gap-6">
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Global Talent</span>
+<span class="w-1 h-1 bg-slate-300"></span>
+<span class="text-[10px] text-slate-400 font-medium uppercase">1 DAY AGO</span>
+</div>
+<h3 class="text-lg font-bold headline-font group-hover:text-primary transition-colors mb-2">Canada Launches New Tech Talent Strategy to Attract H-1B Holders</h3>
+<p class="text-sm text-slate-600 leading-relaxed line-clamp-2">The northern neighbor introduces a streamlined work permit process specifically targeting US-based specialty occupation workers.</p>
+</div>
+<div class="w-32 h-20 overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoplYKZG0QKQQ9IQdfcHZhK3y9AwyMxcMCse8pg22L8N4EOb0u0_21wvZOODKiTWUVzzDhXQCmC43rxzxi0rVKUTgaZng0AS2OgM_o1LTi_RI9W3oyxRlnfT5_2BD4g2Nu8BUymyUE3WPC_GgPuhCxWVjk-tcRHE1DVQzXQ5Q534fbhwgIMqeyshtNl3L6idfwwlp1HYcfNxPD5NMSe1mI4hoJdTytWjFQ_w3wZVPRW9FQtf6KsesizAgwvuEUJQ2KEHNYc-BzLDA"/>
+</div>
+</article>
+<button class="w-full py-3 bg-slate-100 font-bold text-[11px] tracking-widest text-primary hover:bg-slate-200 transition-colors uppercase">Load More Stories</button>
+</div>
+<!-- Sidebar -->
+<aside class="space-y-6">
+<div class="sticky top-24 space-y-6">
+<!-- Newsletter Card -->
+<div class="bg-primary p-6 text-white shadow-lg">
+<h3 class="text-xl font-extrabold headline-font mb-2">Global Briefing</h3>
+<p class="text-sm mb-6 opacity-90 leading-relaxed">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
+<div class="space-y-3">
+<input class="w-full bg-white/10 border border-white/20 px-4 py-2.5 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none" placeholder="Email address" type="email"/>
+<button class="w-full bg-white text-primary font-bold py-2.5 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase">Subscribe Now</button>
+</div>
+</div>
+<!-- Trending Programs -->
+<div class="bg-white p-6 border border-slate-100 shadow-sm">
+<h3 class="text-xs font-bold headline-font mb-4 border-b border-slate-100 pb-2 uppercase tracking-widest text-slate-900">Trending Programs</h3>
+<ul class="space-y-3">
+<li class="flex items-center justify-between group cursor-pointer">
+<span class="text-sm font-medium group-hover:text-primary transition-colors">H-1B Cap 2025</span>
+<span class="text-[9px] bg-blue-100 text-primary px-2 py-0.5 font-bold uppercase">New</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<span class="text-sm font-medium group-hover:text-primary transition-colors">EB-5 Investor Visas</span>
+<span class="text-slate-400 material-symbols-outlined text-sm">trending_up</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<span class="text-sm font-medium group-hover:text-primary transition-colors">DACA Renewal Updates</span>
+<span class="text-slate-400 material-symbols-outlined text-sm">trending_up</span>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+</section>
+<!-- Trust Section: Trusted Authority -->
+<section class="py-4 mb-12">
+<div class="grid grid-cols-1 md:grid-cols-2 bg-white border border-slate-200 shadow-sm overflow-hidden">
+<div class="h-80 md:h-auto overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASonc9WpqKi-3nfgA3ebTOLNbJlRDpAIqoh1a-_yXaeT0M1xhZzoRd3gpfmgAhIBUU3yyNJcllKd6DukftB1jGL_dxu9IajiEhZ6bGhOXApVsMYEmb9XParMiJKGskIw5ZGrbMDewjmgtuS_5eI0UueALMnEWoWUB8-ykXY2QkFyArsCW4Y6yQIyC4bUXu4luUUJBMMCc-ErJvabBvdaPi3HpyWSxoPoZamN_NUe5sACEAVODfePeXdmpUEnRNed06NcxtKzsfpEo"/>
+</div>
+<div class="p-10 flex flex-col justify-center">
+<div class="inline-flex items-center gap-2 bg-primary text-white px-3 py-1 self-start mb-6 text-[10px] font-bold uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">verified</span> Verified Accuracy
+                            </div>
+<h2 class="text-3xl font-extrabold headline-font mb-4 leading-tight">Your Trusted Authority on US Immigration</h2>
+<p class="text-slate-600 mb-8 leading-relaxed">For over a decade, we've provided millions of readers with fact-checked, up-to-the-minute analysis of shifting immigration policies and procedural changes.</p>
+<div class="flex items-center gap-8">
+<div>
+<p class="text-2xl font-extrabold text-primary headline-font">12M+</p>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Annual Readers</p>
+</div>
+<div class="w-px h-10 bg-slate-200"></div>
+<div>
+<p class="text-2xl font-extrabold text-primary headline-font">24/7</p>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policy Tracking</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Advertisement Margin -->
+<aside class="hidden xl:block w-[160px] flex-shrink-0">
+<div class="sticky top-24 w-[160px] h-[600px] bg-slate-50 border border-slate-200 flex flex-col items-center justify-center p-4">
+<span class="text-[10px] uppercase tracking-widest text-slate-400 mb-4">Advertisement</span>
+<div class="w-full h-full bg-slate-100 flex items-center justify-center italic text-[10px] text-slate-400 text-center">
+                        Premium Placement Space
+                    </div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Updated Footer: Matches SCREEN_2 and SCREEN_33 styling -->
+<footer class="py-12 px-6 bg-[#F9FAFB] text-slate-600">
+<div class="max-w-[1200px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+<div>
+<span class="text-2xl font-extrabold tracking-tighter headline-font block mb-6 text-slate-900"><img alt="The Digital Diplomat Logo" class="w-auto object-contain mb-6 h-14" src="https://lh3.googleusercontent.com/aida/ADBb0uiIawLyXdop92RJvruIeEUz6qgVy3_-MwwsDpf6L62bklELfilWE6Kf4W86GY4hNgI36XkIFTI1lkjAET8PeEvaUsYp1gJNgZBmxPjnjj5Z22QEJZ2IMyerAfO8RYtMDyDjVUm6pyaOKjJfvsarpKv5r1ebXzY3g0Dl1uvaEhlptNDsgm_nWwJwmOaSfxW0rFQqdr64aw1vgeyGhbbSLGavKz5JJwvOKIY4hkPYWwjDP6FnhzhU2C7qaYwnyzeq0K_PCyHispfGBg"/></span>
+<p class="text-sm leading-relaxed text-slate-600">The premier destination for accurate, real-time news and analysis regarding US immigration policy and global mobility.</p>
+</div>
+<div>
+<h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-slate-900">RESOURCES</h4>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Visa Fee Calculator</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">USCIS Processing Times</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Visa Bulletin Archive</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">H1B Lottery Data</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-slate-900">COMPANY</h4>
+<ul class="space-y-3 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Editorial Guidelines</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Advertising</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-slate-900">CONNECT</h4>
+<div class="flex gap-4 mb-6">
+<a class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-primary transition-colors bg-slate-200" href="#"><span class="material-symbols-outlined text-sm text-slate-600">alternate_email</span></a>
+<a class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-primary transition-colors bg-slate-200" href="#"><span class="material-symbols-outlined text-sm text-slate-600">share</span></a>
+</div></div></div></div></footer></body></html>
