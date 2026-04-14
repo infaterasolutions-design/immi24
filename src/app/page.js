@@ -1,11 +1,26 @@
+"use client";
+
 import Link from "next/link";
 import LatestUpdatesFeed from "@/components/LatestUpdatesFeed";
 import { getAllArticles, mockArticles } from "@/lib/mockData";
+import { useState } from "react";
 
 // Placeholder fallback image
 const FALLBACK_IMAGE = "https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image";
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setIsSubscribed(true);
+      setTimeout(() => setIsSubscribed(false), 3000);
+      setEmail("");
+    }
+  };
+
   const allArticles = getAllArticles();
 
   // Dynamic article slicing — scalable for any data source
@@ -209,10 +224,23 @@ export default function Home() {
                 <div className="bg-primary p-6 text-white shadow-lg rounded-xl">
                   <h3 className="text-xl font-extrabold headline-font mb-2">Global Briefing</h3>
                   <p className="text-sm mb-6 opacity-90 leading-relaxed">Get the week&apos;s most critical immigration news and policy analysis directly in your inbox.</p>
-                  <div className="space-y-3">
-                    <input className="w-full bg-white/10 border border-white/20 px-4 py-2.5 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md" placeholder="Email address" type="email" />
-                    <button className="w-full bg-white text-primary font-bold py-2.5 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md">Subscribe Now</button>
-                  </div>
+                  <form onSubmit={handleSubscribe} className="space-y-3 relative">
+                    <input 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="w-full bg-white/10 border border-white/20 px-4 py-2.5 text-sm md:text-[15px] placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md transition-all text-white" 
+                      placeholder="Email address" 
+                      type="email" 
+                    />
+                    <button type="submit" className="w-full bg-white text-primary font-bold py-2.5 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md relative overflow-hidden">
+                      <span className={`transition-transform duration-300 ${isSubscribed ? 'scale-0 opacity-0 absolute' : 'scale-100 opacity-100'}`}>Subscribe Now</span>
+                      <span className={`transition-transform duration-300 flex items-center justify-center gap-1.5 ${isSubscribed ? 'scale-100 opacity-100' : 'scale-0 opacity-0 absolute'}`}><span className="material-symbols-outlined text-[16px]">check_circle</span> Subscribed!</span>
+                    </button>
+                    {isSubscribed && (
+                      <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome aboard.</p>
+                    )}
+                  </form>
                 </div>
 
               </div>
@@ -224,10 +252,23 @@ export default function Home() {
             <div className="bg-primary p-5 text-white shadow-lg rounded-xl">
               <h3 className="text-lg font-extrabold headline-font mb-2">Global Briefing</h3>
               <p className="text-sm mb-4 opacity-90 leading-relaxed">Get critical immigration news delivered to your inbox weekly.</p>
-              <div className="space-y-3">
-                <input className="w-full bg-white/10 border border-white/20 px-4 py-3 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md" placeholder="Email address" type="email" />
-                <button className="w-full bg-white text-primary font-bold py-3 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md">Subscribe Now</button>
-              </div>
+              <form onSubmit={handleSubscribe} className="space-y-3 relative">
+                <input 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full bg-white/10 border border-white/20 px-4 py-3 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md text-white transition-all" 
+                  placeholder="Email address" 
+                  type="email" 
+                />
+                <button type="submit" className="w-full bg-white text-primary font-bold py-3 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md relative overflow-hidden">
+                  <span className={`transition-transform duration-300 ${isSubscribed ? 'scale-0 opacity-0 absolute' : 'scale-100 opacity-100'}`}>Subscribe Now</span>
+                  <span className={`transition-transform duration-300 flex items-center justify-center gap-1.5 ${isSubscribed ? 'scale-100 opacity-100' : 'scale-0 opacity-0 absolute'}`}><span className="material-symbols-outlined text-[16px]">check_circle</span> Subscribed!</span>
+                </button>
+                {isSubscribed && (
+                  <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome aboard.</p>
+                )}
+              </form>
             </div>
           </div>
 

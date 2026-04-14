@@ -12,6 +12,22 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setIsSubscribed(true);
+      setTimeout(() => {
+        setIsSubscribed(false);
+        setShowSubscribeModal(false);
+      }, 2000);
+      setEmail("");
+    }
+  };
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -189,9 +205,9 @@ export default function Header() {
               </span>
             </button>
 
-            {/* Desktop Subscribe (Uses existing visual style, but acts as a quick alert hook) */}
+            {/* Desktop Subscribe */}
             <button 
-              onClick={() => alert('Global Subscription modal triggers here!')}
+              onClick={() => setShowSubscribeModal(true)}
               className="hidden lg:block bg-primary text-white px-5 py-2 font-bold text-xs tracking-wide uppercase hover:opacity-90 transition-all rounded-full shadow-sm active:scale-95"
             >
               Subscribe
@@ -302,7 +318,63 @@ export default function Header() {
             )}
           </div>
         ))}
+
+        {/* Mobile Navbar Subscribe Block */}
+        <div className="p-5 mt-4 mx-4 mb-20 bg-primary text-white rounded-xl shadow-lg border border-primary-container/20">
+            <h3 className="text-lg font-extrabold headline-font mb-2">Global Briefing</h3>
+            <p className="text-sm mb-4 opacity-90 leading-relaxed">Get critical immigration news delivered to your inbox weekly.</p>
+            <form onSubmit={handleSubscribe} className="space-y-3 relative">
+              <input 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-white/10 border border-white/20 px-4 py-3 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md text-white" 
+                placeholder="Email address" 
+                type="email" 
+              />
+              <button type="submit" className="w-full bg-white text-primary font-bold py-3 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md relative overflow-hidden">
+                <span className={`transition-transform duration-300 ${isSubscribed ? 'scale-0 opacity-0 absolute' : 'scale-100 opacity-100'}`}>Subscribe Now</span>
+                <span className={`transition-transform duration-300 flex items-center justify-center gap-1.5 ${isSubscribed ? 'scale-100 opacity-100' : 'scale-0 opacity-0 absolute'}`}><span className="material-symbols-outlined text-[16px]">check_circle</span> Subscribed!</span>
+              </button>
+            </form>
+        </div>
       </div>
+
+      {/* ===== GLOBAL SUBSCRIBE MODAL ===== */}
+      {showSubscribeModal && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowSubscribeModal(false)}></div>
+          <div className="bg-primary p-8 md:p-10 text-white shadow-2xl rounded-2xl relative w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => setShowSubscribeModal(false)}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined text-[20px]">close</span>
+            </button>
+            
+            <span className="material-symbols-outlined text-4xl mb-6 opacity-90" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
+            <h3 className="text-2xl font-extrabold headline-font mb-3">Global Briefing</h3>
+            <p className="text-sm mb-8 opacity-90 leading-relaxed">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
+            
+            <form onSubmit={handleSubscribe} className="space-y-4 relative">
+              <input 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-white/10 border border-white/20 px-4 py-3.5 text-sm placeholder:text-white/60 focus:ring-2 focus:ring-white outline-none rounded-xl text-white transition-all" 
+                placeholder="Your professional email" 
+                type="email" 
+              />
+              <button type="submit" className="w-full bg-white text-primary font-bold py-3.5 text-[12px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl">
+                {isSubscribed ? "Subscribed!" : "Subscribe Document"}
+              </button>
+              {isSubscribed && (
+                <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome to the briefing.</p>
+              )}
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
