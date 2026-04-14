@@ -13,70 +13,26 @@ export default function ArticleSection({ article, isFirst = false }) {
 
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id}>
-      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-8 max-w-[1100px] lg:px-20 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
-        {/* Article Section */}
-        <article className="lg:col-span-8">
-          {/* Breadcrumbs / Category > Subcategory */}
-          <div className="flex items-center gap-2 mb-4 md:mb-6 flex-wrap">
-            <Link href={`/category/${article.categorySlug}`} className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase font-label hover:bg-primary hover:text-white transition-colors">
-              {article.categorySlug === "visa-news" ? "Visa News" : 
-               article.categorySlug === "visa-guides" ? "Visa Guides" : 
-               article.categorySlug === "processing-times" ? "Processing Times" : 
-               article.categorySlug === "visa-bulletin" ? "Visa Bulletin" : 
-               article.categorySlug === "fee-calculator" ? "Fee Calculator" : 
-               article.categorySlug === "tools" ? "Tools" : 
-               article.categorySlug === "about" ? "About" : article.categorySlug}
-            </Link>
-            {article.subCategorySlug && (
-              <>
-                <span className="material-symbols-outlined text-slate-400 text-[14px]">chevron_right</span>
-                <Link href={`/category/${article.categorySlug}/${article.subCategorySlug}`} className="text-primary text-[10px] font-bold tracking-widest uppercase hover:underline">
-                  {article.categoryLabel}
-                </Link>
-              </>
-            )}
-            <span className="text-outline-variant text-xs">•</span>
-            <span className="text-on-surface-variant text-xs font-medium">{article.readTime}</span>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold font-headline leading-[1.1] text-on-surface mb-5 md:mb-8 tracking-tight">
-            {article.title}
-          </h1>
-
-          {/* Author Info */}
-          <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-10 pb-6 md:pb-8 border-b border-outline-variant/20">
-            <div className="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
-              <img 
-                alt={article.authorName}
-                className="w-full h-full object-cover" 
-                src={article.authorImage}
-              />
-            </div>
-            <div>
-              <div className="text-on-surface font-bold text-sm">{article.authorName}</div>
-              <div className="text-on-surface-variant text-xs">{article.authorRole} • {article.date}</div>
-            </div>
-          </div>
-
-          {/* Action Bar (Above the image) */}
-          <div className="flex justify-end gap-2 md:gap-3 mb-3 md:mb-4 relative z-20 w-full">
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
+      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-8 max-w-[1360px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
+        
+        {/* Floating Social Interaction Bar (Desktop) */}
+        <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
+          <div className="sticky top-32 flex flex-col gap-4">
+             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border border-slate-200">
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
              </button>
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
+             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-all border border-slate-200">
                <span className="material-symbols-outlined text-[20px]">bookmark</span>
              </button>
-             <div className="relative">
+             <div className="relative group">
                <button 
                  onClick={() => setShowShareMenu(!showShareMenu)}
-                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white' : 'bg-surface-container-lowest text-slate-600'} hover:text-white hover:bg-primary transition-all shadow-sm border border-outline-variant/10`}
+                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white border-primary' : 'bg-transparent text-slate-500 border-slate-200 hover:bg-slate-100 hover:text-slate-900'} transition-all border`}
                >
                  <span className="material-symbols-outlined text-[20px]">share</span>
                </button>
-               
-               {/* Share Dropdown (Slow motion & Icons only) */}
-               <div className={`absolute top-12 right-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-3 flex flex-col items-center gap-4 z-30 transition-all duration-700 ease-out origin-top-right ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
+               {/* Share Dropdown */}
+               <div className={`absolute top-0 left-14 bg-white rounded-full shadow-lg border border-slate-200 p-2 flex items-center gap-2 z-30 transition-all duration-300 ease-out origin-left ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
                  <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/facebook.jpeg" alt="Facebook" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
@@ -89,9 +45,90 @@ export default function ArticleSection({ article, isFirst = false }) {
                  <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/mail.jpeg" alt="Email" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
-                 <div className="h-px w-6 bg-slate-200"></div>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex justify-center items-center border border-slate-200/50">
-                   <span className="material-symbols-outlined text-[18px]">link</span>
+               </div>
+             </div>
+          </div>
+        </aside>
+
+        {/* Article Section */}
+        <article className="lg:col-span-8">
+          {/* Breadcrumbs / Category > Subcategory */}
+          <div className="flex items-center gap-3 mb-5 md:mb-6 flex-wrap">
+            <div className="bg-[#eef2ff] text-[#1e3a8a] px-3 py-1.5 rounded flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase font-sans">
+              <Link href={`/category/${article.categorySlug}`} className="hover:opacity-80 transition-opacity">
+                {article.categorySlug === "visa-news" ? "VISA NEWS" : 
+                 article.categorySlug === "visa-guides" ? "VISA GUIDES" : 
+                 article.categorySlug === "about" ? "ABOUT" : article.categorySlug.toUpperCase().replace('-', ' ')}
+              </Link>
+              {article.subCategorySlug && (
+                <>
+                  <span className="text-[#1e3a8a]/40 text-xs leading-none relative -top-[1px]">|</span>
+                  <Link href={`/category/${article.categorySlug}/${article.subCategorySlug}`} className="hover:opacity-80 transition-opacity">
+                    {article.categoryLabel.toUpperCase()}
+                  </Link>
+                </>
+              )}
+            </div>
+            <span className="text-slate-300 mx-1 text-[8px]">●</span>
+            <span className="text-slate-500 text-sm font-medium">{article.readTime}</span>
+          </div>
+
+          {/* Title styling strictly matches stitch slide (Inter, tightest tracking, extremely bold, massive) */}
+          <h1 className="text-4xl md:text-5xl lg:text-[64px] font-black font-sans leading-[1.05] text-[#0f172a] mb-5 tracking-tighter">
+            {article.title}
+          </h1>
+
+          {/* Subtitle (Medium Style Description) */}
+          {article.paragraphs && article.paragraphs[0] && (
+            <p className="text-[20px] md:text-[24px] text-slate-500 leading-[1.35] mb-8 font-normal font-sans pr-4 lg:pr-12">
+              {article.paragraphs[0].split(' ').slice(0, 25).join(' ') + '...'}
+            </p>
+          )}
+
+          {/* Author Info */}
+          <div className="flex items-center gap-4 mb-8 md:mb-10 pb-8 md:pb-10 border-b border-slate-100">
+            <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0">
+              <img 
+                alt={article.authorName}
+                className="w-full h-full object-cover" 
+                src={article.authorImage}
+              />
+            </div>
+            <div className="flex flex-col justify-center gap-1.5">
+              <div className="text-slate-900 font-bold text-[16px] leading-none">{article.authorName}</div>
+              <div className="text-slate-500 text-[14px] leading-none">Washington, D.C. • MAR 14, 2024 at 10:00 AM EDT</div>
+            </div>
+          </div>
+
+          {/* Mobile Action Bar (Hidden on Desktop) */}
+          <div className="flex lg:hidden justify-start gap-3 mb-6 relative w-full">
+             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent border border-slate-200 text-slate-500 hover:text-slate-900 transition-all shadow-sm">
+               <span className="material-symbols-outlined text-[20px]">thumb_up</span>
+             </button>
+             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent border border-slate-200 text-slate-500 hover:text-slate-900 transition-all shadow-sm">
+               <span className="material-symbols-outlined text-[20px]">bookmark</span>
+             </button>
+             <div className="relative">
+               <button 
+                 onClick={() => setShowShareMenu(!showShareMenu)}
+                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white border-primary' : 'bg-transparent border-slate-200 text-slate-500'} hover:bg-primary hover:text-white transition-all shadow-sm border`}
+               >
+                 <span className="material-symbols-outlined text-[20px]">share</span>
+               </button>
+               
+               {/* Share Dropdown Mobile */}
+               <div className={`absolute top-12 left-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-2 flex items-center gap-2 z-30 transition-all duration-300 ease-out origin-top-left ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
+                 <button className="w-8 h-8 flex justify-center items-center">
+                   <img src="/social/facebook.jpeg" alt="Facebook" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                 </button>
+                 <button className="w-8 h-8 flex justify-center items-center">
+                   <img src="/social/X.jpg" alt="X" className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
+                 </button>
+                 <button className="w-8 h-8 flex justify-center items-center">
+                   <img src="/social/linkedin.png" alt="LinkedIn" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                 </button>
+                 <button className="w-8 h-8 flex justify-center items-center">
+                   <img src="/social/mail.jpeg" alt="Email" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
                </div>
              </div>
@@ -180,7 +217,7 @@ export default function ArticleSection({ article, isFirst = false }) {
 
         {/* Sidebar Section (Only rendered on the first article) */}
         {isFirst && (
-          <SidebarWidgets className="hidden lg:block lg:col-span-4" />
+          <SidebarWidgets className="hidden lg:block lg:col-span-3" />
         )}
       </main>
     </div>

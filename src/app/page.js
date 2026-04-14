@@ -36,7 +36,7 @@ export default function Home() {
 
   return (
     <main className="mt-2 md:mt-4 px-3 md:px-4 lg:px-0 mb-12">
-      <div className="max-w-[1200px] mx-auto flex justify-center px-0 md:px-4 lg:px-24">
+      <div className="max-w-[1360px] mx-auto flex justify-center px-0 md:px-4 lg:px-24">
         {/* Center Content */}
         <div className="flex-grow space-y-6 md:space-y-8 w-full">
           

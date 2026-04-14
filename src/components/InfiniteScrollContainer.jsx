@@ -107,7 +107,7 @@ export default function InfiniteScrollContainer({ initialArticle }) {
       {/* End of Feed Message and Mobile Sidebar */}
       {(!hasMore || articles.length >= MAX_ARTICLES) && (
         <>
-          <div className="block lg:hidden px-4 md:px-8 max-w-[1100px] mx-auto mt-12 mb-16">
+          <div className="block lg:hidden px-4 md:px-8 max-w-[1360px] mx-auto mt-12 mb-16">
             <SidebarWidgets className="w-full" />
           </div>
           <div className="py-20 text-center text-slate-400 text-sm font-medium">

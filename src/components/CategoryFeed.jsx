@@ -21,7 +21,7 @@ export default function CategoryFeed({ title, description, articles }) {
     setVisibleCount(prev => prev + 6);
   };
   return (
-    <div className="max-w-[1200px] mx-auto px-3 md:px-4 lg:px-24 py-6 md:py-8 mb-12">
+    <div className="max-w-[1360px] mx-auto px-3 md:px-4 lg:px-24 py-6 md:py-8 mb-12">
       
       {/* Header Section */}
       <div className="mb-6 md:mb-10 pb-4 md:pb-6 border-b border-slate-200">
