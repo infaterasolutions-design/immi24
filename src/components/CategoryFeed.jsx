@@ -26,7 +26,6 @@ export default function CategoryFeed({ title, description, articles }) {
                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl w-full">
                      <img 
                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                       loading="lazy"
                        src={article.mainImage} 
                        alt={article.title} 
                      />

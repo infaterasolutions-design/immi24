@@ -38,7 +38,7 @@ export default function Home() {
               {/* Left: Featured Story */}
               <Link href={`/article/${heroArticle.id}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
-                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
@@ -56,7 +56,7 @@ export default function Home() {
                 {gridArticles.map((art) => (
                   <Link key={art.id} href={`/article/${art.id}`} className="space-y-2 group cursor-pointer block">
                     <div className="aspect-[4/3] overflow-hidden rounded-md">
-                      <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                      <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
                     <span className="text-primary text-[10px] font-bold uppercase tracking-widest block mt-2">{art.categoryLabel}</span>
                     <h3 className="font-bold headline-font text-xs md:text-sm leading-tight group-hover:text-primary transition-colors text-slate-900">{art.title}</h3>
@@ -85,7 +85,7 @@ export default function Home() {
               {topStoryArticles.map((art) => (
                 <Link key={art.id} href={`/article/${art.id}`} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
                   <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 rounded-md">
-                    <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                    <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     <div className="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter rounded-sm">{art.categoryLabel}</div>
                   </div>
                   <h4 className="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2 text-slate-900">{art.title}</h4>
@@ -150,7 +150,7 @@ export default function Home() {
                 return (
                   <Link key={art.id} href={`/article/${art.id}`} className="flex-shrink-0 w-36 md:w-44 snap-start group cursor-pointer block">
                     <div className="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
-                      <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                      <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                       <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-3xl md:text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>play_arrow</span>
                       </div>
