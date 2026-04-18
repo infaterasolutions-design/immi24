@@ -142,7 +142,22 @@ export default function LiveUpdatesPage() {
   return (
     <div className="pt-4 md:pt-8 pb-24 min-h-screen flex justify-center px-3 md:px-4 lg:px-0">
       <main className="w-full max-w-[1298px] mx-auto px-0 md:px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
-        <section className="col-span-1 lg:col-span-8">
+        {/* Floating Social Interaction Bar (Desktop) - Matches Article Page Layout */}
+        <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
+          <div className="sticky top-32 flex flex-col gap-4 opacity-50 cursor-not-allowed pointer-events-none">
+             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
+               <span className="material-symbols-outlined text-[20px]">thumb_up</span>
+             </div>
+             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
+               <span className="material-symbols-outlined text-[20px]">bookmark</span>
+             </div>
+             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
+               <span className="material-symbols-outlined text-[20px]">share</span>
+             </div>
+          </div>
+        </aside>
+
+        <section className="col-span-1 lg:col-span-7">
           <header className="mb-8 md:mb-12">
             <div className="flex items-center gap-3 mb-4 md:mb-6">
               <span className="bg-tertiary text-on-tertiary px-3 py-1 text-[10px] md:text-xs font-bold tracking-widest flex items-center gap-2 uppercase">
