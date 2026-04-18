@@ -47,14 +47,14 @@ const LiveUpdateCard = ({ update }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <article className="relative pl-8 md:pl-12 group mb-10 md:mb-14">
+    <article className="relative pl-8 lg:pl-0 group mb-10 lg:mb-14">
       {/* Timeline dots */}
       {update.isFirst ? (
-        <div className="absolute left-[-5px] top-1 w-[18px] h-[18px] bg-amber-500 rounded-full ring-2 ring-amber-200 z-10 flex items-center justify-center">
+        <div className="absolute left-[-6px] lg:left-[-32px] top-1 w-[18px] h-[18px] bg-amber-500 rounded-full ring-2 ring-amber-200 z-10 flex items-center justify-center">
             <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
         </div>
       ) : (
-        <div className="absolute left-[0px] top-1.5 w-2 h-2 bg-slate-300 rounded-full ring-2 ring-white z-10"></div>
+        <div className="absolute left-[-1px] lg:left-[-27px] top-2 w-2 h-2 bg-slate-300 rounded-full ring-2 ring-white z-10"></div>
       )}
       
       <div className="flex flex-col relative">
@@ -201,7 +201,7 @@ export default function LiveUpdatesPage() {
             </div>
 
             {/* Context paragraph before live updates start */}
-            <div className="relative pl-8 md:pl-12">
+            <div className="relative">
               <div className={`text-[16px] md:text-[18px] leading-[1.65] font-serif text-slate-800 whitespace-pre-wrap transition-all duration-300 ${!isHeaderExpanded ? 'line-clamp-8' : ''}`}>
                 {"The European Commission is moving aggressively forward with a new proposal that could fundamentally alter the landscape for remote workers globally. As the post-pandemic reality continues to detach high-value knowledge workers from physical office locations, member states have recognized the urgent need to retain their competitive edge in attracting this lucrative demographic.\n\nHistorically, digital nomads navigating Europe have been forced to contend with a complex and often contradictory patchwork of individual national requirements. Some countries demand exorbitant proof of income, while others strictly prohibit any remote work whatsoever under standard tourist visas. The proposed unified framework aims to dismantle these barriers, offering a streamlined 'EU Nomad Pass' that would essentially act as a golden ticket for highly skilled professionals.\n\nThis proposed legislation would allow approved remote workers to reside and work across any participating EU member state for up to two years. Crucially, the pass seeks to synchronize tax obligations, establishing a 'Dual Residence Recognition' model designed to eliminate the threat of double taxation—a major deterrent for location-independent workers. The framework would establish a default rule where the nomad is primarily taxed in the member state where they spend the majority of the fiscal year.\n\nThe implications of this shift are massive. For American professionals, the proposed visa could mean a single application for pan-European remote work access, fundamentally altering transatlantic labor dynamics. While the proposal is currently facing pushback from southern tourist hubs concerned about infrastructure strain, the overarching mandate from Brussels is clear: Europe must consolidate its position as the premier destination for the global digital workforce."}
               </div>
@@ -217,8 +217,8 @@ export default function LiveUpdatesPage() {
             </div>
           </header>
 
-          <div className="space-y-2 md:space-y-4 relative mt-8 md:mt-12">
-            <div className="absolute left-[3px] top-6 bottom-0 w-[1px] bg-slate-200"></div>
+          <div className="space-y-4 lg:space-y-6 relative mt-8 lg:mt-12">
+            <div className="absolute left-[3px] lg:left-[-23px] top-6 bottom-0 w-[1px] bg-slate-200"></div>
             
             {updates.map((update) => (
               <LiveUpdateCard key={update.id} update={update} />
