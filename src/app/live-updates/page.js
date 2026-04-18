@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import SidebarWidgets from "@/components/SidebarWidgets";
 
 const INITIAL_UPDATES = [
   {
@@ -238,97 +239,8 @@ export default function LiveUpdatesPage() {
           )}
         </section>
 
-        <aside className="col-span-1 lg:col-span-4 space-y-8 md:space-y-12 hidden lg:block">
-          <div>
-            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-primary mb-8 border-b border-primary/20 pb-4 flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse-red"></span>
-              More Live Updates
-            </h4>
-            <div className="space-y-8">
-              <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Hearing</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">Senate Hearing on Immigration Reform Expected to Start at 3PM EST</h5>
-                <span className="text-xs text-slate-500 mt-2 block">Live Now</span>
-              </Link>
-              <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">System Alert</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">USCIS Portal Crash: Verification Outage Expected to Last Another Hour</h5>
-                <span className="text-xs text-slate-500 mt-2 block">10 mins ago</span>
-              </Link>
-              <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Courts</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">Emergency Asylum Injunction Blocked by Appeals Court</h5>
-                <span className="text-xs text-slate-500 mt-2 block">45 mins ago</span>
-              </Link>
-            </div>
-          </div>
-
-          <div className="bg-surface-container rounded-xl p-6 md:p-8">
-            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-on-surface mb-6 text-slate-900">Trending Topics</h4>
-            <div className="flex flex-wrap gap-2">
-              <Link href="#" className="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#DIGITALNOMAD</Link>
-              <Link href="#" className="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#EU_VISA</Link>
-              <Link href="#" className="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#MOBILITY</Link>
-              <Link href="#" className="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#WORKREMOTE</Link>
-              <Link href="#" className="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#IMMIGRATION_LAW</Link>
-              <Link href="#" className="bg-surface-container-lowest px-4 py-2 text-xs font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#SCHENGEN</Link>
-            </div>
-          </div>
-
-          <div className="bg-primary p-8 md:p-10 text-on-primary rounded-xl shadow-xl shadow-primary/20">
-            <span className="material-symbols-outlined text-3xl md:text-4xl mb-4" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
-            <h4 className="text-xl md:text-2xl font-extrabold font-headline leading-tight mb-4 text-white">The Daily Diplomat Intelligence</h4>
-            <p className="text-sm opacity-90 leading-relaxed mb-6 md:mb-8 text-white/80">Get the latest immigration law updates and policy shifts delivered to your inbox every morning.</p>
-            <form onSubmit={handleSubscribe} className="space-y-4 relative">
-              <input 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 rounded-lg p-3 md:p-4 font-headline text-sm outline-none" 
-                placeholder="Your professional email" 
-                type="email" 
-              />
-              <button type="submit" className="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-3 md:py-4 rounded-lg hover:bg-surface-container-lowest transition-colors">
-                {isSubscribed ? "Subscribed!" : "Subscribe Now"}
-              </button>
-              {isSubscribed && (
-                <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Welcome to the Diplomat Intelligence!</p>
-              )}
-            </form>
-          </div>
-        </aside>
-
-        <div className="lg:hidden space-y-6 col-span-1">
-          <div className="bg-surface-container rounded-xl p-5">
-            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-on-surface mb-4 text-slate-900">Trending Topics</h4>
-            <div className="flex flex-wrap gap-2">
-              <Link href="#" className="bg-surface-container-lowest px-3 py-2 text-[11px] font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#DIGITALNOMAD</Link>
-              <Link href="#" className="bg-surface-container-lowest px-3 py-2 text-[11px] font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#EU_VISA</Link>
-              <Link href="#" className="bg-surface-container-lowest px-3 py-2 text-[11px] font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#MOBILITY</Link>
-              <Link href="#" className="bg-surface-container-lowest px-3 py-2 text-[11px] font-bold text-on-surface-variant border border-outline-variant/30 rounded-full hover:border-primary hover:text-primary transition-all">#WORKREMOTE</Link>
-            </div>
-          </div>
-          <div className="bg-primary p-5 text-on-primary rounded-xl shadow-xl shadow-primary/20">
-            <h4 className="text-lg font-extrabold font-headline leading-tight mb-2 text-white">Daily Diplomat Intelligence</h4>
-            <p className="text-sm opacity-90 leading-relaxed mb-4 text-white/80">Immigration updates delivered daily.</p>
-            <form onSubmit={handleSubscribe} className="space-y-3 relative">
-              <input 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/50 border-0 rounded-lg p-3 font-headline text-sm outline-none" 
-                placeholder="Your email" 
-                type="email" 
-              />
-              <button type="submit" className="w-full bg-white text-primary font-bold font-headline text-xs tracking-widest uppercase py-3 rounded-lg hover:bg-surface-container-lowest transition-colors">
-                {isSubscribed ? "Subscribed!" : "Subscribe Now"}
-              </button>
-              {isSubscribed && (
-                <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success!</p>
-              )}
-            </form>
-          </div>
-        </div>
+        {/* Global Sidebar Widgets - Mirrors Article Page Component exactly */}
+        <SidebarWidgets className="col-span-1 lg:col-span-4 hidden lg:block" />
       </main>
     </div>
   );
