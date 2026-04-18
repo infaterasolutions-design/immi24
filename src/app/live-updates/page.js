@@ -6,22 +6,21 @@ import { useState } from "react";
 const INITIAL_UPDATES = [
   {
     id: 1,
-    time: "14:12 GMT",
-    title: "Draft resolution reveals 48-hour approval target",
-    content: "The leaked document suggests a unified portal for all member states. This would eliminate the current patchwork of individual nation requirements, aiming for a 48-hour automated initial eligibility check.",
-    quote: "\"This represents the most significant shift in European labor mobility since the creation of the Schengen Area.\" — EU Migration Commissioner",
+    time: "13m ago (20:21 GMT)",
+    title: "Iranian official says 3,468 killed in US-Israeli attacks during war",
+    content: "Iran's state-run Foundation of Martyrs and Veterans Affairs has said US-Israeli at-tacks since the start of the war killed at least 3,468 people.\n\nThe number was reported by the ISNA news agency and attributed to foundation head Ahmad Mousavi.\n\nA previous toll from the head of the Iranian Legal Medicine Organisation issued on April 12 had said 3,375 people in Iran had been killed in the war.\n\nThis marks a significant escalation in the reported figures, reflecting the ongoing intensity of the conflict. Observers note that these figures have not been independently verified, as international organizations face severe access restrictions in the affected zones.\n\nThe international community continues to call for immediate de-escalation and the opening of humanitarian corridors to provide essential aid to civilian populations caught in the crossfire. Diplomatic efforts in Geneva are currently stalled, with both sides refusing to participate in direct negotiations without preconditions. More details will be shared as the situation develops over the next 24 hours.",
     isFirst: true,
   },
   {
     id: 2,
-    time: "13:45 GMT",
+    time: "45m ago (19:49 GMT)",
     title: "Member states react to tax reciprocity clause",
-    content: "Spain and Italy have expressed concerns regarding the tax implications for remote workers staying longer than 180 days. Negotiations are currently focusing on a 'Dual Residence Recognition' model.",
+    content: "Spain and Italy have expressed concerns regarding the tax implications for remote workers staying longer than 180 days. Negotiations are currently focusing on a 'Dual Residence Recognition' model.\n\nSeveral finance ministers argued that the current framework would disproportionately benefit northern states while draining tax revenues from southern tourist hubs. They propose a mandatory revenue-sharing mechanism if a digital nomad resides in multiple countries during a single fiscal year.",
     images: ["/images/2.jpg", "/images/3.jpg"],
   },
   {
     id: 3,
-    time: "13:10 GMT",
+    time: "2h ago (18:10 GMT)",
     title: "Tech Hubs in Berlin and Lisbon support the move",
     content: "Major European technology associations have released a joint statement welcoming the streamlined digital nomad visa, citing a projected 15% boost in local innovation ecosystems.",
   }
@@ -42,6 +41,76 @@ const MORE_UPDATES = [
     images: ["/images/4.jpg"],
   }
 ];
+
+const LiveUpdateCard = ({ update }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <article className="relative pl-8 md:pl-12 group mb-10 md:mb-14">
+      {/* Timeline dots */}
+      {update.isFirst ? (
+        <div className="absolute left-[-5px] top-1 w-[18px] h-[18px] bg-amber-500 rounded-full ring-2 ring-amber-200 z-10 flex items-center justify-center">
+            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+        </div>
+      ) : (
+        <div className="absolute left-[0px] top-1.5 w-2 h-2 bg-slate-300 rounded-full ring-2 ring-white z-10"></div>
+      )}
+      
+      <div className="flex flex-col relative">
+        <header className="flex items-center gap-2 mb-3">
+          <span className="font-bold text-sm text-slate-900">{update.time}</span>
+        </header>
+
+        {/* Card with border and shadow */}
+        <div className="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm relative">
+          <h3 className="text-xl md:text-[22px] font-bold font-headline tracking-tight text-slate-900 mb-4 leading-snug">
+            {update.title}
+          </h3>
+
+          {/* Images sit above description */}
+          {update.images && update.images.length > 0 && (
+            <div className={`grid ${update.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-3 md:gap-4 mb-4`}>
+              {update.images.map((imgSrc, idx) => (
+                <img key={idx} className="w-full object-cover rounded-xl shadow-sm max-h-[400px]" src={imgSrc} alt={`Update Image ${idx + 1}`} />
+              ))}
+            </div>
+          )}
+
+          <div className="relative">
+            {/* Clamped description content */}
+            <div className={`text-[17px] leading-[1.65] font-serif text-slate-800 whitespace-pre-wrap transition-all duration-300 ${!isExpanded ? 'line-clamp-8' : ''}`}>
+               {update.content}
+            </div>
+            
+            {update.quote && (
+              <div className={`bg-slate-50 border-l-4 border-slate-300 p-4 md:p-5 mt-4 italic text-sm md:text-base text-slate-700 font-medium rounded-r-xl ${!isExpanded ? 'hidden' : 'block'}`}>
+                {update.quote}
+              </div>
+            )}
+            
+            {/* Display "Read More" universally if content is sufficiently long */}
+            {(update.content.length > 200) && (
+              <div className="mt-4 pt-3">
+                 <button 
+                   onClick={() => setIsExpanded(!isExpanded)}
+                   className="text-slate-500 font-bold text-[11px] uppercase tracking-widest hover:text-primary transition-colors flex items-center gap-1"
+                 >
+                   {isExpanded ? "Show Less" : "Read More"}
+                   <span className="material-symbols-outlined text-[16px]">{isExpanded ? 'expand_less' : 'expand_more'}</span>
+                 </button>
+              </div>
+            )}
+          </div>
+
+          {/* Share Button intersecting the bottom border */}
+          <button className="absolute -bottom-5 right-4 md:right-8 w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 hover:shadow-md shadow-sm transition-all group/share z-20">
+            <span className="material-symbols-outlined text-[18px]">share</span>
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+};
 
 export default function LiveUpdatesPage() {
   const [updates, setUpdates] = useState(INITIAL_UPDATES);
@@ -115,43 +184,11 @@ export default function LiveUpdatesPage() {
             </div>
           </header>
 
-          <div className="space-y-10 md:space-y-16 relative mt-10 md:mt-16">
-            <div className="absolute left-[7px] top-4 bottom-0 w-[2px] bg-primary/10"></div>
+          <div className="space-y-2 md:space-y-4 relative mt-8 md:mt-12">
+            <div className="absolute left-[3px] top-6 bottom-0 w-[1px] bg-slate-200"></div>
             
             {updates.map((update) => (
-              <article key={update.id} className="relative pl-8 md:pl-10 group">
-                {update.isFirst ? (
-                  <div className="absolute left-0 top-2 w-4 h-4 bg-primary rounded-full ring-4 ring-surface"></div>
-                ) : (
-                  <div className="absolute left-[2px] top-2 w-3 h-3 bg-primary/40 rounded-full ring-4 ring-surface"></div>
-                )}
-                
-                <div className="flex flex-col gap-3 md:gap-4">
-                  <header className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
-                    <span className={`${update.isFirst ? 'text-primary' : 'text-outline'} font-extrabold text-base md:text-lg font-headline tracking-tighter`}>{update.time}</span>
-                    <h3 className="text-xl md:text-2xl font-bold font-headline tracking-tight text-on-surface group-hover:text-primary transition-colors cursor-pointer text-slate-900">
-                      {update.title}
-                    </h3>
-                  </header>
-                  <p className="text-base md:text-lg leading-relaxed text-on-surface-variant max-w-2xl">
-                    {update.content}
-                  </p>
-                  
-                  {update.quote && (
-                    <div className="bg-surface-container-low border-l-4 border-primary p-4 md:p-6 mt-2 italic text-sm md:text-base text-on-surface font-medium rounded-r-xl">
-                      {update.quote}
-                    </div>
-                  )}
-
-                  {update.images && update.images.length > 0 && (
-                    <div className={`grid ${update.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-3 md:gap-4 mt-4`}>
-                      {update.images.map((imgSrc, idx) => (
-                        <img key={idx} className="aspect-square object-cover rounded-xl shadow-md" src={imgSrc} alt={`Update Image ${idx + 1}`} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </article>
+              <LiveUpdateCard key={update.id} update={update} />
             ))}
           </div>
 
