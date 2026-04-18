@@ -106,49 +106,49 @@ export default function Header() {
       <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200">
         <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-4 py-2 md:py-3 min-h-[60px]">
           
-          {/* Left: Logo + Navigation (Shifted Left!) */}
-          <div className="flex items-center gap-4 lg:gap-8">
-            <Link href="/" className="flex items-center gap-2 flex-shrink-0" onClick={closeMenu}>
+          {/* Left: Logo */}
+          <div className="flex items-center flex-shrink-0">
+            <Link href="/" className="flex items-center gap-2" onClick={closeMenu}>
               <img
                 alt="Logo"
                 className="w-[155px] h-[48px] object-contain"
                 src="/images/logo.png"
               />
             </Link>
-
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 h-full">
-              <div className="nav-item group relative flex items-center px-2 py-2">
-                <Link href="/" className="text-[13px] font-semibold text-slate-600 hover:text-primary transition-colors whitespace-nowrap">Home</Link>
-              </div>
-              {CATEGORIES.map((cat) => (
-                <div key={cat.slug} className="nav-item group relative flex items-center px-2 py-2">
-                  <Link href={`/category/${cat.slug}`} className="text-[13px] font-semibold text-slate-600 hover:text-primary transition-colors flex items-center gap-0.5 whitespace-nowrap">
-                    {cat.name}
-                    {cat.subcategories?.length > 0 && (
-                      <span className="material-symbols-outlined text-[14px] text-slate-400">expand_more</span>
-                    )}
-                  </Link>
-                  {cat.subcategories?.length > 0 && (
-                    <div className="nav-dropdown absolute top-full left-0 min-w-[220px] w-max bg-white border border-slate-200 shadow-xl py-2 z-[60]">
-                      {cat.subcategories.map((sub) => (
-                        <Link
-                          key={sub.slug}
-                          href={`/category/${cat.slug}/${sub.slug}`}
-                          className="block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors"
-                        >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </nav>
           </div>
 
+          {/* Center: Desktop Navigation Links */}
+          <nav className="hidden lg:flex flex-1 justify-center items-center gap-6 h-full whitespace-nowrap px-4">
+            <div className="nav-item group relative flex items-center py-2">
+              <Link href="/" className="text-[13px] font-semibold text-slate-600 hover:text-primary transition-colors">Home</Link>
+            </div>
+            {CATEGORIES.map((cat) => (
+              <div key={cat.slug} className="nav-item group relative flex items-center py-2">
+                <Link href={`/category/${cat.slug}`} className="text-[13px] font-semibold text-slate-600 hover:text-primary transition-colors flex items-center gap-0.5">
+                  {cat.name}
+                  {cat.subcategories?.length > 0 && (
+                    <span className="material-symbols-outlined text-[14px] text-slate-400">expand_more</span>
+                  )}
+                </Link>
+                {cat.subcategories?.length > 0 && (
+                  <div className="nav-dropdown absolute top-full left-0 min-w-[220px] w-max bg-white border border-slate-200 shadow-xl py-2 z-[60]">
+                    {cat.subcategories.map((sub) => (
+                      <Link
+                        key={sub.slug}
+                        href={`/category/${cat.slug}/${sub.slug}`}
+                        className="block px-5 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors"
+                      >
+                        {sub.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+
           {/* Right: Search + Subscribe */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             
             {/* Desktop Advanced Search */}
             <form 
