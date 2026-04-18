@@ -53,14 +53,14 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Title styling matched to Live Updates */}
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold font-headline tracking-tighter text-slate-900 mb-5 leading-[1.1]">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold font-headline tracking-tighter text-slate-900 mb-5 leading-[1.1]">
             {article.title}
           </h1>
 
           {/* Subtitle (Medium Style Description) */}
           {article.paragraphs && article.paragraphs[0] && (
-            <p className="text-[20px] md:text-[24px] text-slate-500 leading-[1.35] mb-8 font-normal font-headline pr-4 lg:pr-12">
-              {article.paragraphs[0].split(' ').slice(0, 25).join(' ') + '...'}
+            <p className="text-[20px] md:text-[24px] text-slate-500 leading-[1.35] mb-8 font-normal font-headline pr-4 lg:pr-12 line-clamp-3">
+              {article.paragraphs[0]}
             </p>
           )}
 

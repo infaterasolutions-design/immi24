@@ -26,10 +26,18 @@ export const mockArticles = [
     authorImage: IMAGES.avatar1,
     mainImage: IMAGES.immigration1,
     imageCaption: "Photography by USCIS Editorial Team.",
-    paragraphs: ["The Department of Homeland Security has finalized a significant overhaul..."],
-    quote: '"The goal is simple: to ensure that the lottery is fair..."',
+    paragraphs: [
+      "The Department of Homeland Security has finalized a significant overhaul of the H-1B registration process, implementing changes aimed at increasing fairness and preventing fraud. The new rules, released officially this week, mark one of the most substantial shifts in the specialty occupation visa program in recent years.",
+      "For years, the system was plagued by multiple registrations for the same individual, which artificially inflated the number of applications and severely disadvantaged genuine applicants. Under the new beneficiary-centric lottery system, each unique individual will only be entered into the selection process once, regardless of how many employers submit registrations on their behalf.",
+      "This shift is expected to dramatically alter the landscape for the upcoming quota season. Employers must be prepared for a more unpredictable selection rate. While the absolute number of registrations is expected to drop, the true demand for highly skilled foreign labor remains at an all-time high."
+    ],
+    quote: '"The goal is simple: to ensure that the lottery is fair and transparent for all participants, eliminating the loopholes that allowed for systemic abuse."',
     subTitle: "Core Changes to the Registration System",
-    subParagraphs: ["Under the new rules..."],
+    subParagraphs: [
+      "Under the new rules, the registration fee has also seen a significant increase. It will jump from $10 to $215 per registration. This fee hike is designed to cover the administrative costs of the more robust vetting process and deter frivolous or highly speculative applications.",
+      "Furthermore, the USCIS has introduced stricter guidelines regarding the bona fide nature of job offers. Employers must now provide more comprehensive documentation demonstrating a legitimate need for the specialized skills of the foreign worker, and that the position genuinely qualifies as a specialty occupation.",
+      "Legal experts advise companies to conduct thorough internal audits of their H-1B practices and to start the preparation process earlier than ever. With the enhanced scrutiny, any discrepancies in the initial registration could lead to immediate denials or prolonged Requests for Evidence (RFEs) during the petition stage."
+    ],
     tags: ["H1BVISA"]
   },
   {
@@ -45,10 +53,18 @@ export const mockArticles = [
     authorImage: IMAGES.avatar2,
     mainImage: IMAGES.immigration2,
     imageCaption: "Expansion aims to reduce backlogs.",
-    paragraphs: ["In a major move to mitigate historic administrative backlogs..."],
-    quote: '"We remain committed to addressing delays..."',
+    paragraphs: [
+      "In a major move to mitigate historic administrative backlogs, USCIS has officially expanded premium processing services to include additional categories of students and exchange visitors. This highly anticipated expansion is part of a broader strategy to modernize operations and reduce the unprecedented wait times that have plagued the agency since the pandemic.",
+      "Previously, premium processing—which guarantees a decision within 15 to 30 or 45 calendar days, depending on the form—was largely restricted to specific employment-based petitions. The lack of an expedited option for international students seeking critical work authorization has often led to lost job opportunities and significant financial hardship.",
+      "The new rules will allow certain F-1 students seeking Optional Practical Training (OPT) and science, technology, engineering, and mathematics (STEM) OPT extensions to request premium processing for their Form I-765, Application for Employment Authorization."
+    ],
+    quote: '"We remain committed to addressing delays and providing timely decisions to all applicants. This expansion is a crucial step in fulfilling our mandate to facilitate lawful immigration while maintaining national security."',
     subTitle: "Phase 3 Rollout Details",
-    subParagraphs: ["The latest expansion targets specific Form I-765..."],
+    subParagraphs: [
+      "The latest expansion targets specific Form I-765 categories. To ensure a smooth rollout, USCIS is implementing the expansion in phases. The first phase will apply exclusively to pending applications, allowing those who have been waiting the longest to immediately request the expedited service.",
+      "The subsequent phase will open premium processing for newly filed applications. However, USCIS has explicitly stated that they will monitor the impact of this expansion on their overall processing times. The agency retains the right to suspend the service if it begins to detrimentally affect the processing of non-premium applications.",
+      "It is absolutely critical for applicants to follow the precise dates and filing instructions outlined on the USCIS website. Filing a premium processing request prematurely will result in rejection of the request."
+    ],
     tags: ["OPT", "F1VISA"]
   },
   {
@@ -64,10 +80,18 @@ export const mockArticles = [
     authorImage: IMAGES.avatar1,
     mainImage: IMAGES.immigration3,
     imageCaption: "Photo: Getty Images",
-    paragraphs: ["The European Commission has drafted a revolutionary unified framework..."],
-    quote: '"This represents the most significant shift in European labor mobility..."',
+    paragraphs: [
+      "The European Commission has drafted a revolutionary unified framework designed to standardize the digital nomad visa across all member states. Currently, digital nomads navigating Europe face a patchwork of different national programs, each with its own income thresholds, tax implications, and residency requirements. The proposed 'EU Nomad Pass' aims to replace this fragmented system with a single, streamlined process.",
+      "The initiative comes in response to the growing global competition for remote talent. As highly skilled workers increasingly detach themselves from traditional, location-bound employment, nations are aggressively tailoring their immigration policies to attract this lucrative demographic. The lack of a cohesive strategy has arguably placed the EU at a disadvantage compared to more agile countries.",
+      "Under the draft proposal, remote workers who secure the EU Nomad Pass would be granted the right to reside and work remotely in any participating member state for up to two years, with the possibility of renewal. Crucially, the pass would facilitate greater mobility within the Schengen Area, allowing nomads to legally split their time between multiple European destinations."
+    ],
+    quote: '"This represents the most significant shift in European labor mobility since the establishment of the Schengen Area itself. We are adapting our legal infrastructure to the realities of the 21st-century workforce."',
     subTitle: "Tax Reciprocity",
-    subParagraphs: ["Negotiations are currently focusing on a Dual Residence Recognition model..."],
+    subParagraphs: [
+      "Negotiations are currently focusing on a Dual Residence Recognition model to address the most significant hurdle: taxation. One of the primary deterrents for digital nomads is the risk of double taxation—being taxed by both their home country and their temporary country of residence.",
+      "The framework proposes a default rule where the nomad is primarily taxed in the member state where they spend the majority of the fiscal year (typically more than 183 days). For those who divide their time more evenly, a complex apportionment formula based on physical presence is being debated.",
+      "While the proposal has been met with enthusiasm by remote work advocates, implementing it requires unanimous agreement among all member states. Countries with already successful and highly competitive national digital nomad programs may resist adopting a unified standard that could dilute their unique appeal."
+    ],
     tags: ["DIGITALNOMAD", "B1B2"]
   },
   {
