@@ -240,7 +240,7 @@ export default function LiveUpdatesPage() {
         </section>
 
         {/* Global Sidebar Widgets - Mirrors Article Page Component exactly */}
-        <SidebarWidgets className="col-span-1 lg:col-span-4 hidden lg:block" />
+        <SidebarWidgets showLiveCoverage={true} className="col-span-1 lg:col-span-4 hidden lg:block" />
       </main>
     </div>
   );

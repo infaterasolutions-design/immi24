@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-export default function SidebarWidgets({ className = "" }) {
+export default function SidebarWidgets({ className = "", showLiveCoverage = false }) {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
@@ -20,6 +20,37 @@ export default function SidebarWidgets({ className = "" }) {
     <aside className={`space-y-12 ${className}`}>
       {/* Sticky Sidebar Content wrapper */}
       <div className="sticky top-32 space-y-12">
+        {showLiveCoverage && (
+          <div>
+            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-primary mb-8 border-b border-primary/20 pb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse-red"></span>
+              More Live Coverage
+            </h4>
+            <div className="space-y-8">
+              <Link href="#" className="group block">
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Hearing</span>
+                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">Senate Hearing on Immigration Reform Expected to Start at 3PM EST</h5>
+                <span className="text-xs text-slate-500 mt-2 block">Live Now</span>
+              </Link>
+              <Link href="#" className="group block">
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">System Alert</span>
+                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">USCIS Portal Crash: Verification Outage Expected to Last Another Hour</h5>
+                <span className="text-xs text-slate-500 mt-2 block">10 mins ago</span>
+              </Link>
+              <Link href="#" className="group block">
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Courts</span>
+                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">Emergency Asylum Injunction Blocked by Appeals Court</h5>
+                <span className="text-xs text-slate-500 mt-2 block">45 mins ago</span>
+              </Link>
+              <Link href="#" className="group block">
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">White House</span>
+                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">President to Address Border Security in Evening Briefing</h5>
+                <span className="text-xs text-slate-500 mt-2 block">1 hour ago</span>
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Latest News Sidebar */}
         <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">
           <h3 className="font-headline font-extrabold text-sm tracking-widest uppercase text-primary mb-6">Latest News</h3>
