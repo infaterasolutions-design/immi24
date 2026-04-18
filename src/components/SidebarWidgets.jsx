@@ -21,31 +21,31 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = fals
       {/* Sticky Sidebar Content wrapper */}
       <div className="sticky top-32 space-y-12">
         {showLiveCoverage && (
-          <div>
-            <h4 className="text-sm font-bold tracking-[0.2em] uppercase text-primary mb-8 border-b border-primary/20 pb-4 flex items-center gap-2">
+          <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">
+            <h3 className="font-headline font-extrabold text-sm tracking-widest uppercase text-primary mb-6 flex items-center gap-2">
               <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse-red"></span>
               More Live Coverage
-            </h4>
-            <div className="space-y-8">
+            </h3>
+            <div className="space-y-6">
               <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Hearing</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">Senate Hearing on Immigration Reform Expected to Start at 3PM EST</h5>
-                <span className="text-xs text-slate-500 mt-2 block">Live Now</span>
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-1 block">HEARING</span>
+                <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">Senate Hearing on Immigration Reform Expected to Start at 3PM EST</h4>
+                <span className="text-xs text-slate-500 mt-1 block">Live Now</span>
               </Link>
               <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">System Alert</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">USCIS Portal Crash: Verification Outage Expected to Last Another Hour</h5>
-                <span className="text-xs text-slate-500 mt-2 block">10 mins ago</span>
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-1 block">SYSTEM ALERT</span>
+                <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">USCIS Portal Crash: Verification Outage Expected to Last Another Hour</h4>
+                <span className="text-xs text-slate-500 mt-1 block">10 mins ago</span>
               </Link>
               <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">Courts</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">Emergency Asylum Injunction Blocked by Appeals Court</h5>
-                <span className="text-xs text-slate-500 mt-2 block">45 mins ago</span>
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-1 block">COURTS</span>
+                <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">Emergency Asylum Injunction Blocked by Appeals Court</h4>
+                <span className="text-xs text-slate-500 mt-1 block">45 mins ago</span>
               </Link>
               <Link href="#" className="group block">
-                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-2 block">White House</span>
-                <h5 className="text-xl font-bold font-headline leading-snug group-hover:text-primary transition-colors text-slate-900">President to Address Border Security in Evening Briefing</h5>
-                <span className="text-xs text-slate-500 mt-2 block">1 hour ago</span>
+                <span className="text-[10px] font-bold text-tertiary uppercase tracking-wider mb-1 block">WHITE HOUSE</span>
+                <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">President to Address Border Security in Evening Briefing</h4>
+                <span className="text-xs text-slate-500 mt-1 block">1 hour ago</span>
               </Link>
             </div>
           </div>
