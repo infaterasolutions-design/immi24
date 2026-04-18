@@ -30,7 +30,7 @@ export default function ArticleSection({ article, isFirst = false }) {
         </aside>
 
         {/* Article Section */}
-        <article className="lg:col-span-8">
+        <article className="lg:col-span-7">
           {/* Breadcrumbs / Category > Subcategory */}
           <div className="flex items-center gap-3 mb-5 md:mb-6 flex-wrap">
             <div className="bg-[#eef2ff] text-[#1e3a8a] px-3 py-1.5 rounded flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase font-sans">
@@ -200,7 +200,7 @@ export default function ArticleSection({ article, isFirst = false }) {
 
         {/* Sidebar Section (Only rendered on the first article) */}
         {isFirst && (
-          <SidebarWidgets className="hidden lg:block lg:col-span-3" />
+          <SidebarWidgets className="hidden lg:block lg:col-span-4" />
         )}
       </main>
     </div>
