@@ -119,6 +119,7 @@ export default function LiveUpdatesPage() {
   
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -172,14 +173,30 @@ export default function LiveUpdatesPage() {
               </div>
             </div>
 
-            <div className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl">
+            <div className="relative w-full aspect-video overflow-hidden rounded-xl shadow-2xl mb-8">
               <img 
                 className="w-full h-full object-cover" 
                 src="/images/1.jpg" 
                 alt="European Parliament" 
               />
-              <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 bg-on-surface/80 backdrop-blur-sm text-white px-2 md:px-3 py-1 text-[9px] md:text-[10px] uppercase font-bold tracking-widest rounded-sm">
+              <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 bg-slate-900/80 backdrop-blur-sm text-white px-2 md:px-3 py-1 text-[9px] md:text-[10px] uppercase font-bold tracking-widest rounded-sm">
                 Photo: Getty Images / European Press Agency
+              </div>
+            </div>
+
+            {/* Context paragraph before live updates start */}
+            <div className="relative bg-white rounded-xl">
+              <div className={`text-[17px] md:text-[19px] leading-[1.7] font-serif text-slate-800 whitespace-pre-wrap transition-all duration-300 ${!isHeaderExpanded ? 'line-clamp-8' : ''}`}>
+                {"The European Commission is moving aggressively forward with a new proposal that could fundamentally alter the landscape for remote workers globally. As the post-pandemic reality continues to detach high-value knowledge workers from physical office locations, member states have recognized the urgent need to retain their competitive edge in attracting this lucrative demographic.\n\nHistorically, digital nomads navigating Europe have been forced to contend with a complex and often contradictory patchwork of individual national requirements. Some countries demand exorbitant proof of income, while others strictly prohibit any remote work whatsoever under standard tourist visas. The proposed unified framework aims to dismantle these barriers, offering a streamlined 'EU Nomad Pass' that would essentially act as a golden ticket for highly skilled professionals.\n\nThis proposed legislation would allow approved remote workers to reside and work across any participating EU member state for up to two years. Crucially, the pass seeks to synchronize tax obligations, establishing a 'Dual Residence Recognition' model designed to eliminate the threat of double taxation—a major deterrent for location-independent workers. The framework would establish a default rule where the nomad is primarily taxed in the member state where they spend the majority of the fiscal year.\n\nThe implications of this shift are massive. For American professionals, the proposed visa could mean a single application for pan-European remote work access, fundamentally altering transatlantic labor dynamics. While the proposal is currently facing pushback from southern tourist hubs concerned about infrastructure strain, the overarching mandate from Brussels is clear: Europe must consolidate its position as the premier destination for the global digital workforce."}
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100">
+                 <button 
+                   onClick={() => setIsHeaderExpanded(!isHeaderExpanded)}
+                   className="text-primary font-bold text-[12px] uppercase tracking-widest hover:text-blue-700 transition-colors flex items-center gap-1"
+                 >
+                   {isHeaderExpanded ? "Show Less" : "Read More"}
+                   <span className="material-symbols-outlined text-[18px]">{isHeaderExpanded ? 'expand_less' : 'expand_more'}</span>
+                 </button>
               </div>
             </div>
           </header>
