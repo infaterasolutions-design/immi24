@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { categorySlug, subCategorySlug } = await params;
-  const subcategory = getSubcategoryBySlug(categorySlug, subCategorySlug);
+  const subcategory = await getSubcategoryBySlug(categorySlug, subCategorySlug);
   if (!subcategory) return { title: 'Not Found' };
   
   return {
@@ -16,8 +16,8 @@ export async function generateMetadata({ params }) {
 export default async function SubCategoryPage({ params }) {
   const { categorySlug, subCategorySlug } = await params;
   
-  const category = getCategoryBySlug(categorySlug);
-  const subcategory = getSubcategoryBySlug(categorySlug, subCategorySlug);
+  const category = await getCategoryBySlug(categorySlug);
+  const subcategory = await getSubcategoryBySlug(categorySlug, subCategorySlug);
   
   if (!category || !subcategory) {
     return notFound();

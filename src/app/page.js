@@ -5,6 +5,7 @@ import LatestUpdatesFeed from "@/components/LatestUpdatesFeed";
 import VideoReels from "@/components/VideoReels";
 import { getAllArticles } from "@/lib/mockData";
 import { getLiveEvents } from "@/lib/liveUpdatesData";
+import { getVideos, subscribeEmail } from "@/lib/supabaseHelpers";
 import { useState, useEffect } from "react";
 import MoreLiveCoverageWidget from "@/components/MoreLiveCoverageWidget";
 import FloatingShareButton from "@/components/FloatingShareButton";
@@ -18,17 +19,21 @@ export default function Home() {
   const [reelsOpen, setReelsOpen] = useState(false);
   const [reelsStartIndex, setReelsStartIndex] = useState(0);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (email.trim()) {
-      setIsSubscribed(true);
-      setTimeout(() => setIsSubscribed(false), 3000);
-      setEmail("");
+      const result = await subscribeEmail(email.trim());
+      if (result.success) {
+        setIsSubscribed(true);
+        setTimeout(() => setIsSubscribed(false), 3000);
+        setEmail("");
+      }
     }
   };
 
   const [mockArticles, setMockArticles] = useState([]);
   const [tickerItems, setTickerItems] = useState([]);
+  const [videoArticles, setVideoArticles] = useState([]);
   const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
 
   useEffect(() => {
@@ -37,6 +42,8 @@ export default function Home() {
       setMockArticles(articles);
       const events = await getLiveEvents();
       setTickerItems((events || []).slice(0, 5));
+      const vids = await getVideos();
+      setVideoArticles(vids);
     }
     loadData();
   }, []);
@@ -45,7 +52,6 @@ export default function Home() {
   const heroArticle = mockArticles[0];
   const gridArticles = mockArticles.slice(1, 5);
   const topStoryArticles = mockArticles.slice(5, 9);
-  const videoArticles = mockArticles.slice(9, 14);
   const sidebarLatestArticles = mockArticles.slice(5, 8);
   const sidebarMostViewed = mockArticles.slice(0, 3);
 

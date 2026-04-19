@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { categorySlug } = await params;
-  const category = getCategoryBySlug(categorySlug);
+  const category = await getCategoryBySlug(categorySlug);
   if (!category) return { title: 'Not Found' };
   
   return {
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CategoryPage({ params }) {
   const { categorySlug } = await params;
-  const category = getCategoryBySlug(categorySlug);
+  const category = await getCategoryBySlug(categorySlug);
   
   if (!category) {
     return notFound();

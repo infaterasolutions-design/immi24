@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { CATEGORIES } from "@/lib/categoryConfig";
+import { getCategories } from "@/lib/categoryConfig";
+import { subscribeEmail } from "@/lib/supabaseHelpers";
 
 export default function Header() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function Header() {
   const [isListening, setIsListening] = useState(false);
   const [voiceSearchSupported, setVoiceSearchSupported] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
+  const [CATEGORIES, setCATEGORIES] = useState([]);
   const [showDictationGuide, setShowDictationGuide] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const recognitionRef = useRef(null);
@@ -22,15 +24,18 @@ export default function Header() {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (email.trim()) {
-      setIsSubscribed(true);
-      setTimeout(() => {
-        setIsSubscribed(false);
-        setShowSubscribeModal(false);
-      }, 2000);
-      setEmail("");
+      const result = await subscribeEmail(email.trim());
+      if (result.success) {
+        setIsSubscribed(true);
+        setTimeout(() => {
+          setIsSubscribed(false);
+          setShowSubscribeModal(false);
+        }, 2000);
+        setEmail("");
+      }
     }
   };
 
@@ -57,6 +62,9 @@ export default function Header() {
       (/iPad|iPhone|iPod/.test(navigator.userAgent) || 
        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
     setIsIOS(isiOSDevice);
+
+    // Load categories from Supabase
+    getCategories().then(cats => setCATEGORIES(cats));
     
     // Cleanup recognition on unmount
     return () => {
