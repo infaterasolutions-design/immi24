@@ -160,15 +160,8 @@ export default function LiveUpdateEventPage({ params }) {
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
-                          className="rounded-full overflow-hidden border-2 border-white relative bg-slate-200 shadow-sm"
-                          style={{ 
-                            zIndex: event.authors.length - index,
-                            flex: "0 0 48px",
-                            width: "48px",
-                            height: "48px",
-                            minWidth: "48px",
-                            minHeight: "48px"
-                          }}
+                          className="w-10 h-10 min-w-10 min-h-10 shrink-0 rounded-full overflow-hidden border-2 border-white relative bg-slate-200 shadow-sm"
+                          style={{ zIndex: event.authors.length - index }}
                         >
                           <img 
                             className="w-full h-full object-cover"
