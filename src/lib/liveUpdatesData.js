@@ -4,11 +4,10 @@ export const LIVE_EVENTS = [
     id: "digital-nomad-visa",
     title: "Global Mobility Shift: European Union Proposes Streamlined Digital Nomad Visa Framework",
     date: "Updated October 24, 2023 — 14:20 GMT",
-    author: {
-      name: "Julian Thorne",
-      role: "Chief Policy Correspondent",
-      image: "/images/u1.jpg"
-    },
+    authors: [
+      { name: "Elis Gjevori", image: "/images/u1.jpg" },
+      { name: "Lorraine Mallinder", image: "/images/u2.jpg" }
+    ],
     heroImage: "/images/1.jpg",
     imageCaption: "Photo: Getty Images / European Press Agency",
     headerContext: "The European Commission is moving aggressively forward with a new proposal that could fundamentally alter the landscape for remote workers globally.\n\nHistorically, digital nomads navigating Europe have been forced to contend with a complex and often contradictory patchwork of individual national requirements. Some countries demand exorbitant proof of income, while others strictly prohibit any remote work whatsoever under standard tourist visas. The proposed unified framework aims to dismantle these barriers, offering a streamlined 'EU Nomad Pass' that would essentially act as a golden ticket for highly skilled professionals.",

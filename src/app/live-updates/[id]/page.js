@@ -153,7 +153,30 @@ export default function LiveUpdateEventPage({ params }) {
             </h1>
             
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-10 text-on-surface-variant flex-wrap">
-              {event.author && (
+              {event.authors && event.authors.length > 0 ? (
+                <>
+                  <div className="flex items-center">
+                    <div className="flex -space-x-3 relative">
+                      {event.authors.map((author, index) => (
+                        <img 
+                          key={index}
+                          className="w-12 h-12 rounded-full object-cover border-2 border-white relative shrink-0 bg-slate-100 shadow-sm"
+                          style={{ zIndex: index + 1 }}
+                          src={author.image || "/images/u1.jpg"} 
+                          alt={author.name} 
+                        />
+                      ))}
+                    </div>
+                    <div className="ml-3 text-[15px]">
+                      <span className="text-slate-500">By </span>
+                      <span className="font-bold text-slate-900">
+                        {event.authors.map((a) => a.name).join(" and ")}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="h-8 w-px bg-outline-variant/30 hidden sm:block ml-1"></div>
+                </>
+              ) : event.author ? (
                 <>
                   <div className="flex items-center gap-2">
                     <img 
@@ -168,7 +191,7 @@ export default function LiveUpdateEventPage({ params }) {
                   </div>
                   <div className="h-8 w-px bg-outline-variant/30 hidden sm:block"></div>
                 </>
-              )}
+              ) : null}
               <div className="text-xs md:text-sm font-medium">
                 {event.date}
               </div>
