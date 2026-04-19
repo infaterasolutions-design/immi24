@@ -155,21 +155,21 @@ export default function LiveUpdateEventPage({ params }) {
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-10 text-on-surface-variant flex-wrap">
               {event.authors && event.authors.length > 0 ? (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
-                    <div style={{ display: 'flex', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexShrink: 0, minWidth: 'fit-content' }}>
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
+                          className="author-avatar"
                           style={{ 
                             width: '40px',
                             height: '40px',
                             minWidth: '40px',
                             minHeight: '40px',
-                            borderRadius: '50%',
                             overflow: 'hidden',
                             border: '2px solid white',
-                            backgroundColor: '#f1f5f9', // slate-200 equivalent
-                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', // shadow-sm equivalent
+                            backgroundColor: '#f1f5f9',
+                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
                             flexShrink: 0,
                             position: 'relative',
                             marginLeft: index > 0 ? '-12px' : '0px',
@@ -198,12 +198,12 @@ export default function LiveUpdateEventPage({ params }) {
                 <>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div 
+                      className="author-avatar"
                       style={{ 
                         width: '40px', 
                         height: '40px', 
                         minWidth: '40px', 
                         minHeight: '40px', 
-                        borderRadius: '50%', 
                         overflow: 'hidden', 
                         flexShrink: 0 
                       }}
