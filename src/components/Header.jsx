@@ -118,7 +118,7 @@ export default function Header() {
           </div>
 
           {/* Center: Desktop Navigation Links */}
-          <nav className="hidden lg:flex flex-1 justify-center items-center gap-6 h-full whitespace-nowrap px-4">
+          <nav className="hidden lg:flex flex-1 justify-center items-center gap-4 h-full whitespace-nowrap px-4">
             <div className="nav-item group relative flex items-center py-2">
               <Link href="/" className="text-[13px] font-semibold text-slate-600 hover:text-primary transition-colors">Home</Link>
             </div>
