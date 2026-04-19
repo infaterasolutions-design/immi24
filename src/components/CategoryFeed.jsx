@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
 
 export default function CategoryFeed({ title, description, articles }) {
   const [visibleCount, setVisibleCount] = useState(6);
@@ -91,6 +92,9 @@ export default function CategoryFeed({ title, description, articles }) {
         {/* Right Sidebar Widget — hidden on mobile */}
         <aside className="lg:col-span-4 space-y-12 hidden lg:block">
           <div className="space-y-12">
+            
+            <MoreLiveCoverageWidget />
+            
             {/* Latest News Sidebar */}
             <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/50">
               <h3 className="font-extrabold text-sm tracking-widest uppercase text-primary mb-6 border-b border-slate-200 pb-3">Latest News</h3>

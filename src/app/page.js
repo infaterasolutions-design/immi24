@@ -6,6 +6,7 @@ import VideoReels from "@/components/VideoReels";
 import { getAllArticles, mockArticles } from "@/lib/mockData";
 import { LIVE_EVENTS } from "@/lib/liveUpdatesData";
 import { useState, useEffect } from "react";
+import MoreLiveCoverageWidget from "@/components/MoreLiveCoverageWidget";
 
 // Placeholder fallback image
 const FALLBACK_IMAGE = "https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image";
@@ -218,6 +219,8 @@ export default function Home() {
             {/* Sidebar — hidden on mobile */}
             <aside className="hidden lg:block space-y-6">
               <div className="space-y-6">
+                
+                <MoreLiveCoverageWidget />
                 
                 {/* Latest News — dynamic */}
                 <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/50">
