@@ -11,7 +11,9 @@ export default function Header() {
   const [expandedSlugs, setExpandedSlugs] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
+  const [voiceSearchSupported, setVoiceSearchSupported] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const recognitionRef = useRef(null);
   
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [email, setEmail] = useState("");
@@ -41,6 +43,20 @@ export default function Header() {
     };
   }, [menuOpen]);
 
+  // Check voice search support on mount
+  useEffect(() => {
+    const supported = typeof window !== 'undefined' && 
+      ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
+    setVoiceSearchSupported(supported);
+    
+    // Cleanup recognition on unmount
+    return () => {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch(e) {}
+      }
+    };
+  }, []);
+
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
     setExpandedSlugs({});
@@ -61,14 +77,29 @@ export default function Header() {
     }
   };
 
+  const stopVoiceSearch = () => {
+    if (recognitionRef.current) {
+      try { recognitionRef.current.abort(); } catch(e) {}
+      recognitionRef.current = null;
+    }
+    setIsListening(false);
+  };
+
   const startVoiceSearch = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert("Your browser does not support Voice Search. Please use Chrome or Edge.");
+    // If already listening, stop
+    if (isListening) {
+      stopVoiceSearch();
+      return;
+    }
+
+    if (!voiceSearchSupported) {
+      alert("Voice search is not supported in this browser. Please use Chrome or Edge.");
       return;
     }
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
     
     recognition.continuous = false;
     recognition.interimResults = true;
@@ -100,6 +131,7 @@ export default function Header() {
       if (finalTranscript) {
         setSearchQuery(finalTranscript);
         setIsListening(false);
+        recognitionRef.current = null;
         // Auto-submit after hearing final result
         setTimeout(() => {
           router.push(`/search?q=${encodeURIComponent(finalTranscript)}`);
@@ -111,13 +143,19 @@ export default function Header() {
     recognition.onerror = (event) => {
       console.error("Speech recognition error", event.error);
       setIsListening(false);
+      recognitionRef.current = null;
       if (event.error === 'not-allowed') {
-        alert('Microphone access denied. Please allow microphone permissions in your browser settings.');
+        alert('Microphone access was denied. Please allow microphone permissions in your browser settings and try again.');
+      } else if (event.error === 'no-speech') {
+        // Silently handle no speech detected
+      } else if (event.error === 'network') {
+        alert('Network error during voice search. Please check your internet connection.');
       }
     };
 
     recognition.onend = () => {
       setIsListening(false);
+      recognitionRef.current = null;
     };
 
     try {
@@ -125,6 +163,7 @@ export default function Header() {
     } catch (e) {
       console.error('Speech recognition start error:', e);
       setIsListening(false);
+      recognitionRef.current = null;
     }
   };
 
@@ -416,7 +455,7 @@ export default function Header() {
               <p className="text-base font-medium text-primary text-center mt-2 italic">"{searchQuery}"</p>
             )}
             <button 
-              onClick={() => setIsListening(false)}
+              onClick={stopVoiceSearch}
               className="mt-2 px-6 py-2 bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-colors"
             >
               Cancel
