@@ -155,8 +155,8 @@ export default function LiveUpdateEventPage({ params }) {
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-10 text-on-surface-variant flex-wrap">
               {event.authors && event.authors.length > 0 ? (
                 <>
-                  <div className="flex items-center">
-                    <div className="flex -space-x-3 relative">
+                  <div className="flex items-center min-w-0">
+                    <div className="flex -space-x-3 relative shrink-0">
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
@@ -171,7 +171,7 @@ export default function LiveUpdateEventPage({ params }) {
                         </div>
                       ))}
                     </div>
-                    <div className="ml-3 text-[15px]">
+                    <div className="ml-3 text-[15px] flex-1 min-w-0 truncate">
                       <span className="text-slate-500">By </span>
                       <span className="font-bold text-slate-900">
                         {event.authors.map((a) => a.name).join(" and ")}
