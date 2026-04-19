@@ -12,8 +12,11 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [voiceSearchSupported, setVoiceSearchSupported] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [showDictationGuide, setShowDictationGuide] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const recognitionRef = useRef(null);
+  const mobileSearchInputRef = useRef(null);
   
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [email, setEmail] = useState("");
@@ -43,11 +46,17 @@ export default function Header() {
     };
   }, [menuOpen]);
 
-  // Check voice search support on mount
+  // Check voice search support and detect iOS on mount
   useEffect(() => {
     const supported = typeof window !== 'undefined' && 
       ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
     setVoiceSearchSupported(supported);
+    
+    // Detect iOS devices
+    const isiOSDevice = typeof navigator !== 'undefined' && 
+      (/iPad|iPhone|iPod/.test(navigator.userAgent) || 
+       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
+    setIsIOS(isiOSDevice);
     
     // Cleanup recognition on unmount
     return () => {
@@ -92,7 +101,21 @@ export default function Header() {
       return;
     }
 
+    // iOS Safari fallback: use built-in keyboard dictation
     if (!voiceSearchSupported) {
+      if (isIOS) {
+        // Open mobile menu if not open, focus search input, show guide
+        if (!menuOpen) setMenuOpen(true);
+        setShowDictationGuide(true);
+        setTimeout(() => {
+          if (mobileSearchInputRef.current) {
+            mobileSearchInputRef.current.focus();
+          }
+        }, 400);
+        // Auto-hide the guide after 5 seconds
+        setTimeout(() => setShowDictationGuide(false), 5000);
+        return;
+      }
       alert("Voice search is not supported in this browser. Please use Chrome or Edge.");
       return;
     }
@@ -298,6 +321,21 @@ export default function Header() {
         
         {/* Mobile Search Bar inside Menu */}
         <div className="p-4 border-b border-slate-100 bg-slate-50">
+          
+          {/* iOS Dictation Guide */}
+          {showDictationGuide && (
+            <div className="mb-3 bg-blue-50 border border-blue-200 p-3 flex items-start gap-3 animate-in fade-in duration-300">
+              <span className="material-symbols-outlined text-blue-600 text-xl mt-0.5">info</span>
+              <div className="flex-1">
+                <p className="text-sm font-bold text-blue-900">Tap the microphone on your keyboard</p>
+                <p className="text-xs text-blue-700 mt-1">Look for the 🎙️ icon on your iOS keyboard to use voice dictation</p>
+              </div>
+              <button onClick={() => setShowDictationGuide(false)} className="text-blue-400 hover:text-blue-600">
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+          )}
+          
           <form 
             onSubmit={handleSearchSubmit} 
             className={`flex items-center bg-white px-3 py-2 border transition-all duration-300 ease-in-out rounded-full shadow-inner ${isSearchFocused ? 'border-primary ring-2 ring-primary/20' : 'border-slate-200'}`}
@@ -306,6 +344,7 @@ export default function Header() {
               <span className="material-symbols-outlined text-[20px]">search</span>
             </button>
             <input 
+              ref={mobileSearchInputRef}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
