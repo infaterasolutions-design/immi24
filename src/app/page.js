@@ -7,6 +7,7 @@ import { getAllArticles, mockArticles } from "@/lib/mockData";
 import { LIVE_EVENTS } from "@/lib/liveUpdatesData";
 import { useState, useEffect } from "react";
 import MoreLiveCoverageWidget from "@/components/MoreLiveCoverageWidget";
+import FloatingShareButton from "@/components/FloatingShareButton";
 
 // Placeholder fallback image
 const FALLBACK_IMAGE = "https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image";
@@ -91,10 +92,10 @@ export default function Home() {
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
-                  <h1 className="text-on-surface text-2xl md:text-3xl font-extrabold headline-font leading-tight group-hover:text-primary transition-colors">
+                  <h1 className="text-on-surface text-2xl md:text-3xl font-bold headline-font leading-tight group-hover:text-primary transition-colors">
                     {heroArticle.title}
                   </h1>
-                  <p className="text-on-surface-variant text-sm md:text-base leading-relaxed line-clamp-2">
+                  <p className="text-on-surface-variant text-sm md:text-base leading-relaxed line-clamp-3">
                     {heroArticle.paragraphs?.[0] || heroArticle.imageCaption}
                   </p>
                 </div>
@@ -154,7 +155,7 @@ export default function Home() {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
               <Link href="/category/visa-news/f1-opt" className="bg-blue-50/50 hover:bg-blue-100 transition-colors p-4 md:p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-blue-100/50 rounded-md">
                 <span className="material-symbols-outlined text-blue-600 text-2xl md:text-3xl mb-2 md:mb-3">school</span>
-                <span className="font-bold headline-font text-[10px] md:text-[11px] uppercase tracking-widest text-slate-800">F1 Student</span>
+                <span className="font-bold headline-font text-[10px] md:text-[11px] uppercase tracking-widest text-slate-800">F1 STUDENT VISA</span>
               </Link>
               <Link href="/category/visa-news/h1b-visa" className="bg-indigo-50/50 hover:bg-indigo-100 transition-colors p-4 md:p-6 flex flex-col items-center justify-center text-center group cursor-pointer border border-indigo-100/50 rounded-md">
                 <span className="material-symbols-outlined text-indigo-600 text-2xl md:text-3xl mb-2 md:mb-3">work</span>
@@ -380,6 +381,8 @@ export default function Home() {
         </div>
       </div>
     </main>
+
+    <FloatingShareButton />
 
     {/* Video Reels Full-Screen Viewer */}
     {reelsOpen && (
