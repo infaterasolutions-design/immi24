@@ -308,6 +308,48 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Mobile-only Sidebar Widgets (visible only on small screens) */}
+          <div className="lg:hidden space-y-6">
+
+            {/* More Live Coverage — Mobile */}
+            <MoreLiveCoverageWidget />
+
+            {/* Latest News — Mobile */}
+            <div className="bg-slate-50 p-5 border border-slate-200/50">
+              <h3 className="font-extrabold text-sm tracking-widest uppercase text-primary mb-5 border-b border-slate-200 pb-3">Latest News</h3>
+              <div className="space-y-4">
+                {sidebarLatestArticles.map((art, idx) => (
+                  <div key={art.id}>
+                    {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-4"></div>}
+                    <Link href={`/article/${art.id}`} className="group block">
+                      <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
+                        {idx === 0 ? "BREAKING" : art.date}
+                      </div>
+                      <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">{art.title}</h4>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Most Viewed — Mobile */}
+            <div>
+              <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-5">Most Viewed</h3>
+              <div className="space-y-6">
+                {sidebarMostViewed.map((art, idx) => (
+                  <Link key={art.id} href={`/article/${art.id}`} className="flex gap-4 group">
+                    <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>
+                      <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">{art.categoryLabel}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
           {/* Trust Section: Trusted Authority — uses first article image */}
           <section className="py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 bg-white border border-slate-200 shadow-sm overflow-hidden rounded-xl">
