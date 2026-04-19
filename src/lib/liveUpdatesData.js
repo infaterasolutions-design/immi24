@@ -43,9 +43,9 @@ export const LIVE_EVENTS = [
     author: {
       name: "Sarah Jenkins",
       role: "Legal Analyst",
-      image: "/images/1.jpg" // Placeholder
+      image: "/images/u2.jpg"
     },
-    heroImage: "/images/8.jpg",
+    heroImage: "/images/supreme_court.png",
     imageCaption: "Photo: AP / US Supreme Court",
     headerContext: "The United States Supreme Court has agreed to hear oral arguments in a landmark case challenging the expanded public charge rule that took effect earlier this year. The ruling could have far-reaching implications for millions of immigrants currently in the US who rely on public benefits programs.",
     updates: [
@@ -71,9 +71,9 @@ export const LIVE_EVENTS = [
     author: {
       name: "Michael Chen",
       role: "Immigration Policy Reporter",
-      image: "/images/u1.jpg" // Placeholder
+      image: "/images/u1.jpg"
     },
-    heroImage: "/images/6.jpg",
+    heroImage: "/images/uscis_tech.png",
     imageCaption: "Photo: Reuters",
     headerContext: "The United States Citizenship and Immigration Services has announced a new expedited processing pathway for H-1B visa renewals, reducing wait times from an average of 8 months to just 45 days. The new streamlined process applies to workers who have maintained continuous employment with their sponsoring employer.",
     updates: [
@@ -95,7 +95,7 @@ export const LIVE_EVENTS = [
       role: "Chief Policy Correspondent",
       image: "/images/u1.jpg"
     },
-    heroImage: "/images/7.jpg",
+    heroImage: "/images/canada_stem.png",
     imageCaption: "Photo: Getty Images",
     headerContext: "Immigration, Refugees and Citizenship Canada (IRCC) has launched a dedicated immigration stream targeting international STEM graduates from Canadian universities. The new pathway offers permanent residence within 6 months of graduation for students who complete a master's or doctoral degree in science, technology, engineering, or mathematics.",
     updates: [
