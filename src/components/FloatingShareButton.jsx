@@ -10,7 +10,7 @@ export default function FloatingShareButton() {
   if (pathname !== "/") return null;
 
   const shareData = {
-    title: document.title || "Stitch USA Immigration News",
+    title: typeof document !== "undefined" ? document.title : "Stitch USA Immigration News",
     text: "Check out the latest US immigration news and updates!",
     url: typeof window !== "undefined" ? window.location.href : "https://example.com",
   };
