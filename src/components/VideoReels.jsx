@@ -98,25 +98,27 @@ export default function VideoReels({ videos, startIndex = 0, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[2000] bg-black">
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 left-4 z-50 w-10 h-10 flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors"
-      >
-        <span className="material-symbols-outlined text-[22px]">close</span>
-      </button>
+    <div className="fixed inset-0 z-[2000] bg-black flex items-center justify-center">
+      {/* 9:16 Aspect Ratio Container — full on mobile, centered on desktop */}
+      <div className="relative w-full h-full md:h-[95vh] md:w-auto md:aspect-[9/16] overflow-hidden">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 left-4 z-50 w-10 h-10 flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-colors"
+        >
+          <span className="material-symbols-outlined text-[22px]">close</span>
+        </button>
 
-      {/* Reel Counter */}
-      <div className="absolute top-5 right-4 z-50 text-white/70 text-xs font-bold tracking-wider">
-        {activeIndex + 1} / {videos.length}
-      </div>
+        {/* Reel Counter */}
+        <div className="absolute top-5 right-4 z-50 text-white/70 text-xs font-bold tracking-wider">
+          {activeIndex + 1} / {videos.length}
+        </div>
 
-      {/* Scrollable Reels Container */}
-      <div
-        ref={containerRef}
-        className="h-full w-full overflow-y-scroll snap-y snap-mandatory hide-scrollbar"
-      >
+        {/* Scrollable Reels Container */}
+        <div
+          ref={containerRef}
+          className="h-full w-full overflow-y-scroll snap-y snap-mandatory hide-scrollbar"
+        >
         {videos.map((video, idx) => (
           <div
             key={video.id}
@@ -280,6 +282,7 @@ export default function VideoReels({ videos, startIndex = 0, onClose }) {
             )}
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
