@@ -4,7 +4,7 @@ import Link from "next/link";
 import LatestUpdatesFeed from "@/components/LatestUpdatesFeed";
 import VideoReels from "@/components/VideoReels";
 import { getAllArticles, mockArticles } from "@/lib/mockData";
-import { LIVE_UPDATES } from "@/lib/liveUpdatesData";
+import { LIVE_EVENTS } from "@/lib/liveUpdatesData";
 import { useState, useEffect } from "react";
 
 // Placeholder fallback image
@@ -35,8 +35,8 @@ export default function Home() {
   const sidebarLatestArticles = mockArticles.slice(5, 8);
   const sidebarMostViewed = mockArticles.slice(0, 3);
 
-  // Live Update Ticker items (max 5) — uses actual live update titles
-  const tickerItems = LIVE_UPDATES.slice(0, 5);
+  // Live Update Ticker items (max 5) — uses actual live event titles
+  const tickerItems = LIVE_EVENTS.slice(0, 5);
   const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
 
   useEffect(() => {
