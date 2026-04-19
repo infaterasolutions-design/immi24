@@ -49,7 +49,7 @@ export default function Home() {
         <div className="flex-grow space-y-6 md:space-y-8 w-full">
           
           {/* Live Updates Ticker Slider */}
-          <Link href="/live-updates" className="flex items-center gap-3 bg-white p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
+          <Link href={`/article/${tickerItems[currentTickerIndex]?.id || '1'}`} className="flex items-center gap-3 bg-white p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
             <span className="bg-tertiary text-white px-3 md:px-4 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:bg-primary transition-colors flex-shrink-0 z-10 relative flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-red"></span>
               Live Update
