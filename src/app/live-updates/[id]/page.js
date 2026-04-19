@@ -160,7 +160,7 @@ export default function LiveUpdateEventPage({ params }) {
                       {event.authors.map((author, index) => (
                         <img 
                           key={index}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-white relative shrink-0 bg-slate-100 shadow-sm"
+                          className="w-12 h-12 min-w-[48px] min-h-[48px] aspect-square rounded-full object-cover border-2 border-white relative flex-none bg-slate-100 shadow-sm"
                           style={{ zIndex: index + 1 }}
                           src={author.image || "/images/u1.jpg"} 
                           alt={author.name} 
