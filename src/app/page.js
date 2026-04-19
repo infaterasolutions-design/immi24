@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import LatestUpdatesFeed from "@/components/LatestUpdatesFeed";
+import VideoReels from "@/components/VideoReels";
 import { getAllArticles, mockArticles } from "@/lib/mockData";
 import { useState, useEffect } from "react";
 
@@ -11,6 +12,8 @@ const FALLBACK_IMAGE = "https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image
 export default function Home() {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [reelsOpen, setReelsOpen] = useState(false);
+  const [reelsStartIndex, setReelsStartIndex] = useState(0);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -42,7 +45,7 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [tickerItems.length]);
 
-  return (
+  return (<>
     <main className="mt-2 md:mt-4 px-3 md:px-4 lg:px-0 mb-12">
       <div className="max-w-[1298px] mx-auto flex justify-center px-0 md:px-4 lg:px-24">
         {/* Center Content */}
@@ -192,7 +195,7 @@ export default function Home() {
               {videoArticles.map((art, idx) => {
                 const durations = ["1:24", "0:58", "2:15", "1:05", "0:45"];
                 return (
-                  <Link key={art.id} href={`/article/${art.id}`} className="flex-shrink-0 w-36 md:w-44 snap-start group cursor-pointer block">
+                  <div key={art.id} onClick={() => { setReelsStartIndex(idx); setReelsOpen(true); }} className="flex-shrink-0 w-36 md:w-44 snap-start group cursor-pointer block">
                     <div className="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
                       <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                       <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
@@ -201,7 +204,7 @@ export default function Home() {
                       <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold rounded-sm">{durations[idx] || "1:00"}</div>
                     </div>
                     <h4 className="text-[11px] md:text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors text-slate-900">{art.title}</h4>
-                  </Link>
+                  </div>
                 );
               })}
             </div>
@@ -331,5 +334,14 @@ export default function Home() {
         </div>
       </div>
     </main>
-  );
+
+    {/* Video Reels Full-Screen Viewer */}
+    {reelsOpen && (
+      <VideoReels
+        videos={videoArticles}
+        startIndex={reelsStartIndex}
+        onClose={() => setReelsOpen(false)}
+      />
+    )}
+  </>);
 }

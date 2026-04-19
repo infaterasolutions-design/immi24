@@ -187,6 +187,15 @@ body {
   animation: slowMotionFade 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.animate-progress {
+  animation: progress 10s linear infinite;
+}
+
 /* =========================================
    Mobile Responsive Utilities
    ========================================= */
