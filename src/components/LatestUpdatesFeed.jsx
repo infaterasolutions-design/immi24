@@ -14,7 +14,7 @@ export default function LatestUpdatesFeed({ articles }) {
   };
 
   return (
-    <div className="lg:col-span-2 space-y-4 md:space-y-6">
+    <div className="lg:col-span-2 space-y-3 md:space-y-4">
       <h2 className="text-lg md:text-xl font-extrabold headline-font border-l-4 border-primary pl-3 md:pl-4 uppercase tracking-tight text-slate-900">
         Latest Updates
       </h2>
@@ -22,7 +22,7 @@ export default function LatestUpdatesFeed({ articles }) {
       {visibleArticles.map((article, index) => (
         <article 
           key={article.id} 
-          className={`group pb-4 md:pb-6 border-b border-slate-100 flex gap-3 md:gap-6 cursor-pointer ${index >= 10 ? 'animate-slowMotionFade opacity-0' : ''}`}
+          className={`group pb-3 md:pb-4 border-b border-slate-100 flex gap-3 md:gap-6 cursor-pointer ${index >= 10 ? 'animate-slowMotionFade opacity-0' : ''}`}
         >
           <Link href={`/article/${article.id}`} className="flex-grow min-w-0">
             <div className="flex items-center gap-2 mb-1 md:mb-2">
@@ -33,7 +33,7 @@ export default function LatestUpdatesFeed({ articles }) {
             <h3 className="text-base md:text-lg font-bold headline-font group-hover:text-primary transition-colors mb-1 md:mb-2 text-slate-900 line-clamp-2">
               {article.title}
             </h3>
-            <p className="text-sm text-slate-600 leading-relaxed line-clamp-2 hidden sm:block">
+            <p className="text-sm text-slate-600 leading-relaxed line-clamp-2">
               {article.paragraphs[0] || article.imageCaption}
             </p>
           </Link>

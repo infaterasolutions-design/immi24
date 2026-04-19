@@ -16,7 +16,7 @@ export default function LiveUpdatesIndexPage() {
             <p className="text-slate-600 text-lg">Follow the latest breaking developments on major immigration policies and impactful global events as they happen.</p>
           </header>
 
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-5">
             {LIVE_EVENTS.map((event) => (
               <Link key={event.id} href={`/live-updates/${event.id}`} className="group block bg-white border border-slate-200 hover:border-primary/40 hover:shadow-md transition-all rounded-xl overflow-hidden">
                 <div className="flex flex-col md:flex-row">
@@ -34,7 +34,7 @@ export default function LiveUpdatesIndexPage() {
                     <h2 className="text-xl md:text-2xl font-bold font-headline text-slate-900 leading-snug group-hover:text-primary transition-colors mb-3">
                       {event.title}
                     </h2>
-                    <p className="text-slate-600 text-sm md:text-base line-clamp-2 md:line-clamp-3">
+                    <p className="text-slate-600 text-sm md:text-base line-clamp-2">
                       {event.headerContext}
                     </p>
                     <div className="mt-5 flex items-center gap-2 text-primary text-[11px] font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform">
