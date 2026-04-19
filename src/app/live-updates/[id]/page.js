@@ -158,19 +158,25 @@ export default function LiveUpdateEventPage({ params }) {
                   <div className="flex items-center min-w-0">
                     <div 
                       className="relative h-10 shrink-0"
-                      style={{ width: `${40 + (event.authors.length - 1) * 28}px` }}
+                      style={{ 
+                        width: `${40 + (event.authors.length - 1) * 28}px`,
+                        minWidth: `${40 + (event.authors.length - 1) * 28}px`
+                      }}
                     >
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
-                          className="w-10 h-10 shrink-0 rounded-full overflow-hidden border-2 border-white absolute bg-slate-200 shadow-sm"
+                          className="w-10 h-10 min-w-[40px] min-h-[40px] shrink-0 rounded-full overflow-hidden border-2 border-white absolute bg-slate-200 shadow-sm"
                           style={{ 
                             zIndex: event.authors.length - index,
-                            left: `${index * 28}px`
+                            left: `${index * 28}px`,
+                            top: 0
                           }}
                         >
                           <img 
-                            className="w-full h-full object-cover"
+                            width="40"
+                            height="40"
+                            className="w-full h-full object-cover shrink-0"
                             src={author.image || "/images/u1.jpg"} 
                             alt={author.name} 
                           />
@@ -191,7 +197,9 @@ export default function LiveUpdateEventPage({ params }) {
                 <>
                   <div className="flex items-center gap-2">
                     <img 
-                      className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover" 
+                      width="40"
+                      height="40"
+                      className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full object-cover" 
                       src={event.author.image || "/images/u1.jpg"} 
                       alt={event.author.name} 
                     />
