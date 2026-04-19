@@ -56,11 +56,11 @@ export default function Home() {
             </span>
             <div className="flex-grow h-5 md:h-6 relative overflow-hidden">
               {tickerItems.map((item, idx) => {
-                let positionClass = 'translate-y-full opacity-0';
+                let positionClass = 'translate-x-full opacity-0';
                 if (idx === currentTickerIndex) {
-                  positionClass = 'translate-y-0 opacity-100 z-10';
+                  positionClass = 'translate-x-0 opacity-100 z-10';
                 } else if (idx === (currentTickerIndex - 1 + tickerItems.length) % tickerItems.length) {
-                  positionClass = '-translate-y-full opacity-0';
+                  positionClass = '-translate-x-full opacity-0';
                 }
 
                 return (
