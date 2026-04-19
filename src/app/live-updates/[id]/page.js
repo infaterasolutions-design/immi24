@@ -158,13 +158,24 @@ export default function LiveUpdateEventPage({ params }) {
                   <div className="flex items-center">
                     <div className="flex -space-x-3 relative">
                       {event.authors.map((author, index) => (
-                        <img 
+                        <div
                           key={index}
-                          className="w-12 h-12 min-w-[48px] min-h-[48px] aspect-square rounded-full object-cover border-2 border-white relative flex-none bg-slate-100 shadow-sm"
-                          style={{ zIndex: index + 1 }}
-                          src={author.image || "/images/u1.jpg"} 
-                          alt={author.name} 
-                        />
+                          className="rounded-full overflow-hidden border-2 border-white relative bg-slate-200 shadow-sm"
+                          style={{ 
+                            zIndex: event.authors.length - index,
+                            flex: "0 0 48px",
+                            width: "48px",
+                            height: "48px",
+                            minWidth: "48px",
+                            minHeight: "48px"
+                          }}
+                        >
+                          <img 
+                            className="w-full h-full object-cover"
+                            src={author.image || "/images/u1.jpg"} 
+                            alt={author.name} 
+                          />
+                        </div>
                       ))}
                     </div>
                     <div className="ml-3 text-[15px]">
