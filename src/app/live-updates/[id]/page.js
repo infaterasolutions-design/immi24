@@ -156,12 +156,18 @@ export default function LiveUpdateEventPage({ params }) {
               {event.authors && event.authors.length > 0 ? (
                 <>
                   <div className="flex items-center min-w-0">
-                    <div className="flex -space-x-3 relative shrink-0">
+                    <div 
+                      className="flex shrink-0 relative"
+                      style={{ marginRight: `-${(event.authors.length - 1) * 12}px` }}
+                    >
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
-                          className="w-10 h-10 min-w-10 min-h-10 shrink-0 rounded-full overflow-hidden border-2 border-white relative bg-slate-200 shadow-sm"
-                          style={{ zIndex: event.authors.length - index }}
+                          className="w-10 h-10 min-w-10 min-h-10 shrink-0 rounded-full overflow-hidden border-2 border-white bg-slate-200 shadow-sm"
+                          style={{ 
+                            zIndex: event.authors.length - index,
+                            transform: `translateX(-${index * 12}px)`
+                          }}
                         >
                           <img 
                             className="w-full h-full object-cover"
