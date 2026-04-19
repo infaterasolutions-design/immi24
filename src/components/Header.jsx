@@ -71,33 +71,61 @@ export default function Header() {
     const recognition = new SpeechRecognition();
     
     recognition.continuous = false;
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.lang = 'en-US';
+    recognition.maxAlternatives = 1;
 
     recognition.onstart = () => {
       setIsListening(true);
     };
 
     recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setSearchQuery(transcript);
-      // Auto-submit after hearing
-      setTimeout(() => {
-        router.push(`/search?q=${encodeURIComponent(transcript)}`);
-        closeMenu();
-      }, 500);
+      let finalTranscript = '';
+      let interimTranscript = '';
+      
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+      
+      // Show interim results in real-time
+      if (interimTranscript) {
+        setSearchQuery(interimTranscript);
+      }
+      
+      if (finalTranscript) {
+        setSearchQuery(finalTranscript);
+        setIsListening(false);
+        // Auto-submit after hearing final result
+        setTimeout(() => {
+          router.push(`/search?q=${encodeURIComponent(finalTranscript)}`);
+          closeMenu();
+        }, 600);
+      }
     };
 
     recognition.onerror = (event) => {
       console.error("Speech recognition error", event.error);
       setIsListening(false);
+      if (event.error === 'not-allowed') {
+        alert('Microphone access denied. Please allow microphone permissions in your browser settings.');
+      }
     };
 
     recognition.onend = () => {
       setIsListening(false);
     };
 
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (e) {
+      console.error('Speech recognition start error:', e);
+      setIsListening(false);
+    }
   };
 
   return (
@@ -243,7 +271,7 @@ export default function Header() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setIsSearchFocused(false)}
-              className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none mx-2 text-slate-700" 
+              className="bg-transparent border-none focus:ring-0 text-[16px] w-full outline-none mx-2 text-slate-700" 
               placeholder="Search..." 
               type="text" 
             />
@@ -372,6 +400,27 @@ export default function Header() {
                 <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome to the briefing.</p>
               )}
             </form>
+          </div>
+        </div>
+      )}
+      {/* ===== VOICE SEARCH LISTENING OVERLAY ===== */}
+      {isListening && (
+        <div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-white p-8 flex flex-col items-center gap-4 shadow-2xl w-[90%] max-w-sm">
+            <div className="w-20 h-20 bg-red-50 flex items-center justify-center animate-pulse" style={{ borderRadius: '50% !important' }}>
+              <span className="material-symbols-outlined text-red-500 text-4xl">mic</span>
+            </div>
+            <p className="text-lg font-bold text-slate-900 headline-font">Listening...</p>
+            <p className="text-sm text-slate-500 text-center">Speak now to search for news</p>
+            {searchQuery && (
+              <p className="text-base font-medium text-primary text-center mt-2 italic">"{searchQuery}"</p>
+            )}
+            <button 
+              onClick={() => setIsListening(false)}
+              className="mt-2 px-6 py-2 bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-colors"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
