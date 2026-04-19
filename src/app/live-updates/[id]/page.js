@@ -155,30 +155,31 @@ export default function LiveUpdateEventPage({ params }) {
             <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-10 text-on-surface-variant flex-wrap">
               {event.authors && event.authors.length > 0 ? (
                 <>
-                  <div className="flex items-center min-w-0">
-                    <div 
-                      className="relative h-10 shrink-0"
-                      style={{ 
-                        width: `${40 + (event.authors.length - 1) * 28}px`,
-                        minWidth: `${40 + (event.authors.length - 1) * 28}px`
-                      }}
-                    >
+                  <div style={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
+                    <div style={{ display: 'flex', flexShrink: 0 }}>
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
-                          className="w-10 h-10 min-w-[40px] min-h-[40px] shrink-0 rounded-full overflow-hidden border-2 border-white absolute bg-slate-200 shadow-sm"
                           style={{ 
-                            zIndex: event.authors.length - index,
-                            left: `${index * 28}px`,
-                            top: 0
+                            width: '40px',
+                            height: '40px',
+                            minWidth: '40px',
+                            minHeight: '40px',
+                            borderRadius: '50%',
+                            overflow: 'hidden',
+                            border: '2px solid white',
+                            backgroundColor: '#f1f5f9', // slate-200 equivalent
+                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', // shadow-sm equivalent
+                            flexShrink: 0,
+                            position: 'relative',
+                            marginLeft: index > 0 ? '-12px' : '0px',
+                            zIndex: event.authors.length - index
                           }}
                         >
                           <img 
-                            width="40"
-                            height="40"
-                            className="w-full h-full object-cover shrink-0"
                             src={author.image || "/images/u1.jpg"} 
                             alt={author.name} 
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           />
                         </div>
                       ))}
@@ -191,18 +192,28 @@ export default function LiveUpdateEventPage({ params }) {
                       </span>
                     </div>
                   </div>
-                  <div className="h-8 w-px bg-outline-variant/30 hidden sm:block ml-1"></div>
+                  <div className="h-8 w-px bg-outline-variant/30 hidden sm:block ml-4"></div>
                 </>
               ) : event.author ? (
                 <>
-                  <div className="flex items-center gap-2">
-                    <img 
-                      width="40"
-                      height="40"
-                      className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full object-cover" 
-                      src={event.author.image || "/images/u1.jpg"} 
-                      alt={event.author.name} 
-                    />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div 
+                      style={{ 
+                        width: '40px', 
+                        height: '40px', 
+                        minWidth: '40px', 
+                        minHeight: '40px', 
+                        borderRadius: '50%', 
+                        overflow: 'hidden', 
+                        flexShrink: 0 
+                      }}
+                    >
+                      <img 
+                        src={event.author.image || "/images/u1.jpg"} 
+                        alt={event.author.name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
                     <div>
                       <span className="block text-sm font-bold font-headline text-slate-900">{event.author.name}</span>
                       <span className="block text-[10px] md:text-xs uppercase tracking-tight">{event.author.role}</span>
