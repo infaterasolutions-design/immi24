@@ -156,18 +156,12 @@ export default function LiveUpdateEventPage({ params }) {
               {event.authors && event.authors.length > 0 ? (
                 <>
                   <div className="flex items-center min-w-0">
-                    <div 
-                      className="flex shrink-0 relative"
-                      style={{ marginRight: `-${(event.authors.length - 1) * 12}px` }}
-                    >
+                    <div className="flex -space-x-3 relative shrink-0">
                       {event.authors.map((author, index) => (
                         <div
                           key={index}
-                          className="w-10 h-10 min-w-10 min-h-10 shrink-0 rounded-full overflow-hidden border-2 border-white bg-slate-200 shadow-sm"
-                          style={{ 
-                            zIndex: event.authors.length - index,
-                            transform: `translateX(-${index * 12}px)`
-                          }}
+                          className="w-10 h-10 min-w-[40px] min-h-[40px] shrink-0 rounded-full overflow-hidden border-2 border-white relative bg-slate-200 shadow-sm"
+                          style={{ zIndex: event.authors.length - index }}
                         >
                           <img 
                             className="w-full h-full object-cover"
@@ -177,9 +171,10 @@ export default function LiveUpdateEventPage({ params }) {
                         </div>
                       ))}
                     </div>
-                    <div className="ml-3 text-[15px] flex-1 min-w-0 truncate">
+
+                    <div className="ml-3 text-[15px] flex-1 min-w-0">
                       <span className="text-slate-500">By </span>
-                      <span className="font-bold text-slate-900">
+                      <span className="font-bold text-slate-900 truncate block">
                         {event.authors.map((a) => a.name).join(" and ")}
                       </span>
                     </div>
