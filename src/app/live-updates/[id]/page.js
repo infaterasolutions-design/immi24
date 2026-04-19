@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, use } from "react";
+import { useState, use, useEffect } from "react";
 import SidebarWidgets from "@/components/SidebarWidgets";
-import { getLiveEventById, LIVE_EVENTS } from "@/lib/liveUpdatesData";
+import { getLiveEventById } from "@/lib/liveUpdatesData";
 
 const LiveUpdateCard = ({ update }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -77,12 +77,30 @@ const LiveUpdateCard = ({ update }) => {
 
 export default function LiveUpdateEventPage({ params }) {
   const { id } = use(params);
-  const event = getLiveEventById(id);
+  const [event, setEvent] = useState(null);
+  const [eventLoading, setEventLoading] = useState(true);
   const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
 
   // Pagination for updates
   const [visibleCount, setVisibleCount] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      const data = await getLiveEventById(id);
+      setEvent(data);
+      setEventLoading(false);
+    }
+    load();
+  }, [id]);
+
+  if (eventLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!event) {
     return (

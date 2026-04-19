@@ -21,7 +21,7 @@ export default async function CategoryPage({ params }) {
     return notFound();
   }
 
-  const articles = getArticlesByCategorySlug(categorySlug);
+  const articles = await getArticlesByCategorySlug(categorySlug);
 
   return (
     <CategoryFeed 

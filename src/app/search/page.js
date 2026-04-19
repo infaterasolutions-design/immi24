@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { mockArticles } from "@/lib/mockData";
+import { getAllArticles } from "@/lib/mockData";
 import CategoryFeed from "@/components/CategoryFeed";
 import { Suspense, useEffect, useState } from "react";
 
@@ -18,15 +18,19 @@ function SearchResults() {
       return;
     }
 
-    const results = mockArticles.filter((article) => {
-      const matchTitle = article.title?.toLowerCase().includes(lowerQuery);
-      const matchText = article.paragraphs?.[0]?.toLowerCase().includes(lowerQuery);
-      const matchCategory = article.categoryLabel?.toLowerCase().includes(lowerQuery);
-      
-      return matchTitle || matchText || matchCategory;
-    });
+    async function doSearch() {
+      const allArticles = await getAllArticles();
+      const results = allArticles.filter((article) => {
+        const matchTitle = article.title?.toLowerCase().includes(lowerQuery);
+        const matchText = article.paragraphs?.[0]?.toLowerCase().includes(lowerQuery);
+        const matchCategory = article.categoryLabel?.toLowerCase().includes(lowerQuery);
+        
+        return matchTitle || matchText || matchCategory;
+      });
 
-    setFilteredArticles(results);
+      setFilteredArticles(results);
+    }
+    doSearch();
   }, [query, lowerQuery]);
 
   return (

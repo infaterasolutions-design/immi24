@@ -23,7 +23,7 @@ export default async function SubCategoryPage({ params }) {
     return notFound();
   }
 
-  const articles = getArticlesBySubcategorySlug(categorySlug, subCategorySlug);
+  const articles = await getArticlesBySubcategorySlug(categorySlug, subCategorySlug);
 
   return (
     <CategoryFeed 

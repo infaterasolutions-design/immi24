@@ -1,9 +1,21 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { LIVE_EVENTS } from "@/lib/liveUpdatesData";
+import { getLiveEvents } from "@/lib/liveUpdatesData";
 
 export default function MoreLiveCoverageWidget() {
-  // Let's grab the top 4 events
-  const displayEvents = LIVE_EVENTS.slice(0, 4);
+  const [displayEvents, setDisplayEvents] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      const events = await getLiveEvents();
+      setDisplayEvents((events || []).slice(0, 4));
+    }
+    load();
+  }, []);
+
+  if (displayEvents.length === 0) return null;
 
   return (
     <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/50 mb-6">
@@ -12,7 +24,7 @@ export default function MoreLiveCoverageWidget() {
         More Live Coverage
       </h3>
       <div className="space-y-6">
-        {displayEvents.map((event, idx) => {
+        {displayEvents.map((event) => {
           return (
             <Link key={event.id} href={`/live-updates/${event.id}`} className="group block">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">LATEST COVERAGE</span>

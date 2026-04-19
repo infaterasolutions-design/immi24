@@ -2,9 +2,20 @@
 
 import Link from "next/link";
 import SidebarWidgets from "@/components/SidebarWidgets";
-import { LIVE_EVENTS } from "@/lib/liveUpdatesData";
+import { getLiveEvents } from "@/lib/liveUpdatesData";
+import { useEffect, useState } from "react";
 
 export default function LiveUpdatesIndexPage() {
+  const [liveEvents, setLiveEvents] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      const data = await getLiveEvents();
+      setLiveEvents(data);
+    }
+    load();
+  }, []);
+
   return (
     <div className="pt-4 md:pt-8 pb-24 min-h-screen flex justify-center px-3 md:px-4 lg:px-0">
       <main className="w-full max-w-[1298px] mx-auto px-0 md:px-4 lg:px-24 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
@@ -17,7 +28,7 @@ export default function LiveUpdatesIndexPage() {
           </header>
 
           <div className="space-y-4 md:space-y-5">
-            {LIVE_EVENTS.map((event) => (
+            {liveEvents.map((event) => (
               <Link key={event.id} href={`/live-updates/${event.id}`} className="group block bg-white border border-slate-200 hover:border-primary/40 hover:shadow-md transition-all rounded-xl overflow-hidden">
                 <div className="flex flex-col md:flex-row">
                   {event.heroImage && (

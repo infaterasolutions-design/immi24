@@ -3,8 +3,8 @@
 import Link from "next/link";
 import LatestUpdatesFeed from "@/components/LatestUpdatesFeed";
 import VideoReels from "@/components/VideoReels";
-import { getAllArticles, mockArticles } from "@/lib/mockData";
-import { LIVE_EVENTS } from "@/lib/liveUpdatesData";
+import { getAllArticles } from "@/lib/mockData";
+import { getLiveEvents } from "@/lib/liveUpdatesData";
 import { useState, useEffect } from "react";
 import MoreLiveCoverageWidget from "@/components/MoreLiveCoverageWidget";
 import FloatingShareButton from "@/components/FloatingShareButton";
@@ -27,19 +27,27 @@ export default function Home() {
     }
   };
 
-  const allArticles = getAllArticles();
+  const [mockArticles, setMockArticles] = useState([]);
+  const [tickerItems, setTickerItems] = useState([]);
+  const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
 
-  // Dynamic article slicing — scalable for any data source
+  useEffect(() => {
+    async function loadData() {
+      const articles = await getAllArticles();
+      setMockArticles(articles);
+      const events = await getLiveEvents();
+      setTickerItems((events || []).slice(0, 5));
+    }
+    loadData();
+  }, []);
+
+  const allArticles = mockArticles;
   const heroArticle = mockArticles[0];
   const gridArticles = mockArticles.slice(1, 5);
   const topStoryArticles = mockArticles.slice(5, 9);
   const videoArticles = mockArticles.slice(9, 14);
   const sidebarLatestArticles = mockArticles.slice(5, 8);
   const sidebarMostViewed = mockArticles.slice(0, 3);
-
-  // Live Update Ticker items (max 5) — uses actual live event titles
-  const tickerItems = LIVE_EVENTS.slice(0, 5);
-  const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
