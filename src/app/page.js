@@ -3,7 +3,7 @@
 import Link from "next/link";
 import LatestUpdatesFeed from "@/components/LatestUpdatesFeed";
 import { getAllArticles, mockArticles } from "@/lib/mockData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Placeholder fallback image
 const FALLBACK_IMAGE = "https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image";
@@ -31,8 +31,16 @@ export default function Home() {
   const sidebarLatestArticles = mockArticles.slice(5, 8);
   const sidebarMostViewed = mockArticles.slice(0, 3);
 
-  // Breaking news = latest article title
-  const breakingArticle = allArticles[0];
+  // Live Update Ticker items (max 5)
+  const tickerItems = allArticles.slice(0, 5);
+  const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTickerIndex((prev) => (prev + 1) % tickerItems.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [tickerItems.length]);
 
   return (
     <main className="mt-2 md:mt-4 px-3 md:px-4 lg:px-0 mb-12">
@@ -40,11 +48,32 @@ export default function Home() {
         {/* Center Content */}
         <div className="flex-grow space-y-6 md:space-y-8 w-full">
           
-          {/* Breaking News */}
-          <Link href="/live-updates" className="flex items-center gap-3 md:gap-4 bg-white p-2 md:p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
-            <span className="bg-tertiary text-white px-3 md:px-4 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:bg-primary transition-colors flex-shrink-0">Breaking</span>
-            <p className="text-xs md:text-sm font-medium truncate text-slate-800 group-hover:text-primary transition-colors">{breakingArticle?.title || "Latest immigration news updates"}</p>
-            <span className="material-symbols-outlined text-primary ml-auto mr-2 group-hover:translate-x-1 transition-transform hidden sm:block">arrow_forward</span>
+          {/* Live Updates Ticker Slider */}
+          <Link href="/live-updates" className="flex items-center gap-3 bg-white p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
+            <span className="bg-tertiary text-white px-3 md:px-4 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:bg-primary transition-colors flex-shrink-0 z-10 relative flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-red"></span>
+              Live Update
+            </span>
+            <div className="flex-grow h-5 md:h-6 relative overflow-hidden">
+              {tickerItems.map((item, idx) => {
+                let positionClass = 'translate-y-full opacity-0';
+                if (idx === currentTickerIndex) {
+                  positionClass = 'translate-y-0 opacity-100 z-10';
+                } else if (idx === (currentTickerIndex - 1 + tickerItems.length) % tickerItems.length) {
+                  positionClass = '-translate-y-full opacity-0';
+                }
+
+                return (
+                  <p 
+                    key={item.id}
+                    className={`absolute left-0 top-0 w-full text-xs md:text-sm font-medium truncate text-slate-800 group-hover:text-primary transition-all duration-500 ease-in-out ${positionClass}`}
+                  >
+                    {item.title}
+                  </p>
+                );
+              })}
+            </div>
+            <span className="material-symbols-outlined text-primary ml-auto mr-2 group-hover:translate-x-1 transition-transform hidden sm:block z-10 bg-white relative">arrow_forward</span>
           </Link>
 
           {/* Hero Section: 50/50 Balance → stacks on mobile */}
