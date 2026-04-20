@@ -1,9 +1,6 @@
 import { Plus_Jakarta_Sans, Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import LanguageTranslator from "@/components/LanguageTranslator";
-import RecommendedPopup from "@/components/RecommendedPopup";
+import PublicLayoutWrapper from "@/components/PublicLayoutWrapper";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -37,13 +34,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="antialiased overflow-x-hidden min-h-screen flex flex-col">
-        <Header />
-        <div className="flex-grow">
+        <PublicLayoutWrapper>
           {children}
-        </div>
-        <Footer />
-        <LanguageTranslator />
-        <RecommendedPopup />
+        </PublicLayoutWrapper>
       </body>
     </html>
   );

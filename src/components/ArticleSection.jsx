@@ -133,36 +133,43 @@ export default function ArticleSection({ article, isFirst = false }) {
 
           {/* Rich Text Content */}
           <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[250px]'}`}>
-            <div className="prose max-w-none font-body text-base md:text-lg pb-8 md:pb-12">
-              {article.paragraphs?.map((p, idx) => (
-                <p key={idx} className={idx === 0 ? "text-xl text-on-surface leading-relaxed font-medium mb-8" : ""}>{p}</p>
-              ))}
+            <div className="prose prose-lg max-w-none font-body pb-8 md:pb-12 text-slate-800">
               
-              {article.quote && (
-                 <blockquote className="border-l-4 border-primary">
-                   {article.quote}
-                 </blockquote>
+              {article.contentHtml ? (
+                 <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
+              ) : (
+                <>
+                  {article.paragraphs?.map((p, idx) => (
+                    <p key={idx} className={idx === 0 ? "text-xl text-slate-900 leading-relaxed font-medium mb-8" : "mb-6"}>{p}</p>
+                  ))}
+                  
+                  {article.quote && (
+                    <blockquote className="border-l-4 border-primary pl-4 italic text-slate-600 my-8">
+                      {article.quote}
+                    </blockquote>
+                  )}
+                
+                  {article.subTitle && <h2 className="text-2xl font-bold mt-10 mb-4">{article.subTitle}</h2>}
+                  
+                  {article.subParagraphs?.map((p, idx) => (
+                    <p key={`sub-${idx}`} className="mb-6">{p}</p>
+                  ))}
+                </>
               )}
-             
-              {article.subTitle && <h2>{article.subTitle}</h2>}
-              
-              {article.subParagraphs?.map((p, idx) => (
-                 <p key={idx}>{p}</p>
-              ))}
-              
-              {article.id === "1" && ( /* Example custom block only embedded in certain articles, just matching our mock UI */
-                <div className="my-10 p-8 rounded-2xl bg-primary-container/5 border border-primary-container/10">
-                  <h3 className="font-headline font-bold text-primary mb-4 flex items-center gap-2">
+
+              {article.id === "1" && !article.contentHtml && ( /* Example custom block only embedded in certain mock articles */
+                <div className="my-10 p-8 rounded-2xl bg-indigo-50 border border-indigo-100">
+                  <h3 className="font-headline font-bold text-indigo-900 mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[20px]">info</span>
                     Key Deadlines to Remember
                   </h3>
-                  <ul className="space-y-3 text-sm text-on-surface-variant">
+                  <ul className="space-y-3 text-sm text-slate-700">
                     <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">•</span>
+                      <span className="text-indigo-600 font-bold">•</span>
                       <span><strong>Registration Window:</strong> Opens March 1st at 12:00 PM ET.</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">•</span>
+                      <span className="text-indigo-600 font-bold">•</span>
                       <span><strong>Account Setup:</strong> MyUSCIS accounts should be updated by Feb 15th.</span>
                     </li>
                   </ul>

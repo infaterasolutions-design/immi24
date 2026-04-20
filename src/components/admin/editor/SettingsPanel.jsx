@@ -1,0 +1,147 @@
+"use client";
+import { useState, useRef } from "react";
+import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
+
+export default function SettingsPanel({ form, handleChange, categories }) {
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const url = await uploadMediaToSupabase(file);
+      handleChange({ target: { name: "main_image", value: url } });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to upload featured image.");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="bg-[#0d0d14] rounded-lg border border-[#1e1e2e] p-5 shadow-sm space-y-6">
+      {/* Featured Image */}
+      <div>
+        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Featured Image</h3>
+        {form.main_image ? (
+          <div className="relative rounded-md overflow-hidden border border-[#2a2a3a] group">
+            <img src={form.main_image} alt="Featured" className="w-full h-auto object-cover max-h-48" />
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <button 
+                type="button"
+                onClick={() => handleChange({ target: { name: "main_image", value: "" } })}
+                className="bg-rose-500 text-white text-xs px-3 py-1.5 rounded shadow"
+              >
+                Remove Image
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div 
+            onClick={() => fileInputRef.current?.click()}
+            className="border-2 border-dashed border-[#2a2a3a] rounded-lg p-6 flex flex-col items-center justify-center text-zinc-500 hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-colors cursor-pointer"
+          >
+            <span className="text-2xl mb-2">🖼️</span>
+            <p className="text-xs font-medium text-center">
+              {isUploading ? "Uploading..." : "Click to upload featured image"}
+            </p>
+          </div>
+        )}
+        <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileUpload} />
+        
+        {/* Caption */}
+        {form.main_image && (
+          <input 
+            type="text" 
+            name="image_caption" 
+            value={form.image_caption || ""} 
+            onChange={handleChange} 
+            placeholder="Image caption (optional)"
+            className="w-full mt-2 bg-transparent border-b border-[#2a2a3a] text-xs p-1 text-zinc-300 outline-none focus:border-indigo-500 transition-colors"
+          />
+        )}
+      </div>
+
+      {/* Organization */}
+      <div>
+        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Organization</h3>
+        
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs text-zinc-500 mb-1">Category</label>
+            <select 
+              name="category_label" 
+              value={form.category_label || ""} 
+              onChange={handleChange}
+              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+            >
+              <option value="">Select a category...</option>
+              {categories.map((cat, idx) => (
+                <option key={idx} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs text-zinc-500 mb-1">Author</label>
+            <input 
+              type="text" 
+              name="author_name" 
+              value={form.author_name || ""} 
+              onChange={handleChange}
+              placeholder="e.g. John Doe"
+              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-xs text-zinc-500 mb-1">Author Role</label>
+            <input 
+              type="text" 
+              name="author_role" 
+              value={form.author_role || ""} 
+              onChange={handleChange}
+              placeholder="e.g. Immigration Analyst"
+              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+            />
+          </div>
+          
+          <div>
+             <label className="block text-xs text-zinc-500 mb-1">Read Time</label>
+            <input 
+              type="text" 
+              name="read_time" 
+              value={form.read_time || ""} 
+              onChange={handleChange}
+              placeholder="e.g. 5 min read"
+              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Status Toggle */}
+      <div>
+        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Visibility</h3>
+        <label className="flex items-center gap-3 cursor-pointer p-3 border border-[#2a2a3a] rounded-md bg-[#1a1a24] hover:border-indigo-500/50 transition-colors">
+          <input 
+            type="checkbox" 
+            name="is_featured" 
+            checked={form.is_featured || false} 
+            onChange={(e) => handleChange({ target: { name: 'is_featured', value: e.target.checked } })}
+            className="w-4 h-4 rounded border-[#3a3a4a] text-indigo-500 focus:ring-0 bg-[#0d0d14]"
+          />
+          <div>
+            <p className="text-sm font-medium text-zinc-200">Featured Article</p>
+            <p className="text-xs text-zinc-500">Pin strictly to the homepage</p>
+          </div>
+        </label>
+      </div>
+    </div>
+  );
+}

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/container-queries";
 
 @theme {
@@ -112,6 +113,9 @@ body {
 .prose p { margin-bottom: 1.5rem; line-height: 1.75; color: var(--color-on-surface-variant); }
 .prose h2 { font-family: var(--font-headline); font-weight: 700; font-size: 1.875rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--color-on-surface); letter-spacing: -0.02em; }
 .prose blockquote { border-left: 4px solid var(--color-primary); padding-left: 1.5rem; font-style: italic; margin: 2rem 0; color: var(--color-on-surface); }
+.prose .info-callout { background-color: #eef2ff; border: 1px solid #e0e7ff; padding: 1.5rem 2rem; border-radius: 1rem; margin: 2.5rem 0; color: #312e81; }
+.prose .info-callout p { color: inherit; margin-bottom: 0.5rem; }
+.prose .info-callout p:last-child { margin-bottom: 0; }
 
 /* =========================================
    Google Translate External Overrides 
