@@ -24,7 +24,7 @@ export const Callout = Node.create({
         return commands.wrapIn(this.name);
       },
       toggleCallout: () => ({ commands }) => {
-        return commands.toggleNode(this.name, 'paragraph');
+        return commands.toggleWrap(this.name);
       },
     };
   },
