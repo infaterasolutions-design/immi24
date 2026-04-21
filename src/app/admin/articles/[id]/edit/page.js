@@ -87,8 +87,12 @@ export default function EditArticle() {
       ...form, 
       status: finalStatus,
       paragraphs: [form.content_html], // Wrap HTML inside existing DB array column
-      quote: null,
-      sub_paragraphs: null
+      quote: form.quote || "",
+      sub_paragraphs: form.sub_paragraphs || [],
+      author_image: form.author_image || "",
+      tags: form.tags || [],
+      category_slug: form.category_slug || "",
+      sub_category_slug: form.sub_category_slug || ""
     };
     
     // Remove the virtual column so Supabase doesn't reject it
