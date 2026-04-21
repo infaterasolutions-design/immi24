@@ -1,0 +1,217 @@
+import { Node, mergeAttributes } from '@tiptap/core';
+
+/**
+ * Detects the platform from a URL and returns embed metadata.
+ */
+function detectEmbed(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace('www.', '');
+
+    // YouTube
+    if (host === 'youtube.com' || host === 'youtu.be') {
+      let videoId = '';
+      if (host === 'youtu.be') {
+        videoId = u.pathname.slice(1);
+      } else {
+        videoId = u.searchParams.get('v') || '';
+        // Handle /shorts/ URLs
+        if (!videoId && u.pathname.startsWith('/shorts/')) {
+          videoId = u.pathname.replace('/shorts/', '');
+        }
+      }
+      if (videoId) {
+        return {
+          platform: 'youtube',
+          embedUrl: `https://www.youtube.com/embed/${videoId}`,
+          aspectRatio: '16/9',
+        };
+      }
+    }
+
+    // Twitter / X
+    if (host === 'twitter.com' || host === 'x.com') {
+      const match = u.pathname.match(/\/(\w+)\/status\/(\d+)/);
+      if (match) {
+        return {
+          platform: 'twitter',
+          tweetUrl: url,
+          tweetId: match[2],
+          user: match[1],
+        };
+      }
+    }
+
+    // Instagram
+    if (host === 'instagram.com') {
+      const match = u.pathname.match(/\/(p|reel|tv)\/([A-Za-z0-9_-]+)/);
+      if (match) {
+        return {
+          platform: 'instagram',
+          embedUrl: `https://www.instagram.com/${match[1]}/${match[2]}/embed`,
+          aspectRatio: '4/5',
+        };
+      }
+    }
+
+    // Facebook
+    if (host === 'facebook.com' || host === 'fb.com' || host === 'fb.watch') {
+      return {
+        platform: 'facebook',
+        embedUrl: `https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(url)}&show_text=true&width=500`,
+        aspectRatio: '16/9',
+      };
+    }
+
+    // LinkedIn
+    if (host === 'linkedin.com') {
+      const match = u.pathname.match(/\/posts\/|\/pulse\//);
+      if (match) {
+        return {
+          platform: 'linkedin',
+          originalUrl: url,
+        };
+      }
+    }
+
+    // Generic / fallback
+    return {
+      platform: 'generic',
+      originalUrl: url,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Generates the inner HTML for an embed block based on embed data.
+ */
+function buildEmbedHTML(src, platform) {
+  const data = detectEmbed(src);
+  if (!data) return `<p><a href="${src}" target="_blank">${src}</a></p>`;
+
+  switch (data.platform) {
+    case 'youtube':
+      return `<iframe src="${data.embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>`;
+
+    case 'twitter':
+      return `<blockquote class="twitter-tweet" data-dnt="true"><a href="${data.tweetUrl}">Loading tweet...</a></blockquote>`;
+
+    case 'instagram':
+      return `<iframe src="${data.embedUrl}" frameborder="0" scrolling="no" allowtransparency="true" loading="lazy" style="width:100%;min-height:480px;border:0;"></iframe>`;
+
+    case 'facebook':
+      return `<iframe src="${data.embedUrl}" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" style="width:100%;min-height:400px;border:0;"></iframe>`;
+
+    case 'linkedin':
+    case 'generic':
+    default:
+      return `<a href="${src}" target="_blank" rel="noopener noreferrer">${src}</a>`;
+  }
+}
+
+export const EmbedBlock = Node.create({
+  name: 'embedBlock',
+  group: 'block',
+  atom: true,
+  draggable: true,
+
+  addAttributes() {
+    return {
+      src: { default: null },
+      platform: { default: 'generic' },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-embed-block]',
+      },
+    ];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    const src = HTMLAttributes.src || '';
+    const data = detectEmbed(src);
+    const platform = data?.platform || 'generic';
+
+    const wrapperAttrs = mergeAttributes(HTMLAttributes, {
+      'data-embed-block': '',
+      'data-platform': platform,
+      class: `embed-block embed-${platform}`,
+    });
+
+    // For iframe-based embeds, build a responsive container
+    if (platform === 'youtube') {
+      return ['div', wrapperAttrs,
+        ['div', { class: 'embed-responsive', style: 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;' },
+          ['iframe', {
+            src: data.embedUrl,
+            frameborder: '0',
+            allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+            allowfullscreen: 'true',
+            loading: 'lazy',
+            style: 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;',
+          }],
+        ],
+      ];
+    }
+
+    if (platform === 'instagram') {
+      return ['div', wrapperAttrs,
+        ['iframe', {
+          src: data.embedUrl,
+          frameborder: '0',
+          scrolling: 'no',
+          allowtransparency: 'true',
+          loading: 'lazy',
+          style: 'width:100%;min-height:480px;border:0;border-radius:8px;',
+        }],
+      ];
+    }
+
+    if (platform === 'facebook') {
+      return ['div', wrapperAttrs,
+        ['iframe', {
+          src: data.embedUrl,
+          frameborder: '0',
+          scrolling: 'no',
+          allowfullscreen: 'true',
+          allow: 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share',
+          loading: 'lazy',
+          style: 'width:100%;min-height:400px;border:0;border-radius:8px;',
+        }],
+      ];
+    }
+
+    if (platform === 'twitter') {
+      return ['div', wrapperAttrs,
+        ['div', { class: 'embed-twitter-placeholder' },
+          ['span', { class: 'embed-icon' }, '𝕏'],
+          ['a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, `Tweet: ${src}`],
+        ],
+      ];
+    }
+
+    // Generic / LinkedIn fallback — preview card
+    return ['div', wrapperAttrs,
+      ['div', { class: 'embed-link-card' },
+        ['span', { class: 'embed-icon' }, '🔗'],
+        ['a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, src],
+      ],
+    ];
+  },
+
+  addCommands() {
+    return {
+      setEmbed: (attrs) => ({ commands }) => {
+        return commands.insertContent({
+          type: this.name,
+          attrs,
+        });
+      },
+    };
+  },
+});

@@ -642,3 +642,129 @@
   cursor: col-resize;
 }
 
+/* ============================
+   Embed Block Styles
+   ============================ */
+.embed-block {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.embed-block:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.embed-block.ProseMirror-selectednode {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+}
+
+/* YouTube specific */
+.embed-youtube .embed-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 8px;
+}
+
+/* Twitter placeholder */
+.embed-twitter-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #f8fafc;
+}
+
+.embed-twitter-placeholder .embed-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #000;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.embed-twitter-placeholder a {
+  color: #3b82f6;
+  font-size: 13px;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.embed-twitter-placeholder a:hover {
+  text-decoration: underline;
+}
+
+/* Generic link card */
+.embed-link-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #f8fafc;
+}
+
+.embed-link-card .embed-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.embed-link-card a {
+  color: #3b82f6;
+  font-size: 13px;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.embed-link-card a:hover {
+  text-decoration: underline;
+}
+
+/* Instagram embed */
+.embed-instagram iframe {
+  border-radius: 8px;
+  margin: 8px;
+  width: calc(100% - 16px) !important;
+}
+
+/* Facebook embed */
+.embed-facebook iframe {
+  border-radius: 8px;
+  margin: 8px;
+  width: calc(100% - 16px) !important;
+}
+
+/* Modal animation */
+.animate-in {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+

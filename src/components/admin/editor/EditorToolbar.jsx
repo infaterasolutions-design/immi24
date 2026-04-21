@@ -3,10 +3,10 @@ import { useCallback, useRef } from "react";
 import { 
   Bold, Italic, Underline, Strikethrough, Heading1, Heading2, Heading3,
   List, ListOrdered, Quote, Code, AlignLeft, AlignCenter, AlignRight, 
-  AlignJustify, Image as ImageIcon, Video, Undo, Redo, Info, Table
+  AlignJustify, Image as ImageIcon, Video, Undo, Redo, Info, Table, Link2
 } from "lucide-react";
 
-export default function EditorToolbar({ editor, onImageUpload }) {
+export default function EditorToolbar({ editor, onImageUpload, onEmbedClick }) {
   const fileInputRef = useRef(null);
 
   const addYoutubeVideo = useCallback(() => {
@@ -64,6 +64,7 @@ export default function EditorToolbar({ editor, onImageUpload }) {
       
       <ToolbarButton icon={<Video size={16} />} onClick={addYoutubeVideo} title="Embed YouTube" />
       <ToolbarButton icon={<Table size={16} />} onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} title="Insert Table" />
+      <ToolbarButton icon={<Link2 size={16} />} onClick={onEmbedClick} title="Embed URL (YouTube, Twitter, Instagram...)" />
 
       <Divider />
 
