@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useRef } from "react";
 import { 
+  Bold, Italic, Underline, Strikethrough, Heading1, Heading2, Heading3,
   List, ListOrdered, Quote, Code, AlignLeft, AlignCenter, AlignRight, 
   AlignJustify, Image as ImageIcon, Video, Undo, Redo, Info, Table
 } from "lucide-react";

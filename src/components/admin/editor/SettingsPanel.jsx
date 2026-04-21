@@ -24,12 +24,12 @@ export default function SettingsPanel({ form, handleChange, categories }) {
   };
 
   return (
-    <div className="bg-[#0d0d14] rounded-lg border border-[#1e1e2e] p-5 shadow-sm space-y-6">
+    <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm space-y-6">
       {/* Featured Image */}
       <div>
-        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Featured Image</h3>
+        <h3 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Featured Image</h3>
         {form.main_image ? (
-          <div className="relative rounded-md overflow-hidden border border-[#2a2a3a] group">
+          <div className="relative rounded-md overflow-hidden border border-slate-200 group">
             <img src={form.main_image} alt="Featured" className="w-full h-auto object-cover max-h-48" />
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button 
@@ -44,7 +44,7 @@ export default function SettingsPanel({ form, handleChange, categories }) {
         ) : (
           <div 
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-[#2a2a3a] rounded-lg p-6 flex flex-col items-center justify-center text-zinc-500 hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-colors cursor-pointer"
+            className="border-2 border-dashed border-slate-300 rounded-lg p-6 flex flex-col items-center justify-center text-slate-500 hover:border-indigo-400 hover:bg-indigo-50/50 transition-colors cursor-pointer"
           >
             <span className="text-2xl mb-2">🖼️</span>
             <p className="text-xs font-medium text-center">
@@ -62,18 +62,18 @@ export default function SettingsPanel({ form, handleChange, categories }) {
             value={form.image_caption || ""} 
             onChange={handleChange} 
             placeholder="Image caption (optional)"
-            className="w-full mt-2 bg-transparent border-b border-[#2a2a3a] text-xs p-1 text-zinc-300 outline-none focus:border-indigo-500 transition-colors"
+            className="w-full mt-2 bg-transparent border-b border-slate-200 text-xs p-1 text-slate-700 outline-none focus:border-indigo-500 transition-colors"
           />
         )}
       </div>
 
       {/* Organization */}
       <div>
-        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Organization</h3>
+        <h3 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Organization</h3>
         
         <div className="space-y-4">
           <div>
-            <label className="block text-xs text-zinc-500 mb-1">Category</label>
+            <label className="block text-xs text-slate-500 mb-1">Category</label>
             <select 
               value={form.category_slug || ""} 
               onChange={(e) => {
@@ -83,7 +83,7 @@ export default function SettingsPanel({ form, handleChange, categories }) {
                 // Reset subcategory when category changes
                 handleChange({ target: { name: "sub_category_slug", value: "" } });
               }}
-              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
             >
               <option value="">Select a category...</option>
               {categories.map((cat, idx) => (
@@ -99,12 +99,12 @@ export default function SettingsPanel({ form, handleChange, categories }) {
 
             return (
               <div>
-                <label className="block text-xs text-zinc-500 mb-1">Subcategory</label>
+                <label className="block text-xs text-slate-500 mb-1">Subcategory</label>
                 <select 
                   name="sub_category_slug"
                   value={form.sub_category_slug || ""} 
                   onChange={handleChange}
-                  className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
                 >
                   <option value="">No subcategory...</option>
                   {selectedCatObj.subcategories.map((sub, idx) => (
@@ -116,38 +116,38 @@ export default function SettingsPanel({ form, handleChange, categories }) {
           })()}
 
           <div>
-            <label className="block text-xs text-zinc-500 mb-1">Author</label>
+            <label className="block text-xs text-slate-500 mb-1">Author</label>
             <input 
               type="text" 
               name="author_name" 
               value={form.author_name || ""} 
               onChange={handleChange}
               placeholder="e.g. John Doe"
-              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
             />
           </div>
           
           <div>
-            <label className="block text-xs text-zinc-500 mb-1">Author Role</label>
+            <label className="block text-xs text-slate-500 mb-1">Author Role</label>
             <input 
               type="text" 
               name="author_role" 
               value={form.author_role || ""} 
               onChange={handleChange}
               placeholder="e.g. Immigration Analyst"
-              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
             />
           </div>
           
           <div>
-             <label className="block text-xs text-zinc-500 mb-1">Read Time</label>
+             <label className="block text-xs text-slate-500 mb-1">Read Time</label>
             <input 
               type="text" 
               name="read_time" 
               value={form.read_time || ""} 
               onChange={handleChange}
               placeholder="e.g. 5 min read"
-              className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
             />
           </div>
         </div>
@@ -155,41 +155,41 @@ export default function SettingsPanel({ form, handleChange, categories }) {
 
       {/* Status Toggle */}
       <div>
-        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Visibility</h3>
-        <label className="flex items-center gap-3 cursor-pointer p-3 border border-[#2a2a3a] rounded-md bg-[#1a1a24] hover:border-indigo-500/50 transition-colors mb-4">
+        <h3 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Visibility</h3>
+        <label className="flex items-center gap-3 cursor-pointer p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
           <input 
             type="checkbox" 
             name="is_featured" 
             checked={form.is_featured || false} 
             onChange={(e) => handleChange({ target: { name: 'is_featured', value: e.target.checked } })}
-            className="w-4 h-4 rounded border-[#3a3a4a] text-indigo-500 focus:ring-0 bg-[#0d0d14]"
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white"
           />
           <div>
-            <p className="text-sm font-medium text-zinc-200">Featured Article</p>
-            <p className="text-xs text-zinc-500">Pin strictly to the homepage</p>
+            <p className="text-sm font-medium text-slate-800">Featured Article</p>
+            <p className="text-xs text-slate-500">Pin strictly to the homepage</p>
           </div>
         </label>
       </div>
 
       {/* Publishing Schedule */}
       <div>
-        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Schedule</h3>
-        <div className="space-y-2 p-3 border border-[#2a2a3a] rounded-md bg-[#1a1a24]">
-          <label className="block text-xs text-zinc-400 font-medium">Go-live date (Your Local Time)</label>
+        <h3 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Schedule</h3>
+        <div className="space-y-2 p-3 border border-slate-200 rounded-md bg-slate-50">
+          <label className="block text-xs text-slate-500 font-medium">Go-live date (Your Local Time)</label>
           <input 
             type="datetime-local" 
             name="published_at_local" 
             value={form.published_at_local || ""} 
             onChange={handleChange}
-            className="w-full bg-[#0d0d14] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none focus:border-indigo-500 transition-colors"
+            className="w-full bg-white border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500 transition-colors"
           />
           {form.published_at_local ? (
-            <div className="mt-2 text-[11px] font-medium p-2 bg-[#0d0d14] rounded border border-indigo-500/20">
-              <span className="text-indigo-400 font-bold block mb-1">🌎 Global World Time (UTC)</span>
-              <span className="text-zinc-300">{new Date(form.published_at_local).toUTCString()}</span>
+            <div className="mt-2 text-[11px] font-medium p-2 bg-white rounded border border-indigo-200">
+              <span className="text-indigo-600 font-bold block mb-1">🌎 Global World Time (UTC)</span>
+              <span className="text-slate-700">{new Date(form.published_at_local).toUTCString()}</span>
             </div>
           ) : (
-            <p className="text-[11px] text-zinc-500 mt-1">
+            <p className="text-[11px] text-slate-500 mt-1">
               Leave blank to publish immediately globally.
             </p>
           )}
