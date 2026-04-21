@@ -56,7 +56,7 @@ export default function AdminArticles() {
   const columns = [
     { key: "title", label: "Title", render: (row) => (
       <div style={{ maxWidth: 300 }}>
-        <span style={{ fontWeight: 600, color: "#fff", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        <span style={{ fontWeight: 600, color: "#1e293b", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {row.title}
         </span>
         {row.is_featured && <span style={{ fontSize: "0.65rem", color: "#eab308", marginTop: 2, display: "inline-block" }}>⭐ Featured</span>}

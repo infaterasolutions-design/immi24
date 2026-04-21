@@ -92,27 +92,27 @@ export default function AdminMediaLibrary() {
             {videos.map((video) => (
               <div key={video.id} className="admin-section" style={{ padding: 0, overflow: "hidden", marginBottom: 0 }}>
                 {/* Thumbnail */}
-                <div style={{ height: 160, background: "#0d0d14", position: "relative", overflow: "hidden" }}>
+                <div style={{ height: 160, background: "#f1f5f9", position: "relative", overflow: "hidden" }}>
                   {video.thumbnail ? (
                     <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "100%", objectFit: "cover" }}
                       onError={(e) => { e.target.style.display = "none"; }} />
                   ) : (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#52525b", fontSize: "2rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#94a3b8", fontSize: "2rem" }}>
                       🎬
                     </div>
                   )}
                   {video.category_label && (
-                    <span style={{ position: "absolute", top: 8, left: 8, background: "rgba(0,0,0,0.7)", color: "#fff", padding: "3px 10px", fontSize: "0.68rem", fontWeight: 600 }}>
+                    <span style={{ position: "absolute", top: 8, left: 8, background: "rgba(30,41,59,0.8)", color: "#fff", padding: "3px 10px", fontSize: "0.68rem", fontWeight: 600, borderRadius: "4px" }}>
                       {video.category_label}
                     </span>
                   )}
                 </div>
                 {/* Info */}
                 <div style={{ padding: 16 }}>
-                  <p style={{ fontWeight: 600, color: "#fff", fontSize: "0.9rem", marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <p style={{ fontWeight: 600, color: "#1e293b", fontSize: "0.9rem", marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {video.title}
                   </p>
-                  <p style={{ fontSize: "0.75rem", color: "#52525b" }}>
+                  <p style={{ fontSize: "0.75rem", color: "#64748b" }}>
                     {video.created_at ? new Date(video.created_at).toLocaleDateString() : ""}
                   </p>
                   <RoleGuard user={user} allowedRoles={["super_admin", "editor"]}>
@@ -138,16 +138,16 @@ export default function AdminMediaLibrary() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
             {images.map((img) => (
               <div key={img.id} className="admin-section" style={{ padding: 0, overflow: "hidden", marginBottom: 0 }}>
-                <div style={{ height: 150, background: "#0d0d14", overflow: "hidden" }}>
+                <div style={{ height: 150, background: "#f1f5f9", overflow: "hidden" }}>
                   <img src={img.main_image} alt={img.title} style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     onError={(e) => { e.target.src = ""; e.target.style.display = "none"; }} />
                 </div>
                 <div style={{ padding: 12 }}>
-                  <p style={{ fontWeight: 500, color: "#d4d4d8", fontSize: "0.78rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <p style={{ fontWeight: 500, color: "#1e293b", fontSize: "0.78rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {img.title}
                   </p>
                   {img.image_caption && (
-                    <p style={{ fontSize: "0.7rem", color: "#52525b", marginTop: 4 }}>{img.image_caption}</p>
+                    <p style={{ fontSize: "0.7rem", color: "#64748b", marginTop: 4 }}>{img.image_caption}</p>
                   )}
                 </div>
               </div>
@@ -210,8 +210,8 @@ function VideoModal({ video, onClose, onSave }) {
             <input className="admin-form-input" name="thumbnail" value={form.thumbnail} onChange={handleChange} />
           </div>
           {form.thumbnail && (
-            <div style={{ marginBottom: 16, border: "1px solid #1e1e2e", padding: 8, background: "#0d0d14" }}>
-              <img src={form.thumbnail} alt="Preview" style={{ width: "100%", maxHeight: 150, objectFit: "cover" }}
+            <div style={{ marginBottom: 16, border: "1px solid #e2e8f0", padding: 8, background: "#f8fafc", borderRadius: "8px" }}>
+              <img src={form.thumbnail} alt="Preview" style={{ width: "100%", maxHeight: 150, objectFit: "cover", borderRadius: "4px" }}
                 onError={(e) => { e.target.style.display = "none"; }} />
             </div>
           )}

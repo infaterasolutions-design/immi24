@@ -48,7 +48,7 @@ export default function AdminSubscribers() {
 
   const columns = [
     { key: "email", label: "Email", render: (row) => (
-      <span style={{ fontWeight: 500, color: "#fff" }}>{row.email}</span>
+      <span style={{ fontWeight: 500, color: "#1e293b" }}>{row.email}</span>
     )},
     { key: "created_at", label: "Subscribed On", render: (row) => (
       <span style={{ color: "#71717a", fontSize: "0.8rem" }}>

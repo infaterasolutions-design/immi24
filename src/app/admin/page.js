@@ -99,7 +99,7 @@ export default function AdminDashboard() {
             <tbody>
               {recentArticles.map((a) => (
                 <tr key={a.id}>
-                  <td style={{ fontWeight: 600, color: "#fff", maxWidth: 350, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <td style={{ fontWeight: 600, color: "#1e293b", maxWidth: 350, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {a.title}
                   </td>
                   <td>

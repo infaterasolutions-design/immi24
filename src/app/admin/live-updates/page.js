@@ -47,7 +47,7 @@ export default function AdminLiveUpdates() {
 
   const columns = [
     { key: "title", label: "Title", render: (row) => (
-      <span style={{ fontWeight: 600, color: "#fff" }}>{row.title}</span>
+      <span style={{ fontWeight: 600, color: "#1e293b" }}>{row.title}</span>
     )},
     { key: "status", label: "Status", render: (row) => (
       <span className={`admin-badge ${row.status === "active" ? "admin-badge-active" : "admin-badge-inactive"}`}>

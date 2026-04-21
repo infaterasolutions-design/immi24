@@ -98,17 +98,17 @@ export default function AdminCategories() {
                     onClick={() => handleReorder(cat, "up")}
                     disabled={idx === 0}
                     style={{
-                      background: "none", border: "1px solid #1e1e2e", color: idx === 0 ? "#2a2a3a" : "#71717a",
-                      padding: "2px 8px", cursor: idx === 0 ? "default" : "pointer", fontSize: "0.8rem"
+                      background: "none", border: "1px solid #e2e8f0", color: idx === 0 ? "#cbd5e1" : "#64748b",
+                      padding: "2px 8px", cursor: idx === 0 ? "default" : "pointer", fontSize: "0.8rem", borderRadius: "4px"
                     }}
                   >▲</button>
                   <button
                     onClick={() => handleReorder(cat, "down")}
                     disabled={idx === categories.length - 1}
                     style={{
-                      background: "none", border: "1px solid #1e1e2e",
-                      color: idx === categories.length - 1 ? "#2a2a3a" : "#71717a",
-                      padding: "2px 8px", cursor: idx === categories.length - 1 ? "default" : "pointer", fontSize: "0.8rem"
+                      background: "none", border: "1px solid #e2e8f0",
+                      color: idx === categories.length - 1 ? "#cbd5e1" : "#64748b",
+                      padding: "2px 8px", cursor: idx === categories.length - 1 ? "default" : "pointer", fontSize: "0.8rem", borderRadius: "4px"
                     }}
                   >▼</button>
                 </div>
@@ -117,16 +117,16 @@ export default function AdminCategories() {
               {/* Category info */}
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: "0.7rem", color: "#52525b", background: "#1a1a24", padding: "2px 8px", minWidth: 24, textAlign: "center" }}>
+                  <span style={{ fontSize: "0.7rem", color: "#64748b", background: "#f1f5f9", padding: "2px 8px", minWidth: 24, textAlign: "center", borderRadius: "4px" }}>
                     #{cat.sort_order}
                   </span>
-                  <span style={{ fontWeight: 700, color: "#fff", fontSize: "1rem" }}>{cat.name}</span>
-                  <span style={{ color: "#52525b", fontSize: "0.8rem" }}>/{cat.slug}</span>
+                  <span style={{ fontWeight: 700, color: "#1e293b", fontSize: "1rem" }}>{cat.name}</span>
+                  <span style={{ color: "#64748b", fontSize: "0.8rem" }}>/{cat.slug}</span>
                 </div>
                 {cat.subcategories && cat.subcategories.length > 0 && (
                   <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
                     {cat.subcategories.map((sub, si) => (
-                      <span key={si} className="admin-badge admin-badge-editor" style={{ fontSize: "0.68rem" }}>
+                      <span key={si} className="admin-badge admin-badge-active" style={{ fontSize: "0.68rem" }}>
                         {sub.label || sub.name}
                       </span>
                     ))}
@@ -236,8 +236,8 @@ function CategoryModal({ category, nextOrder, onClose, onSave }) {
             {form.subcategories.length > 0 && (
               <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
                 {form.subcategories.map((sub, idx) => (
-                  <div key={idx} style={{ display: "flex", alignItems: "center", gap: 8, background: "#0d0d14", padding: "8px 12px", border: "1px solid #1e1e2e" }}>
-                    <span style={{ flex: 1, color: "#e4e4e7", fontSize: "0.85rem" }}>{sub.name || sub.label} <span style={{ color: "#52525b" }}>/{sub.slug}</span></span>
+                  <div key={idx} style={{ display: "flex", alignItems: "center", gap: 8, background: "#f8fafc", padding: "8px 12px", border: "1px solid #e2e8f0", borderRadius: "8px" }}>
+                    <span style={{ flex: 1, color: "#1e293b", fontSize: "0.85rem" }}>{sub.name || sub.label} <span style={{ color: "#64748b" }}>/{sub.slug}</span></span>
                     <button type="button" onClick={() => removeSub(idx)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "0.85rem" }}>✕</button>
                   </div>
                 ))}
