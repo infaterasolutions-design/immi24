@@ -30,7 +30,11 @@ export async function fetchNextArticleAction(currentId) {
   
   // Find the next active article that was created before the current one
   const { data: currentArt } = await supabase.from('articles').select('created_at').eq('id', currentId).single();
-  let query = supabase.from('articles').select('*').eq('status', 'published');
+  // Only pull active articles that have passed their global release schedule threshold
+  let query = supabase.from('articles')
+    .select('*')
+    .eq('status', 'published')
+    .lte('published_at', new Date().toISOString());
   
   if (currentArt?.created_at) {
      query = query.lt('created_at', currentArt.created_at).order('created_at', { ascending: false }).limit(1);

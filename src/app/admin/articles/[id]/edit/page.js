@@ -64,8 +64,17 @@ export default function EditArticle() {
         }
       }
 
+      // Convert database UTC to strict local HTML input format YYYY-MM-DDTHH:mm
+      let localSchedule = "";
+      if (articleData.published_at) {
+        const d = new Date(articleData.published_at);
+        const pad = (n) => n.toString().padStart(2, "0");
+        localSchedule = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+
       setForm({
         ...articleData,
+        published_at_local: localSchedule,
         // Pull the HTML out of the paragraphs array, or fallback to compiling the legacy fields
         content_html: isRichHtml ? articleData.paragraphs[0] : legacyHtml
       });
@@ -97,6 +106,14 @@ export default function EditArticle() {
     
     // Remove the virtual column so Supabase doesn't reject it
     delete payload.content_html;
+
+    // Convert local schedule back into standardized UTC ISO for database accuracy
+    if (payload.published_at_local) {
+      payload.published_at = new Date(payload.published_at_local).toISOString();
+    } else if (!payload.published_at) {
+      payload.published_at = new Date().toISOString();
+    }
+    delete payload.published_at_local;
 
     const { error } = await supabase.from("articles").update(payload).eq("id", params.id);
     setSaving(false);

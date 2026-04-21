@@ -30,6 +30,7 @@ export default function NewArticle() {
     status: "draft",
     is_featured: false,
     is_indexed: true,
+    published_at_local: "",
   });
 
   useEffect(() => {
@@ -61,6 +62,14 @@ export default function NewArticle() {
     
     // Remove the virtual column so Supabase doesn't reject it
     delete payload.content_html;
+
+    // Convert Local Scheduled Time to UTC for the database, or default to immediate
+    if (payload.published_at_local) {
+      payload.published_at = new Date(payload.published_at_local).toISOString();
+    } else {
+      payload.published_at = new Date().toISOString();
+    }
+    delete payload.published_at_local;
 
     // Satisfy legacy required ID and Date properties for CSV-imported tables
     payload.id = Date.now().toString(); 

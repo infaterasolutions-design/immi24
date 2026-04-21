@@ -14,7 +14,9 @@ export async function getNextArticle(currentId) {
   // The simplest is to match the previous logic: sort by ID desc or just get all for now to find the next.
   // Actually, since IDs are strings like "1", "2", sorting might be lexical. 
   // For simplicity, let's just fetch all and find the next index, or fetch next by parsing ID.
-  const { data: allArts } = await supabase.from('articles').select('*');
+  const { data: allArts } = await supabase.from('articles')
+    .select('*')
+    .lte('published_at', new Date().toISOString());
   if (!allArts) return null;
   const currentIndex = allArts.findIndex(a => a.id === currentId);
   if (currentIndex === -1 || currentIndex === allArts.length - 1) return null;
@@ -22,17 +24,26 @@ export async function getNextArticle(currentId) {
 }
 
 export async function getArticlesByCategorySlug(categorySlug) {
-  const { data, error } = await supabase.from('articles').select('*').eq('category_slug', categorySlug);
+  const { data, error } = await supabase.from('articles')
+    .select('*')
+    .eq('category_slug', categorySlug)
+    .lte('published_at', new Date().toISOString());
   return (data || []).map(mapArticle);
 }
 
 export async function getArticlesBySubcategorySlug(categorySlug, subCategorySlug) {
-  const { data, error } = await supabase.from('articles').select('*').eq('category_slug', categorySlug).eq('sub_category_slug', subCategorySlug);
+  const { data, error } = await supabase.from('articles')
+    .select('*')
+    .eq('category_slug', categorySlug)
+    .eq('sub_category_slug', subCategorySlug)
+    .lte('published_at', new Date().toISOString());
   return (data || []).map(mapArticle);
 }
 
 export async function getAllArticles() {
-  const { data, error } = await supabase.from('articles').select('*');
+  const { data, error } = await supabase.from('articles')
+    .select('*')
+    .lte('published_at', new Date().toISOString());
   return data ? data.map(mapArticle).reverse() : [];
 }
 

@@ -156,7 +156,7 @@ export default function SettingsPanel({ form, handleChange, categories }) {
       {/* Status Toggle */}
       <div>
         <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Visibility</h3>
-        <label className="flex items-center gap-3 cursor-pointer p-3 border border-[#2a2a3a] rounded-md bg-[#1a1a24] hover:border-indigo-500/50 transition-colors">
+        <label className="flex items-center gap-3 cursor-pointer p-3 border border-[#2a2a3a] rounded-md bg-[#1a1a24] hover:border-indigo-500/50 transition-colors mb-4">
           <input 
             type="checkbox" 
             name="is_featured" 
@@ -169,6 +169,31 @@ export default function SettingsPanel({ form, handleChange, categories }) {
             <p className="text-xs text-zinc-500">Pin strictly to the homepage</p>
           </div>
         </label>
+      </div>
+
+      {/* Publishing Schedule */}
+      <div>
+        <h3 className="text-xs font-bold text-zinc-400 mb-3 uppercase tracking-wider">Schedule</h3>
+        <div className="space-y-2 p-3 border border-[#2a2a3a] rounded-md bg-[#1a1a24]">
+          <label className="block text-xs text-zinc-400 font-medium">Go-live date (Your Local Time)</label>
+          <input 
+            type="datetime-local" 
+            name="published_at_local" 
+            value={form.published_at_local || ""} 
+            onChange={handleChange}
+            className="w-full bg-[#0d0d14] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none focus:border-indigo-500 transition-colors"
+          />
+          {form.published_at_local ? (
+            <div className="mt-2 text-[11px] font-medium p-2 bg-[#0d0d14] rounded border border-indigo-500/20">
+              <span className="text-indigo-400 font-bold block mb-1">🌎 Global World Time (UTC)</span>
+              <span className="text-zinc-300">{new Date(form.published_at_local).toUTCString()}</span>
+            </div>
+          ) : (
+            <p className="text-[11px] text-zinc-500 mt-1">
+              Leave blank to publish immediately globally.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
