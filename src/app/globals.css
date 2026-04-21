@@ -305,3 +305,19 @@ img[loading="lazy"].loaded,
 img {
   opacity: 1;
 }
+
+/* Admin Dashboard UI Badges */
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-badge-active { background: #059669; color: white; }
+.admin-badge-inactive { background: #3f3f46; color: #a1a1aa; }
+.admin-badge-scheduled { background: #4f46e5; color: white; }

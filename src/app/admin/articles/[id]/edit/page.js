@@ -85,7 +85,27 @@ export default function EditArticle() {
   }, [params.id, router]);
 
   const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setForm(prev => {
+      const updates = { [name]: value };
+      
+      // Auto-generate slug and meta title when title changes
+      if (name === "title" && !prev.slug_manually_edited) {
+        updates.slug = value.toLowerCase()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/--+/g, "-")
+          .trim();
+        updates.meta_title = value;
+      }
+      
+      // Track if user manually edits slug so we don't overwrite it
+      if (name === "slug") {
+        updates.slug_manually_edited = true;
+      }
+      
+      return { ...prev, ...updates };
+    });
   };
 
   const handleSave = async (statusOverride) => {

@@ -66,14 +66,17 @@ export default function AdminArticles() {
       <span className="admin-badge admin-badge-active">{row.category_label || "—"}</span>
     )},
     { key: "author_name", label: "Author" },
-    { key: "status", label: "Status", render: (row) => (
-      <span className={`admin-badge ${row.status === "draft" ? "admin-badge-inactive" : "admin-badge-active"}`}>
-        {row.status === "draft" ? "Draft" : "Published"}
-      </span>
-    )},
-    { key: "created_at", label: "Date", render: (row) => (
+    { key: "status", label: "Status", render: (row) => {
+      const isScheduled = row.status === "published" && row.published_at && new Date(row.published_at) > new Date();
+      return (
+        <span className={`admin-badge ${row.status === "draft" ? "admin-badge-inactive" : isScheduled ? "admin-badge-scheduled" : "admin-badge-active"}`}>
+          {row.status === "draft" ? "Draft" : isScheduled ? "Scheduled" : "Published"}
+        </span>
+      );
+    }},
+    { key: "published_at", label: "Go-Live", render: (row) => (
       <span style={{ color: "#71717a", fontSize: "0.8rem" }}>
-        {row.created_at ? new Date(row.created_at).toLocaleDateString() : "—"}
+        {row.published_at ? new Date(row.published_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }) : "—"}
       </span>
     )},
   ];
