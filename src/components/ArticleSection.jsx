@@ -66,12 +66,18 @@ export default function ArticleSection({ article, isFirst = false }) {
 
           {/* Author Info */}
           <div className="flex items-center gap-4 mb-8 md:mb-10 pb-8 md:pb-10 border-b border-slate-100">
-            <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0">
-              <img 
-                alt={article.authorName}
-                className="w-full h-full object-cover" 
-                src={article.authorImage}
-              />
+            <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
+              {article.authorImage ? (
+                <img 
+                  alt={article.authorName}
+                  className="w-full h-full object-cover" 
+                  src={article.authorImage}
+                />
+              ) : (
+                <span className="text-xl font-bold text-primary">
+                  {(article.authorName || "A").charAt(0).toUpperCase()}
+                </span>
+              )}
             </div>
             <div className="flex flex-col justify-center gap-1.5">
               <div className="text-slate-900 font-bold text-[16px] leading-none">{article.authorName}</div>
@@ -118,7 +124,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Featured Image */}
-          <div className="mb-4 md:mb-5 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
+          <div className="mb-2 md:mb-3 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
             <div className="overflow-hidden rounded-xl">
               <img 
                 alt={article.title}
