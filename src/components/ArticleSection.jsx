@@ -57,10 +57,10 @@ export default function ArticleSection({ article, isFirst = false }) {
             {article.title}
           </h1>
 
-          {/* Subtitle (Medium Style Description) */}
-          {article.paragraphs && article.paragraphs[0] && (
+          {/* Subtitle (Short Description) */}
+          {article.subTitle && (
             <p className="text-[20px] md:text-[24px] text-slate-500 leading-[1.35] mb-8 font-normal font-headline pr-4 lg:pr-12 line-clamp-3">
-              {article.paragraphs[0]}
+              {article.subTitle}
             </p>
           )}
 
@@ -118,7 +118,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Featured Image */}
-          <div className="mb-8 md:mb-12 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
+          <div className="mb-6 md:mb-8 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
             <div className="overflow-hidden rounded-xl">
               <img 
                 alt={article.title}
