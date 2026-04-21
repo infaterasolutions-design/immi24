@@ -37,11 +37,11 @@ export default function EditArticle() {
   useEffect(() => {
     async function fetchData() {
       const [{ data: catData }, { data: articleData, error }] = await Promise.all([
-        supabase.from("categories").select("label"),
+        supabase.from("categories").select("*"),
         supabase.from("articles").select("*").eq("id", params.id).single()
       ]);
 
-      if (catData) setCategories([...new Set(catData.map(c => c.label))]);
+      if (catData) setCategories(catData);
       
       if (error || !articleData) {
         alert("Article not found.");
@@ -49,21 +49,25 @@ export default function EditArticle() {
         return;
       }
 
+      const isRichHtml = Array.isArray(articleData.paragraphs) && articleData.paragraphs.length === 1 && articleData.paragraphs[0].includes('<');
+
       let legacyHtml = "";
-      if (Array.isArray(articleData.paragraphs)) {
-        legacyHtml += articleData.paragraphs.map(p => `<p>${p}</p>`).join("");
-      }
-      if (articleData.quote) {
-        legacyHtml += `<blockquote><p>${articleData.quote}</p></blockquote>`;
-      }
-      if (Array.isArray(articleData.sub_paragraphs)) {
-        legacyHtml += articleData.sub_paragraphs.map(p => `<p>${p}</p>`).join("");
+      if (!isRichHtml) {
+        if (Array.isArray(articleData.paragraphs)) {
+          legacyHtml += articleData.paragraphs.map(p => `<p>${p}</p>`).join("");
+        }
+        if (articleData.quote) {
+          legacyHtml += `<blockquote><p>${articleData.quote}</p></blockquote>`;
+        }
+        if (Array.isArray(articleData.sub_paragraphs)) {
+          legacyHtml += articleData.sub_paragraphs.map(p => `<p>${p}</p>`).join("");
+        }
       }
 
       setForm({
         ...articleData,
-        // Fallback for older articles that split content into multiple columns
-        content_html: articleData.content_html || legacyHtml
+        // Pull the HTML out of the paragraphs array, or fallback to compiling the legacy fields
+        content_html: isRichHtml ? articleData.paragraphs[0] : legacyHtml
       });
       setLoading(false);
     }
@@ -72,16 +76,23 @@ export default function EditArticle() {
   }, [params.id, router]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSave = async (statusOverride) => {
     setSaving(true);
     const finalStatus = statusOverride || form.status;
     
-    // We don't want to re-save the id, created_at, etc if we unpack them differently,
-    // but supabase handles updating existing columns safely.
-    const payload = { ...form, status: finalStatus };
+    const payload = { 
+      ...form, 
+      status: finalStatus,
+      paragraphs: [form.content_html], // Wrap HTML inside existing DB array column
+      quote: null,
+      sub_paragraphs: null
+    };
+    
+    // Remove the virtual column so Supabase doesn't reject it
+    delete payload.content_html;
 
     const { error } = await supabase.from("articles").update(payload).eq("id", params.id);
     setSaving(false);

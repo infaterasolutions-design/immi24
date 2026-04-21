@@ -75,17 +75,45 @@ export default function SettingsPanel({ form, handleChange, categories }) {
           <div>
             <label className="block text-xs text-zinc-500 mb-1">Category</label>
             <select 
-              name="category_label" 
-              value={form.category_label || ""} 
-              onChange={handleChange}
+              value={form.category_slug || ""} 
+              onChange={(e) => {
+                const selectedCat = categories.find(c => c.slug === e.target.value);
+                handleChange({ target: { name: "category_slug", value: selectedCat ? selectedCat.slug : "" } });
+                handleChange({ target: { name: "category_label", value: selectedCat ? selectedCat.name : "" } });
+                // Reset subcategory when category changes
+                handleChange({ target: { name: "sub_category_slug", value: "" } });
+              }}
               className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
             >
               <option value="">Select a category...</option>
               {categories.map((cat, idx) => (
-                <option key={idx} value={cat}>{cat}</option>
+                <option key={idx} value={cat.slug}>{cat.name}</option>
               ))}
             </select>
           </div>
+
+          {/* Subcategory Select */
+          (() => {
+            const selectedCatObj = categories.find(c => c.slug === form.category_slug);
+            if (!selectedCatObj || !selectedCatObj.subcategories || selectedCatObj.subcategories.length === 0) return null;
+
+            return (
+              <div>
+                <label className="block text-xs text-zinc-500 mb-1">Subcategory</label>
+                <select 
+                  name="sub_category_slug"
+                  value={form.sub_category_slug || ""} 
+                  onChange={handleChange}
+                  className="w-full bg-[#1a1a24] border border-[#2a2a3a] rounded p-2 text-sm text-zinc-200 outline-none"
+                >
+                  <option value="">No subcategory...</option>
+                  {selectedCatObj.subcategories.map((sub, idx) => (
+                    <option key={idx} value={sub.slug}>{sub.name || sub.label}</option>
+                  ))}
+                </select>
+              </div>
+            );
+          })()}
 
           <div>
             <label className="block text-xs text-zinc-500 mb-1">Author</label>

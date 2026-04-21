@@ -4,6 +4,10 @@ import { supabase } from "@/lib/supabase";
 
 function mapDbToFrontend(article) {
   if (!article) return null;
+  
+  // We mapped the Rich HTML into the first element of the paragraphs array to avoid SQL schema changes
+  const isRichHtml = Array.isArray(article.paragraphs) && article.paragraphs.length === 1 && article.paragraphs[0].includes('<');
+  
   return {
     ...article,
     categoryLabel: article.category_label,
@@ -15,8 +19,9 @@ function mapDbToFrontend(article) {
     imageCaption: article.image_caption,
     subTitle: article.sub_title,
     readTime: article.read_time,
-    subParagraphs: article.sub_paragraphs,
-    contentHtml: article.content_html, // newly added HTML content field
+    subParagraphs: isRichHtml ? null : article.sub_paragraphs,
+    paragraphs: isRichHtml ? null : article.paragraphs,
+    contentHtml: isRichHtml ? article.paragraphs[0] : null,
   };
 }
 

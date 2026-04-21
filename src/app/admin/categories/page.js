@@ -120,7 +120,7 @@ export default function AdminCategories() {
                   <span style={{ fontSize: "0.7rem", color: "#52525b", background: "#1a1a24", padding: "2px 8px", minWidth: 24, textAlign: "center" }}>
                     #{cat.sort_order}
                   </span>
-                  <span style={{ fontWeight: 700, color: "#fff", fontSize: "1rem" }}>{cat.label}</span>
+                  <span style={{ fontWeight: 700, color: "#fff", fontSize: "1rem" }}>{cat.name}</span>
                   <span style={{ color: "#52525b", fontSize: "0.8rem" }}>/{cat.slug}</span>
                 </div>
                 {cat.subcategories && cat.subcategories.length > 0 && (
@@ -172,12 +172,12 @@ export default function AdminCategories() {
 
 function CategoryModal({ category, nextOrder, onClose, onSave }) {
   const [form, setForm] = useState({
-    label: category?.label || "",
+    name: category?.name || "",
     slug: category?.slug || "",
     sort_order: category?.sort_order ?? nextOrder,
     subcategories: category?.subcategories || [],
   });
-  const [newSub, setNewSub] = useState({ label: "", slug: "" });
+  const [newSub, setNewSub] = useState({ name: "", slug: "" });
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -188,17 +188,17 @@ function CategoryModal({ category, nextOrder, onClose, onSave }) {
   }
 
   function handleLabelChange(e) {
-    const label = e.target.value;
-    setForm({ ...form, label, slug: form.slug || autoSlug(label) });
+    const nameStr = e.target.value;
+    setForm({ ...form, name: nameStr, slug: form.slug || autoSlug(nameStr) });
   }
 
   function addSubcategory() {
-    if (!newSub.label) return;
+    if (!newSub.name) return;
     setForm({
       ...form,
-      subcategories: [...form.subcategories, { label: newSub.label, slug: newSub.slug || autoSlug(newSub.label) }],
+      subcategories: [...form.subcategories, { name: newSub.name, slug: newSub.slug || autoSlug(newSub.name) }],
     });
-    setNewSub({ label: "", slug: "" });
+    setNewSub({ name: "", slug: "" });
   }
 
   function removeSub(idx) {
@@ -218,7 +218,7 @@ function CategoryModal({ category, nextOrder, onClose, onSave }) {
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
             <div className="admin-form-group">
               <label className="admin-form-label">Label *</label>
-              <input className="admin-form-input" name="label" value={form.label} onChange={handleLabelChange} required placeholder="e.g. Green Card" />
+              <input className="admin-form-input" name="name" value={form.name} onChange={handleLabelChange} required placeholder="e.g. Green Card" />
             </div>
             <div className="admin-form-group">
               <label className="admin-form-label">Sort Order</label>
@@ -237,15 +237,15 @@ function CategoryModal({ category, nextOrder, onClose, onSave }) {
               <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
                 {form.subcategories.map((sub, idx) => (
                   <div key={idx} style={{ display: "flex", alignItems: "center", gap: 8, background: "#0d0d14", padding: "8px 12px", border: "1px solid #1e1e2e" }}>
-                    <span style={{ flex: 1, color: "#e4e4e7", fontSize: "0.85rem" }}>{sub.label} <span style={{ color: "#52525b" }}>/{sub.slug}</span></span>
+                    <span style={{ flex: 1, color: "#e4e4e7", fontSize: "0.85rem" }}>{sub.name || sub.label} <span style={{ color: "#52525b" }}>/{sub.slug}</span></span>
                     <button type="button" onClick={() => removeSub(idx)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "0.85rem" }}>✕</button>
                   </div>
                 ))}
               </div>
             )}
             <div style={{ display: "flex", gap: 8 }}>
-              <input className="admin-form-input" placeholder="Subcategory label" value={newSub.label}
-                onChange={(e) => setNewSub({ ...newSub, label: e.target.value, slug: autoSlug(e.target.value) })} style={{ flex: 1 }} />
+              <input className="admin-form-input" placeholder="Subcategory label" value={newSub.name}
+                onChange={(e) => setNewSub({ ...newSub, name: e.target.value, slug: autoSlug(e.target.value) })} style={{ flex: 1 }} />
               <button type="button" className="admin-btn admin-btn-ghost admin-btn-sm" onClick={addSubcategory}>+ Add</button>
             </div>
           </div>

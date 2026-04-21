@@ -34,20 +34,28 @@ export default function NewArticle() {
 
   useEffect(() => {
     async function fetchCats() {
-      const { data } = await supabase.from("categories").select("label");
-      if (data) setCategories([...new Set(data.map(c => c.label))]);
+      const { data } = await supabase.from("categories").select("*");
+      if (data) setCategories(data);
     }
     fetchCats();
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSave = async (statusOverride) => {
     setLoading(true);
     const finalStatus = statusOverride || form.status;
-    const payload = { ...form, status: finalStatus };
+    const payload = { 
+      ...form, 
+      status: finalStatus,
+      paragraphs: [form.content_html],
+      quote: null,
+      sub_paragraphs: null
+    };
+    
+    delete payload.content_html;
 
     const { data, error } = await supabase.from("articles").insert([payload]).select().single();
     setLoading(false);
