@@ -28,28 +28,28 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-neutral-900 text-white">
-      <div className="w-full max-w-md p-8 space-y-6 bg-neutral-800 rounded-xl shadow-xl">
-        <h1 className="text-3xl font-bold text-center text-blue-500">Admin Login</h1>
-        {error && <div className="p-3 text-sm text-red-400 bg-red-900/20 rounded-md">{error}</div>}
+    <div className="flex items-center justify-center min-h-screen bg-slate-50 text-slate-900">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-xl border border-slate-200">
+        <h1 className="text-3xl font-bold text-center text-blue-600">Admin Login</h1>
+        {error && <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md">{error}</div>}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-neutral-400">Email Address</label>
+            <label className="block text-sm font-medium text-slate-600">Email Address</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 mt-1 bg-neutral-700 border border-neutral-600 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+              className="w-full px-4 py-2 mt-1 bg-white border border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-slate-900"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-neutral-400">Password</label>
+            <label className="block text-sm font-medium text-slate-600">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 mt-1 bg-neutral-700 border border-neutral-600 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+              className="w-full px-4 py-2 mt-1 bg-white border border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-slate-900"
               required
             />
           </div>

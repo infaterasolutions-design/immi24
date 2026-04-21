@@ -109,14 +109,14 @@ export default function NewArticle() {
     <RoleGuard user={user} allowedRoles={["super_admin", "editor"]}>
       <div className="flex flex-col h-[calc(100vh-60px)] -mt-2">
         {/* Top Header Bar */}
-        <div className="flex items-center justify-between pb-4 border-b border-[#1e1e2e] mb-4">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
           <div className="flex items-center gap-3">
-            <button onClick={() => router.push('/admin/articles')} className="text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer text-sm font-medium flex items-center gap-1">
+            <button onClick={() => router.push('/admin/articles')} className="text-slate-500 hover:text-slate-800 transition-colors cursor-pointer text-sm font-medium flex items-center gap-1">
               ← Back
             </button>
-            <div className="h-4 w-px bg-[#2a2a3a]" />
-            <h1 className="text-lg font-bold text-white">Create New Post</h1>
-            <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-zinc-800 text-zinc-400">
+            <div className="h-4 w-px bg-slate-200" />
+            <h1 className="text-lg font-bold text-slate-900">Create New Post</h1>
+            <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-slate-100 text-slate-500">
               Draft
             </span>
           </div>
@@ -125,7 +125,7 @@ export default function NewArticle() {
             <button 
               onClick={() => handleSave('draft')}
               disabled={loading}
-              className="px-4 py-2 rounded-md text-sm font-medium border border-[#2a2a3a] text-zinc-300 hover:bg-[#1a1a24] transition-colors"
+              className="px-4 py-2 rounded-md text-sm font-medium border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
             >
               {loading ? "Saving..." : "Save Draft"}
             </button>
@@ -145,14 +145,14 @@ export default function NewArticle() {
           {/* Main Editor Area (Left) */}
           <div className="lg:col-span-8 overflow-y-auto pr-2 custom-scrollbar flex flex-col gap-4">
             
-            <div className="bg-[#0d0d14] p-8 border border-[#1e1e2e] rounded-lg">
+            <div className="bg-white p-8 border border-slate-200 rounded-lg shadow-sm">
               <input 
                 type="text" 
                 name="title" 
                 value={form.title} 
                 onChange={handleChange} 
                 placeholder="Post Title..."
-                className="w-full bg-transparent text-4xl font-extrabold text-white outline-none placeholder:text-zinc-700 mb-4"
+                className="w-full bg-transparent text-4xl font-extrabold text-slate-900 outline-none placeholder:text-slate-400 mb-4"
               />
               <input 
                 type="text" 
@@ -160,7 +160,7 @@ export default function NewArticle() {
                 value={form.sub_title} 
                 onChange={handleChange} 
                 placeholder="Add a subtitle (optional)..."
-                className="w-full bg-transparent text-lg text-zinc-400 outline-none placeholder:text-zinc-600 mb-8 font-serif"
+                className="w-full bg-transparent text-lg text-slate-600 outline-none placeholder:text-slate-400 mb-8 font-serif"
               />
 
               {/* Tiptap Integration */}
