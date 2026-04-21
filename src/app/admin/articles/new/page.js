@@ -60,6 +60,8 @@ export default function NewArticle() {
 
     // Since the original db was imported from static mockData without an auto-increment identity sequence, we must generate a stable ID for new records
     payload.id = Date.now().toString(); 
+    // Similarly, satisfy the legacy 'date' text column constraint
+    payload.date = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
     const { data, error } = await supabase.from("articles").insert([payload]).select().single();
     setLoading(false);
