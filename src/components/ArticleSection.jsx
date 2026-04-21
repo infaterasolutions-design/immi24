@@ -65,7 +65,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           )}
 
           {/* Author Info */}
-          <div className="flex items-center gap-4 mb-8 md:mb-10 pb-8 md:pb-10 border-b border-slate-100">
+          <div className="flex items-center gap-4 mb-4 md:mb-5 pb-4 md:pb-5 border-b border-slate-100">
             <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
               {article.authorImage ? (
                 <img 
@@ -86,7 +86,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Action Bar (Above the image) */}
-          <div className="flex justify-end gap-2 md:gap-3 mb-3 md:mb-4 relative z-20 w-full">
+          <div className="flex justify-end gap-2 md:gap-3 mb-2 relative z-20 w-full">
              <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
              </button>
