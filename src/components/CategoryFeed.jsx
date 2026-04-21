@@ -4,6 +4,18 @@ import Link from "next/link";
 import { useState } from "react";
 import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
 
+// Strip HTML tags to get clean plain text for card descriptions
+function stripHtml(html) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+}
+
+function getExcerpt(article) {
+  if (article.subTitle) return article.subTitle;
+  if (article.paragraphs && article.paragraphs[0]) return stripHtml(article.paragraphs[0]);
+  if (article.imageCaption) return article.imageCaption;
+  return "";
+}
 export default function CategoryFeed({ title, description, articles }) {
   const [visibleCount, setVisibleCount] = useState(6);
   const [email, setEmail] = useState("");
@@ -58,7 +70,7 @@ export default function CategoryFeed({ title, description, articles }) {
                        {article.title}
                      </h3>
                      <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">
-                       {article.paragraphs[0] || article.imageCaption}
+                       {getExcerpt(article)}
                      </p>
                      <div className="flex items-center gap-3 pt-3 md:pt-4 text-[11px] text-slate-500 font-medium tracking-widest uppercase border-t border-slate-100 mt-auto">
                         <span className="flex items-center gap-1.5 text-primary"><span className="material-symbols-outlined text-[14px]">schedule</span> {article.readTime}</span>

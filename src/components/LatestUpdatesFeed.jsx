@@ -3,6 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 
+function stripHtml(html) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+}
+
 export default function LatestUpdatesFeed({ articles }) {
   const [visibleCount, setVisibleCount] = useState(10);
   
@@ -34,7 +39,7 @@ export default function LatestUpdatesFeed({ articles }) {
               {article.title}
             </h3>
             <p className="text-sm text-slate-600 leading-relaxed line-clamp-2">
-              {article.paragraphs[0] || article.imageCaption}
+              {article.subTitle || stripHtml(article.paragraphs?.[0]) || article.imageCaption}
             </p>
           </Link>
           <Link href={`/article/${article.id}`} className="w-[110px] h-[75px] md:w-[190px] md:h-[125px] overflow-hidden flex-shrink-0 block bg-slate-100">

@@ -118,7 +118,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Featured Image */}
-          <div className="mb-6 md:mb-8 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
+          <div className="mb-4 md:mb-5 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
             <div className="overflow-hidden rounded-xl">
               <img 
                 alt={article.title}
