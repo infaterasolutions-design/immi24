@@ -147,8 +147,11 @@ export const EmbedBlock = Node.create({
     });
 
     // For iframe-based embeds, build a responsive container
+    const overlay = ['div', { class: 'embed-selection-overlay' }];
+
     if (platform === 'youtube') {
       return ['div', wrapperAttrs,
+        overlay,
         ['div', { class: 'embed-responsive', style: 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;' },
           ['iframe', {
             src: data.embedUrl,
@@ -164,6 +167,7 @@ export const EmbedBlock = Node.create({
 
     if (platform === 'instagram') {
       return ['div', wrapperAttrs,
+        overlay,
         ['iframe', {
           src: data.embedUrl,
           frameborder: '0',
@@ -177,6 +181,7 @@ export const EmbedBlock = Node.create({
 
     if (platform === 'facebook') {
       return ['div', wrapperAttrs,
+        overlay,
         ['iframe', {
           src: data.embedUrl,
           frameborder: '0',
@@ -191,6 +196,7 @@ export const EmbedBlock = Node.create({
 
     if (platform === 'twitter') {
       return ['div', wrapperAttrs,
+        overlay,
         ['div', { class: 'embed-twitter-placeholder' },
           ['span', { class: 'embed-icon' }, '𝕏'],
           ['a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, `Tweet: ${src}`],
@@ -200,6 +206,7 @@ export const EmbedBlock = Node.create({
 
     // Generic / LinkedIn fallback — preview card
     return ['div', wrapperAttrs,
+      overlay,
       ['div', { class: 'embed-link-card' },
         ['span', { class: 'embed-icon' }, '🔗'],
         ['a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, src],

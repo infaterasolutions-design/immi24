@@ -25,18 +25,25 @@ function detectPlatform(url) {
   }
 }
 
-export default function EmbedModal({ isOpen, onClose, onInsert }) {
+export default function EmbedModal({ isOpen, onClose, onInsert, onHtmlInsert }) {
+  const [activeTab, setActiveTab] = useState("url"); // "url" | "html"
   const [url, setUrl] = useState("");
+  const [htmlCode, setHtmlCode] = useState("");
   const [platform, setPlatform] = useState(null);
   const inputRef = useRef(null);
+  const textAreaRef = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
       setUrl("");
+      setHtmlCode("");
       setPlatform(null);
-      setTimeout(() => inputRef.current?.focus(), 100);
+      setTimeout(() => {
+        if (activeTab === "url") inputRef.current?.focus();
+        else textAreaRef.current?.focus();
+      }, 100);
     }
-  }, [isOpen]);
+  }, [isOpen, activeTab]);
 
   const handleUrlChange = (e) => {
     const val = e.target.value;
@@ -49,14 +56,19 @@ export default function EmbedModal({ isOpen, onClose, onInsert }) {
   };
 
   const handleInsert = () => {
-    if (!url.trim()) return;
-    const detectedPlatform = detectPlatform(url) || "generic";
-    onInsert({ src: url.trim(), platform: detectedPlatform });
+    if (activeTab === "url") {
+      if (!url.trim()) return;
+      const detectedPlatform = detectPlatform(url) || "generic";
+      onInsert({ src: url.trim(), platform: detectedPlatform });
+    } else {
+      if (!htmlCode.trim()) return;
+      onHtmlInsert({ html: htmlCode.trim() });
+    }
     onClose();
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && activeTab === "url") {
       e.preventDefault();
       handleInsert();
     }
@@ -78,7 +90,7 @@ export default function EmbedModal({ isOpen, onClose, onInsert }) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-indigo-500 text-[20px]">link</span>
+            <span className="material-symbols-outlined text-indigo-500 text-[20px]">add_link</span>
             <h3 className="font-bold text-slate-900 text-sm">Embed Content</h3>
           </div>
           <button
@@ -89,65 +101,105 @@ export default function EmbedModal({ isOpen, onClose, onInsert }) {
           </button>
         </div>
 
+        {/* Tabs */}
+        <div className="flex border-b border-slate-100 bg-slate-50/30">
+          <button
+            onClick={() => setActiveTab("url")}
+            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
+              activeTab === "url" ? "text-indigo-600 border-b-2 border-indigo-600 bg-white" : "text-slate-400 hover:text-slate-600"
+            }`}
+          >
+            Embed URL
+          </button>
+          <button
+            onClick={() => setActiveTab("html")}
+            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
+              activeTab === "html" ? "text-indigo-600 border-b-2 border-indigo-600 bg-white" : "text-slate-400 hover:text-slate-600"
+            }`}
+          >
+            HTML Code
+          </button>
+        </div>
+
         {/* Body */}
         <div className="p-5 space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider">
-              Paste URL from any platform
-            </label>
-            <div className="relative">
-              <input
-                ref={inputRef}
-                type="url"
-                value={url}
-                onChange={handleUrlChange}
-                onKeyDown={handleKeyDown}
-                placeholder="https://www.youtube.com/watch?v=..."
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg text-sm p-3 pl-10 text-slate-800 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all"
-              />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-[18px]">
-                link
-              </span>
-            </div>
-          </div>
-
-          {/* Platform Detection Badge */}
-          {info && (
-            <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100 animate-in">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-                style={{ backgroundColor: info.color }}
-              >
-                {info.icon}
-              </div>
+          {activeTab === "url" ? (
+            <>
               <div>
-                <p className="text-sm font-semibold text-slate-800">{info.label}</p>
-                <p className="text-xs text-slate-500 truncate max-w-[300px]">{url}</p>
+                <label className="block text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider">
+                  Paste URL from any platform
+                </label>
+                <div className="relative">
+                  <input
+                    ref={inputRef}
+                    type="url"
+                    value={url}
+                    onChange={handleUrlChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg text-sm p-3 pl-10 text-slate-800 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all"
+                  />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-[18px]">
+                    link
+                  </span>
+                </div>
               </div>
-              <span className="ml-auto text-emerald-500 material-symbols-outlined text-[18px]">check_circle</span>
+
+              {/* Platform Detection Badge */}
+              {info && (
+                <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100 animate-in">
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+                    style={{ backgroundColor: info.color }}
+                  >
+                    {info.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">{info.label}</p>
+                    <p className="text-xs text-slate-500 truncate max-w-[300px]">{url}</p>
+                  </div>
+                  <span className="ml-auto text-emerald-500 material-symbols-outlined text-[18px]">check_circle</span>
+                </div>
+              )}
+
+              {/* Supported Platforms */}
+              <div>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Supported Platforms</p>
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(PLATFORM_ICONS).map(([key, val]) => (
+                    <span
+                      key={key}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-full text-[11px] text-slate-600 font-medium"
+                    >
+                      <span
+                        className="w-4 h-4 rounded flex items-center justify-center text-white text-[8px] font-bold"
+                        style={{ backgroundColor: val.color }}
+                      >
+                        {val.icon}
+                      </span>
+                      {val.label.split(" ")[0]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div>
+              <label className="block text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wider">
+                Paste Embed HTML Code
+              </label>
+              <textarea
+                ref={textAreaRef}
+                value={htmlCode}
+                onChange={(e) => setHtmlCode(e.target.value)}
+                placeholder='<blockquote class="twitter-tweet">...</blockquote>'
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg text-sm p-3 text-slate-800 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all min-h-[150px] font-mono"
+              />
+              <p className="mt-2 text-[10px] text-slate-500 italic">
+                Example: Twitter / X generated embed codes, iframes, etc.
+              </p>
             </div>
           )}
-
-          {/* Supported Platforms */}
-          <div>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Supported Platforms</p>
-            <div className="flex flex-wrap gap-2">
-              {Object.entries(PLATFORM_ICONS).map(([key, val]) => (
-                <span
-                  key={key}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 border border-slate-100 rounded-full text-[11px] text-slate-600 font-medium"
-                >
-                  <span
-                    className="w-4 h-4 rounded flex items-center justify-center text-white text-[8px] font-bold"
-                    style={{ backgroundColor: val.color }}
-                  >
-                    {val.icon}
-                  </span>
-                  {val.label.split(" ")[0]}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Footer */}
@@ -160,10 +212,10 @@ export default function EmbedModal({ isOpen, onClose, onInsert }) {
           </button>
           <button
             onClick={handleInsert}
-            disabled={!url.trim()}
+            disabled={activeTab === "url" ? !url.trim() : !htmlCode.trim()}
             className="px-5 py-2 text-sm font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-40 shadow-sm"
           >
-            Insert Embed
+            {activeTab === "url" ? "Insert URL Embed" : "Insert HTML Embed"}
           </button>
         </div>
       </div>

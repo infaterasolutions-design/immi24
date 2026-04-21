@@ -13,6 +13,7 @@ import { TableHeader } from "@tiptap/extension-table-header";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { Callout } from "./extensions/Callout";
 import { EmbedBlock } from "./extensions/EmbedBlock";
+import { HtmlEmbed } from "./extensions/HtmlEmbed";
 import EditorToolbar from "./EditorToolbar";
 import TableBubbleMenu from "./TableBubbleMenu";
 import EmbedResizeToolbar from "./EmbedResizeToolbar";
@@ -58,6 +59,7 @@ export default function TiptapEditor({ content, onChange }) {
       }),
       Callout,
       EmbedBlock,
+      HtmlEmbed,
       Image.configure({
         inline: true,
         allowBase64: true,
@@ -181,6 +183,15 @@ export default function TiptapEditor({ content, onChange }) {
     [editor]
   );
 
+  const handleHtmlEmbedInsert = useCallback(
+    ({ html }) => {
+      if (editor) {
+        editor.chain().focus().setHtmlEmbed({ html }).run();
+      }
+    },
+    [editor]
+  );
+
   // Effect to sync content if it changes externally
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
@@ -213,6 +224,7 @@ export default function TiptapEditor({ content, onChange }) {
         isOpen={showEmbedModal}
         onClose={() => setShowEmbedModal(false)}
         onInsert={handleEmbedInsert}
+        onHtmlInsert={handleHtmlEmbedInsert}
       />
     </div>
   );

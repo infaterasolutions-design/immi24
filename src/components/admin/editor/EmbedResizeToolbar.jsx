@@ -19,9 +19,12 @@ export default function EmbedResizeToolbar({ editor }) {
       const { selection } = editor.state;
       const node = editor.state.doc.nodeAt(selection.from);
 
-      if (node && node.type.name === "embedBlock") {
+      const isEmbed = node && (node.type.name === "embedBlock" || node.type.name === "htmlEmbed");
+
+      if (isEmbed) {
         setVisible(true);
         setCurrentWidth(node.attrs.width || "full");
+        const nodeType = node.type.name;
 
         // Position above the embed block
         const { view } = editor;
@@ -54,7 +57,15 @@ export default function EmbedResizeToolbar({ editor }) {
   if (!editor || !visible) return null;
 
   const handleResize = (width) => {
-    editor.chain().focus().setEmbedWidth(width).run();
+    const { selection } = editor.state;
+    const node = editor.state.doc.nodeAt(selection.from);
+    
+    if (node?.type.name === "embedBlock") {
+      editor.chain().focus().setEmbedWidth(width).run();
+    } else if (node?.type.name === "htmlEmbed") {
+      editor.chain().focus().setHtmlEmbedWidth(width).run();
+    }
+    
     setCurrentWidth(width);
   };
 
