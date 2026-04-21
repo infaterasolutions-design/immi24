@@ -15,7 +15,6 @@ function detectEmbed(url) {
         videoId = u.pathname.slice(1);
       } else {
         videoId = u.searchParams.get('v') || '';
-        // Handle /shorts/ URLs
         if (!videoId && u.pathname.startsWith('/shorts/')) {
           videoId = u.pathname.replace('/shorts/', '');
         }
@@ -67,47 +66,13 @@ function detectEmbed(url) {
     if (host === 'linkedin.com') {
       const match = u.pathname.match(/\/posts\/|\/pulse\//);
       if (match) {
-        return {
-          platform: 'linkedin',
-          originalUrl: url,
-        };
+        return { platform: 'linkedin', originalUrl: url };
       }
     }
 
-    // Generic / fallback
-    return {
-      platform: 'generic',
-      originalUrl: url,
-    };
+    return { platform: 'generic', originalUrl: url };
   } catch {
     return null;
-  }
-}
-
-/**
- * Generates the inner HTML for an embed block based on embed data.
- */
-function buildEmbedHTML(src, platform) {
-  const data = detectEmbed(src);
-  if (!data) return `<p><a href="${src}" target="_blank">${src}</a></p>`;
-
-  switch (data.platform) {
-    case 'youtube':
-      return `<iframe src="${data.embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe>`;
-
-    case 'twitter':
-      return `<blockquote class="twitter-tweet" data-dnt="true"><a href="${data.tweetUrl}">Loading tweet...</a></blockquote>`;
-
-    case 'instagram':
-      return `<iframe src="${data.embedUrl}" frameborder="0" scrolling="no" allowtransparency="true" loading="lazy" style="width:100%;min-height:480px;border:0;"></iframe>`;
-
-    case 'facebook':
-      return `<iframe src="${data.embedUrl}" frameborder="0" scrolling="no" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy" style="width:100%;min-height:400px;border:0;"></iframe>`;
-
-    case 'linkedin':
-    case 'generic':
-    default:
-      return `<a href="${src}" target="_blank" rel="noopener noreferrer">${src}</a>`;
   }
 }
 
@@ -121,16 +86,12 @@ export const EmbedBlock = Node.create({
     return {
       src: { default: null },
       platform: { default: 'generic' },
-      width: { default: 'full' }, // 'small' | 'medium' | 'full'
+      width: { default: 'full' },
     };
   },
 
   parseHTML() {
-    return [
-      {
-        tag: 'div[data-embed-block]',
-      },
-    ];
+    return [{ tag: 'div[data-embed-block]' }];
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -146,12 +107,8 @@ export const EmbedBlock = Node.create({
       class: `embed-block embed-${platform} embed-width-${width}`,
     });
 
-    // For iframe-based embeds, build a responsive container
-    const overlay = ['div', { class: 'embed-selection-overlay' }];
-
     if (platform === 'youtube') {
       return ['div', wrapperAttrs,
-        overlay,
         ['div', { class: 'embed-responsive', style: 'position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;' },
           ['iframe', {
             src: data.embedUrl,
@@ -167,7 +124,6 @@ export const EmbedBlock = Node.create({
 
     if (platform === 'instagram') {
       return ['div', wrapperAttrs,
-        overlay,
         ['iframe', {
           src: data.embedUrl,
           frameborder: '0',
@@ -181,7 +137,6 @@ export const EmbedBlock = Node.create({
 
     if (platform === 'facebook') {
       return ['div', wrapperAttrs,
-        overlay,
         ['iframe', {
           src: data.embedUrl,
           frameborder: '0',
@@ -196,7 +151,6 @@ export const EmbedBlock = Node.create({
 
     if (platform === 'twitter') {
       return ['div', wrapperAttrs,
-        overlay,
         ['div', { class: 'embed-twitter-placeholder' },
           ['span', { class: 'embed-icon' }, '𝕏'],
           ['a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, `Tweet: ${src}`],
@@ -204,9 +158,7 @@ export const EmbedBlock = Node.create({
       ];
     }
 
-    // Generic / LinkedIn fallback — preview card
     return ['div', wrapperAttrs,
-      overlay,
       ['div', { class: 'embed-link-card' },
         ['span', { class: 'embed-icon' }, '🔗'],
         ['a', { href: src, target: '_blank', rel: 'noopener noreferrer' }, src],
@@ -214,22 +166,63 @@ export const EmbedBlock = Node.create({
     ];
   },
 
+  addNodeView() {
+    return ({ node, editor, getPos }) => {
+      const src = node.attrs.src || '';
+      const data = detectEmbed(src);
+      const platform = data?.platform || 'generic';
+      const width = node.attrs.width || 'full';
+
+      const dom = document.createElement('div');
+      dom.className = `embed-block embed-${platform} embed-width-${width}`;
+      dom.setAttribute('data-embed-block', '');
+      dom.setAttribute('data-platform', platform);
+      dom.setAttribute('data-width', width);
+
+      // Add overlay for editor
+      const overlay = document.createElement('div');
+      overlay.className = 'embed-selection-overlay';
+      dom.appendChild(overlay);
+
+      // Add actual content preview
+      const content = document.createElement('div');
+      content.className = 'embed-content-preview';
+      
+      if (platform === 'youtube') {
+        content.innerHTML = `<div class="embed-responsive" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;"><iframe src="${data.embedUrl}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe></div>`;
+      } else if (platform === 'instagram' || platform === 'facebook') {
+        content.innerHTML = `<iframe src="${data.embedUrl}" style="width:100%;min-height:400px;border:0;border-radius:8px;"></iframe>`;
+      } else if (platform === 'twitter') {
+        content.innerHTML = `<div class="embed-twitter-placeholder"><span class="embed-icon">𝕏</span><a href="${src}" target="_blank">Tweet: ${src}</a></div>`;
+      } else {
+        content.innerHTML = `<div class="embed-link-card"><span class="embed-icon">🔗</span><a href="${src}" target="_blank">${src}</a></div>`;
+      }
+      
+      dom.appendChild(content);
+
+      return {
+        dom,
+        update: (updatedNode) => {
+          if (updatedNode.type.name !== this.name) return false;
+          if (updatedNode.attrs.width !== node.attrs.width) {
+            dom.className = `embed-block embed-${platform} embed-width-${updatedNode.attrs.width || 'full'}`;
+          }
+          return true;
+        }
+      };
+    };
+  },
+
   addCommands() {
     return {
       setEmbed: (attrs) => ({ commands }) => {
-        return commands.insertContent({
-          type: this.name,
-          attrs,
-        });
+        return commands.insertContent({ type: this.name, attrs });
       },
       setEmbedWidth: (width) => ({ tr, state }) => {
         const { selection } = state;
         const node = state.doc.nodeAt(selection.from);
         if (node && node.type.name === 'embedBlock') {
-          tr.setNodeMarkup(selection.from, undefined, {
-            ...node.attrs,
-            width,
-          });
+          tr.setNodeMarkup(selection.from, undefined, { ...node.attrs, width });
           return true;
         }
         return false;

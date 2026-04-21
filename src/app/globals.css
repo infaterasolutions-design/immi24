@@ -321,3 +321,49 @@ img {
 .admin-badge-active { background: #059669; color: white; }
 .admin-badge-inactive { background: #3f3f46; color: #a1a1aa; }
 .admin-badge-scheduled { background: #4f46e5; color: white; }
+
+/* =========================================
+   Embed & Social Media Styles (Frontend)
+   ========================================= */
+.embed-block, .html-embed-block {
+  margin: 2rem auto !important;
+  display: block;
+  width: 100%;
+  clear: both;
+}
+
+.embed-width-small {
+  max-width: 500px !important;
+}
+
+.embed-width-medium {
+  max-width: 800px !important;
+}
+
+.embed-width-full {
+  max-width: 100% !important;
+}
+
+.embed-responsive {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.embed-twitter-placeholder, .embed-link-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  background: white;
+}
+
+/* Ensure iframes in embeds are responsive */
+.embed-block iframe, .html-embed-block iframe {
+  max-width: 100%;
+}
+
+/* Fix for Twitter/X script loading on frontend */
+.html-embed-content iframe {
+  margin: 0 auto !important;
+}

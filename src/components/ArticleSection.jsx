@@ -4,10 +4,35 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
+import { useEffect } from "react";
 
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+
+  useEffect(() => {
+    // 1. Load Twitter widgets script
+    if (!window.twttr) {
+      const script = document.createElement("script");
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    // 2. Unescape HTML embeds if they were escaped by Tiptap
+    const contentBlocks = document.querySelectorAll(".html-embed-content");
+    contentBlocks.forEach(block => {
+      const escapedHtml = block.innerText;
+      if (escapedHtml.includes("<") && escapedHtml.includes(">")) {
+        block.innerHTML = escapedHtml;
+      }
+    });
+
+    // 3. Trigger Twitter widgets load
+    if (window.twttr && window.twttr.widgets) {
+      window.twttr.widgets.load();
+    }
+  }, [article.contentHtml]);
 
   if (!article) return null;
 
