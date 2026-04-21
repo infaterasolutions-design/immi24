@@ -7,8 +7,13 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
 import Youtube from "@tiptap/extension-youtube";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableCell } from "@tiptap/extension-table-cell";
 import { Callout } from "./extensions/Callout";
 import EditorToolbar from "./EditorToolbar";
+import TableBubbleMenu from "./TableBubbleMenu";
 import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
 
 export default function TiptapEditor({ content, onChange }) {
@@ -36,12 +41,18 @@ export default function TiptapEditor({ content, onChange }) {
       Youtube.configure({
         controls: false,
       }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: content || "",
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: "prose prose-invert max-w-none focus:outline-none min-h-[500px]",
+        class: "prose prose-slate max-w-none focus:outline-none min-h-[500px]",
       },
       handleDrop: function(view, event, slice, moved) {
         if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) {
@@ -102,15 +113,16 @@ export default function TiptapEditor({ content, onChange }) {
   if (!editor) return null;
 
   return (
-    <div className="tiptap-container rounded-lg border border-[#1e1e2e] bg-[#0d0d14] overflow-hidden flex flex-col h-full">
+    <div className="tiptap-container rounded-lg border border-slate-200 bg-slate-50 overflow-hidden flex flex-col h-full">
       <EditorToolbar editor={editor} onImageUpload={(file) => handleImageUpload(file, null, null)} />
       
-      <div className="p-8 flex-1 overflow-y-auto relative bg-[#0a0a0f]">
+      <div className="p-8 flex-1 overflow-y-auto relative bg-white">
         {isUploading && (
           <div className="absolute top-4 right-4 bg-indigo-600 text-white px-3 py-1 rounded text-xs font-semibold shadow z-10 animate-pulse">
             Uploading...
           </div>
         )}
+        <TableBubbleMenu editor={editor} />
         <EditorContent editor={editor} className="outline-none" />
       </div>
     </div>

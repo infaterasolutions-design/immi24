@@ -1,9 +1,8 @@
 "use client";
 import { useCallback, useRef } from "react";
 import { 
-  Bold, Italic, Underline, Strikethrough, Heading1, Heading2, Heading3, 
   List, ListOrdered, Quote, Code, AlignLeft, AlignCenter, AlignRight, 
-  AlignJustify, Image as ImageIcon, Video, Undo, Redo, Info 
+  AlignJustify, Image as ImageIcon, Video, Undo, Redo, Info, Table
 } from "lucide-react";
 
 export default function EditorToolbar({ editor, onImageUpload }) {
@@ -30,7 +29,7 @@ export default function EditorToolbar({ editor, onImageUpload }) {
   if (!editor) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-1 p-2 bg-[#1a1a24] border-b border-[#2a2a3a] sticky top-0 z-10 rounded-t-lg">
+    <div className="flex flex-wrap items-center gap-1 p-2 bg-white border-b border-slate-200 sticky top-0 z-10 rounded-t-lg">
       <ToolbarButton icon={<Bold size={16} />} onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive("bold")} />
       <ToolbarButton icon={<Italic size={16} />} onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive("italic")} />
       <ToolbarButton icon={<Underline size={16} />} onClick={() => editor.chain().focus().toggleUnderline?.().run()} isActive={editor.isActive("underline")} />
@@ -63,6 +62,7 @@ export default function EditorToolbar({ editor, onImageUpload }) {
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
       
       <ToolbarButton icon={<Video size={16} />} onClick={addYoutubeVideo} title="Embed YouTube" />
+      <ToolbarButton icon={<Table size={16} />} onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} title="Insert Table" />
 
       <Divider />
 
@@ -81,8 +81,8 @@ function ToolbarButton({ icon, onClick, isActive = false, disabled = false, titl
       title={title}
       className={`p-1.5 rounded-md transition-colors ${
         isActive 
-          ? "bg-indigo-500/20 text-indigo-400" 
-          : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
+          ? "bg-indigo-100 text-indigo-700" 
+          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
       } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
       style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 28, height: 28 }}
     >
@@ -92,5 +92,5 @@ function ToolbarButton({ icon, onClick, isActive = false, disabled = false, titl
 }
 
 function Divider() {
-  return <div className="w-[1px] h-5 bg-[#2a2a3a] mx-1" />;
+  return <div className="w-[1px] h-5 bg-slate-200 mx-1" />;
 }
