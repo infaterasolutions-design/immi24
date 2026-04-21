@@ -799,31 +799,15 @@
 }
 
 .html-embed-container {
-  padding: 20px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #64748b;
-  overflow: hidden;
-  max-height: 400px;
-  pointer-events: none;
+  display: none; /* Hide the static storage container in editor */
 }
 
-.html-embed-container::before {
-  content: "HTML Embed Code Block";
-  display: block;
-  font-weight: bold;
-  color: #94a3b8;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 0.05em;
-}
-
-.html-embed-container::after {
-  content: attr(data-content);
-  display: block;
-  white-space: pre-wrap;
-  opacity: 0.7;
+.html-embed-content-preview {
+  padding: 12px;
+  min-height: 40px;
+  background: white;
+  border-radius: 8px;
+  margin: 8px;
 }
 
 /* Modal animation */

@@ -52,6 +52,16 @@ export default function TiptapEditor({ content, onChange }) {
   const [isUploading, setIsUploading] = useState(false);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
 
+  // Load Twitter widgets script for previews
+  useEffect(() => {
+    if (!window.twttr) {
+      const script = document.createElement("script");
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
