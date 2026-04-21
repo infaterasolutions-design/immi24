@@ -15,6 +15,7 @@ import { Callout } from "./extensions/Callout";
 import { EmbedBlock } from "./extensions/EmbedBlock";
 import EditorToolbar from "./EditorToolbar";
 import TableBubbleMenu from "./TableBubbleMenu";
+import EmbedResizeToolbar from "./EmbedResizeToolbar";
 import EmbedModal from "./EmbedModal";
 import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
 
@@ -204,6 +205,7 @@ export default function TiptapEditor({ content, onChange }) {
           </div>
         )}
         <TableBubbleMenu editor={editor} />
+        <EmbedResizeToolbar editor={editor} />
         <EditorContent editor={editor} className="outline-none" />
       </div>
 

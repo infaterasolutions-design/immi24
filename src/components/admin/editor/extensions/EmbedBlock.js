@@ -121,6 +121,7 @@ export const EmbedBlock = Node.create({
     return {
       src: { default: null },
       platform: { default: 'generic' },
+      width: { default: 'full' }, // 'small' | 'medium' | 'full'
     };
   },
 
@@ -136,11 +137,13 @@ export const EmbedBlock = Node.create({
     const src = HTMLAttributes.src || '';
     const data = detectEmbed(src);
     const platform = data?.platform || 'generic';
+    const width = HTMLAttributes.width || 'full';
 
     const wrapperAttrs = mergeAttributes(HTMLAttributes, {
       'data-embed-block': '',
       'data-platform': platform,
-      class: `embed-block embed-${platform}`,
+      'data-width': width,
+      class: `embed-block embed-${platform} embed-width-${width}`,
     });
 
     // For iframe-based embeds, build a responsive container
@@ -211,6 +214,18 @@ export const EmbedBlock = Node.create({
           type: this.name,
           attrs,
         });
+      },
+      setEmbedWidth: (width) => ({ tr, state }) => {
+        const { selection } = state;
+        const node = state.doc.nodeAt(selection.from);
+        if (node && node.type.name === 'embedBlock') {
+          tr.setNodeMarkup(selection.from, undefined, {
+            ...node.attrs,
+            width,
+          });
+          return true;
+        }
+        return false;
       },
     };
   },

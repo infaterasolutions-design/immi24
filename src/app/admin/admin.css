@@ -646,13 +646,26 @@
    Embed Block Styles
    ============================ */
 .embed-block {
-  margin: 1.5rem 0;
+  margin: 1.5rem auto;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, max-width 0.3s ease;
   position: relative;
+}
+
+/* Width variants */
+.embed-width-small {
+  max-width: 50%;
+}
+
+.embed-width-medium {
+  max-width: 75%;
+}
+
+.embed-width-full {
+  max-width: 100%;
 }
 
 .embed-block:hover {
