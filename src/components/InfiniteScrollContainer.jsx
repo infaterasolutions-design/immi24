@@ -69,10 +69,15 @@ export default function InfiniteScrollContainer({ initialArticle }) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const articleId = entry.target.getAttribute("data-article-id");
+            const articleSlug = entry.target.getAttribute("data-article-slug");
             if (articleId && articleId !== visibleArticle) {
               setVisibleArticle(articleId);
               // Update URL without a page reload
-              window.history.replaceState(null, "", `/article/${articleId}`);
+              if (articleSlug) {
+                window.history.replaceState(null, "", `/${articleSlug}`);
+              } else {
+                window.history.replaceState(null, "", `/article/${articleId}`);
+              }
             }
           }
         });

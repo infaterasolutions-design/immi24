@@ -12,7 +12,7 @@ export default function ArticleSection({ article, isFirst = false }) {
   if (!article) return null;
 
   return (
-    <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id}>
+    <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id} data-article-slug={article.slug}>
       <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
         {/* Un-clickable Floating Social Interaction Bar (Desktop) */}
         <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">

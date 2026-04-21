@@ -8,7 +8,7 @@ export default function RecommendedPopup() {
       style={{ height: '46.1px' }}
     >
       <div className="bg-white rounded-l-md shadow-2xl overflow-hidden border-y border-l border-slate-200 h-full w-full flex items-center shadow-red-500/10">
-         <Link href="/article/2" className="flex w-full h-full group">
+         <Link href="/digital-nomad-visa-options-for-2024" className="flex w-full h-full group">
             <div className="w-[46px] h-full bg-slate-200 overflow-hidden flex-shrink-0 relative">
                <img src="/images/4.jpg" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="post" />
             </div>

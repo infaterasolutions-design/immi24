@@ -116,6 +116,9 @@ export default function AdminArticles() {
               <button className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => toggleFeatured(row)} title="Toggle featured">
                 {row.is_featured ? "★" : "☆"}
               </button>
+              <a className="admin-btn admin-btn-ghost admin-btn-sm" href={`/${row.slug}`} target="_blank" rel="noopener noreferrer">
+                View
+              </a>
               <button className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => router.push(`/admin/articles/${row.id}/edit`)}>
                 Edit
               </button>

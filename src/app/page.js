@@ -100,7 +100,7 @@ export default function Home() {
           {heroArticle && (
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Left: Featured Story */}
-              <Link href={`/article/${heroArticle.id}`} className="group cursor-pointer block">
+              <Link href={`/${heroArticle.slug}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
                   <img className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
@@ -118,7 +118,7 @@ export default function Home() {
               {/* Right: 2x2 Grid */}
               <div className="grid grid-cols-2 gap-4 md:gap-6">
                 {gridArticles.map((art) => (
-                  <Link key={art.id} href={`/article/${art.id}`} className="space-y-2 group cursor-pointer block">
+                  <Link key={art.id} href={`/${art.slug}`} className="space-y-2 group cursor-pointer block">
                     <div className="aspect-[4/3] overflow-hidden rounded-md">
                       <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
@@ -147,7 +147,7 @@ export default function Home() {
             </div>
             <div className="flex gap-4 md:gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x -mx-3 px-3 md:mx-0 md:px-0">
               {topStoryArticles.map((art) => (
-                <Link key={art.id} href={`/article/${art.id}`} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
+                <Link key={art.id} href={`/${art.slug}`} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
                   <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 rounded-md">
                     <img className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     <div className="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter rounded-sm">{art.categoryLabel}</div>
@@ -244,7 +244,7 @@ export default function Home() {
                     {sidebarLatestArticles.map((art, idx) => (
                       <div key={art.id}>
                         {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-5"></div>}
-                        <Link href={`/article/${art.id}`} className="group block">
+                        <Link href={`/${art.slug}`} className="group block">
                           <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
                             {idx === 0 ? "BREAKING" : art.date}
                           </div>
@@ -260,7 +260,7 @@ export default function Home() {
                   <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-6">Most Viewed</h3>
                   <div className="space-y-8">
                     {sidebarMostViewed.map((art, idx) => (
-                      <Link key={art.id} href={`/article/${art.id}`} className="flex gap-4 group">
+                      <Link key={art.id} href={`/${art.slug}`} className="flex gap-4 group">
                         <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
                         <div>
                           <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>
@@ -336,7 +336,7 @@ export default function Home() {
                 {sidebarLatestArticles.map((art, idx) => (
                   <div key={art.id}>
                     {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-4"></div>}
-                    <Link href={`/article/${art.id}`} className="group block">
+                    <Link href={`/${art.slug}`} className="group block">
                       <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
                         {idx === 0 ? "BREAKING" : art.date}
                       </div>
@@ -352,7 +352,7 @@ export default function Home() {
               <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-5">Most Viewed</h3>
               <div className="space-y-6">
                 {sidebarMostViewed.map((art, idx) => (
-                  <Link key={art.id} href={`/article/${art.id}`} className="flex gap-4 group">
+                  <Link key={art.id} href={`/${art.slug}`} className="flex gap-4 group">
                     <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
                     <div>
                       <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>

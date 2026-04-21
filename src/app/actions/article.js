@@ -55,3 +55,10 @@ export async function fetchArticleInitialData(id) {
   
   return mapDbToFrontend(data);
 }
+
+export async function fetchArticleInitialDataBySlug(slug) {
+  const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).single();
+  if (error || !data) return null;
+  
+  return mapDbToFrontend(data);
+}
