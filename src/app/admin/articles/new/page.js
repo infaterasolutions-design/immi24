@@ -55,7 +55,11 @@ export default function NewArticle() {
       sub_paragraphs: null
     };
     
+    // Remove the virtual column so Supabase doesn't reject it
     delete payload.content_html;
+
+    // Since the original db was imported from static mockData without an auto-increment identity sequence, we must generate a stable ID for new records
+    payload.id = Date.now().toString(); 
 
     const { data, error } = await supabase.from("articles").insert([payload]).select().single();
     setLoading(false);
