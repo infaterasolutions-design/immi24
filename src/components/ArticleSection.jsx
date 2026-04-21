@@ -124,7 +124,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Featured Image */}
-          <div className="mb-2 md:mb-3 rounded-xl shadow-2xl shadow-slate-200/50 relative group">
+          <div className="rounded-xl shadow-2xl shadow-slate-200/50 relative group">
             <div className="overflow-hidden rounded-xl">
               <img 
                 alt={article.title}
@@ -132,14 +132,16 @@ export default function ArticleSection({ article, isFirst = false }) {
                 src={article.mainImage}
               />
             </div>
-            <div className="p-4 bg-surface-container-low text-on-surface-variant text-[11px] italic font-medium rounded-b-xl">
-              {article.imageCaption}
-            </div>
+            {article.imageCaption && (
+              <div className="px-4 py-2 bg-surface-container-low text-on-surface-variant text-[11px] italic font-medium rounded-b-xl">
+                {article.imageCaption}
+              </div>
+            )}
           </div>
 
           {/* Rich Text Content */}
           <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[250px]'}`}>
-            <div className="prose prose-lg max-w-none font-body pb-8 md:pb-12 text-slate-800">
+            <div className="prose prose-lg max-w-none font-body pb-8 md:pb-12 text-slate-800 mt-4">
               
               {article.contentHtml ? (
                  <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
