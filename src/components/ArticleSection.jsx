@@ -20,28 +20,37 @@ export default function ArticleSection({ article, isFirst = false }) {
           .replace(/&gt;/g, ">")
           .replace(/&amp;/g, "&")
           .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
+          .replace(/&#34;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/&#x27;/g, "'");
         return `<div class="html-embed-content">${unescaped}</div>`;
       }
     );
   }, [article.contentHtml]);
 
   useEffect(() => {
-    // 1. Load Twitter widgets script globally if missing
-    if (!window.twttr) {
-      const script = document.createElement("script");
-      script.src = "https://platform.twitter.com/widgets.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
+    if (!decodedContent) return;
 
-    // 2. Trigger Twitter widgets load after DOM updates
+    // 1. Extract and execute any scripts embedded within the HTML (e.g. Instagram embed.js)
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = decodedContent;
+    const scripts = tempDiv.querySelectorAll("script");
+    
+    scripts.forEach(oldScript => {
+      // Prevent duplicate global scripts
+      if (oldScript.src && document.querySelector(`script[src="${oldScript.src}"]`)) return;
+      
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+      document.body.appendChild(newScript);
+    });
+
+    // 2. Fallback: Trigger common SDKs if they are already loaded
     let attempts = 0;
     const timer = setInterval(() => {
-      if (window.twttr && window.twttr.widgets) {
-        window.twttr.widgets.load();
-        clearInterval(timer);
-      }
+      if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
+      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
       if (++attempts > 20) clearInterval(timer); // give up after 2 seconds
     }, 100);
     
