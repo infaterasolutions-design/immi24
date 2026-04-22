@@ -47,20 +47,39 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.body.appendChild(newScript);
     });
 
-    // 2. Setup Intersection Observer for lazy-loading widgets
-    // This ensures widgets are re-initialized when scrolling back to them
+    // 2. Setup robust initialization function with retries
+    // This handles race conditions where scripts are still downloading
+    const initWidgets = (element) => {
+      if (!element) return;
+      let attempts = 0;
+      const tryLoad = () => {
+        const twttrReady = !!(window.twttr && window.twttr.widgets);
+        const instgrmReady = !!(window.instgrm && window.instgrm.Embeds);
+        
+        if (twttrReady) window.twttr.widgets.load(element);
+        if (instgrmReady) window.instgrm.Embeds.process();
+        
+        // If SDKs are not ready, keep polling for up to 5 seconds
+        if ((!twttrReady || !instgrmReady) && attempts < 20) {
+          attempts++;
+          setTimeout(tryLoad, 250);
+        }
+      };
+      tryLoad();
+    };
+
+    // 3. Always trigger immediately on mount to ensure initial page load works
+    if (contentRef.current) {
+      initWidgets(contentRef.current);
+    }
+
+    // 4. Setup Intersection Observer to re-trigger when scrolling back to dynamic articles
     if (!contentRef.current) return;
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Re-initialize widgets when article comes into view
-          if (window.twttr && window.twttr.widgets) {
-            window.twttr.widgets.load(contentRef.current);
-          }
-          if (window.instgrm && window.instgrm.Embeds) {
-            window.instgrm.Embeds.process();
-          }
+          initWidgets(contentRef.current);
         }
       });
     }, { rootMargin: "200px" });
