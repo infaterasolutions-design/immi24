@@ -82,7 +82,7 @@ export default function InfiniteScrollContainer({ initialArticle }) {
           }
         });
       },
-      { threshold: 0.5 } // Trigger when 50% of the article wrapper is visible
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 } // Trigger when the article enters the upper-middle part of the screen
     );
 
     const wrappers = document.querySelectorAll(".article-wrapper");
