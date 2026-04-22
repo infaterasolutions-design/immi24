@@ -65,7 +65,7 @@ export default function ArticleSection({ article, isFirst = false }) {
 
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id} data-article-slug={article.slug}>
-      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-6 md:mt-8' : ''}`}>
+      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-2 md:mt-3' : ''}`}>
         {/* Un-clickable Floating Social Interaction Bar (Desktop) */}
         <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
           <div className="sticky top-32 flex flex-col gap-4 opacity-50 cursor-not-allowed pointer-events-none">
@@ -238,7 +238,7 @@ export default function ArticleSection({ article, isFirst = false }) {
             </div>
 
             {/* Tags area now flows naturally within the expander */}
-            <div className="mt-8 mb-12 flex flex-wrap gap-2 pt-8 border-t border-outline-variant/20">
+            <div className="mt-6 mb-4 flex flex-wrap gap-2 pt-6 border-t border-outline-variant/20">
               {article.tags?.map((tag) => (
                  <span key={tag} className="px-4 py-2 bg-surface-container-high rounded-full text-xs font-semibold text-on-surface-variant">#{tag}</span>
               ))}
@@ -256,7 +256,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Next Article Separator */}
-          <div className="mt-6 md:mt-8 mb-3 md:mb-4 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
+          <div className="mt-2 md:mt-3 mb-1 md:mb-2 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
              <span className="-top-4 absolute bg-[#F9FAFB] px-6 text-xs font-bold uppercase tracking-[0.2em] text-primary flex items-center gap-2 border border-slate-200 rounded-full py-1.5 shadow-sm z-10">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                 Next Article

@@ -103,7 +103,7 @@ export default function InfiniteScrollContainer({ initialArticle }) {
       
       {/* Loading Indicator / Sentinel */}
       {hasMore && articles.length < MAX_ARTICLES && (
-        <div ref={loaderRef} className="py-20 flex justify-center items-center gap-3">
+        <div ref={loaderRef} className="py-8 flex justify-center items-center gap-3">
           <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
           <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Loading Next Story...</span>
         </div>
