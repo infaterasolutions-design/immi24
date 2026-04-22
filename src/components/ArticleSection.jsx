@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
@@ -8,7 +8,6 @@ import SidebarWidgets from "./SidebarWidgets";
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
-  const contentRef = useRef(null);
 
   // Decode Tiptap's escaped HTML embeds directly before rendering
   const decodedContent = useMemo(() => {
@@ -47,48 +46,19 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.body.appendChild(newScript);
     });
 
-    // 2. Setup robust initialization function with retries
-    // This handles race conditions where scripts are still downloading
-    const initWidgets = (element) => {
-      if (!element) return;
-      let attempts = 0;
-      const tryLoad = () => {
-        const twttrReady = !!(window.twttr && window.twttr.widgets);
-        const instgrmReady = !!(window.instgrm && window.instgrm.Embeds);
-        
-        if (twttrReady) window.twttr.widgets.load(element);
-        if (instgrmReady) window.instgrm.Embeds.process();
-        
-        // If SDKs are not ready, keep polling for up to 5 seconds
-        if ((!twttrReady || !instgrmReady) && attempts < 20) {
-          attempts++;
-          setTimeout(tryLoad, 250);
-        }
-      };
-      tryLoad();
-    };
-
-    // 3. Always trigger immediately on mount to ensure initial page load works
-    if (contentRef.current) {
-      initWidgets(contentRef.current);
-    }
-
-    // 4. Setup Intersection Observer to re-trigger when scrolling back to dynamic articles
-    if (!contentRef.current) return;
+    // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
+    if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
+    if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
     
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          initWidgets(contentRef.current);
-        }
-      });
-    }, { rootMargin: "200px" });
-
-    observer.observe(contentRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
+    // 3. Keep a fast interval for the first second just in case the global scripts are still downloading
+    let attempts = 0;
+    const timer = setInterval(() => {
+      if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
+      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+      if (++attempts > 100) clearInterval(timer); // give up after 10 seconds
+    }, 100);
+    
+    return () => clearInterval(timer);
   }, [decodedContent]);
 
   if (!article) return null;
@@ -226,7 +196,7 @@ export default function ArticleSection({ article, isFirst = false }) {
             `relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ` +
             (isExpanded ? 'max-h-[5000px]' : 'max-h-[250px] lg:max-h-none lg:overflow-visible')
           }>
-            <div ref={contentRef} className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-0 text-slate-800 mt-4 ${!isExpanded ? 'lg:line-clamp-4' : ''}`}>
+            <div className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-0 text-slate-800 mt-4 ${!isExpanded ? 'lg:line-clamp-4' : ''}`}>
               
               {decodedContent ? (
                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
