@@ -21,10 +21,22 @@ export const HtmlEmbed = Node.create({
     return [
       {
         tag: 'div[data-html-embed]',
-        getAttrs: (node) => ({
-          html: node.querySelector('.html-embed-content')?.innerHTML || '',
-          width: node.getAttribute('data-width') || 'full',
-        }),
+        getAttrs: (node) => {
+          const contentNode = node.querySelector('.html-embed-content');
+          if (!contentNode) return { html: '', width: 'full' };
+          
+          let html = contentNode.innerHTML || '';
+          // If Tiptap escaped the HTML during serialization, it will have 0 child elements
+          // and instead be a single Text node. In this case, textContent gives the unescaped raw HTML.
+          if (contentNode.children.length === 0) {
+            html = contentNode.textContent || '';
+          }
+
+          return {
+            html,
+            width: node.getAttribute('data-width') || 'full',
+          };
+        },
       },
     ];
   },
