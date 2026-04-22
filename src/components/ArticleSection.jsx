@@ -55,7 +55,7 @@ export default function ArticleSection({ article, isFirst = false }) {
     const timer = setInterval(() => {
       if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
       if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
-      if (++attempts > 10) clearInterval(timer); // give up after 1 second
+      if (++attempts > 100) clearInterval(timer); // give up after 10 seconds
     }, 100);
     
     return () => clearInterval(timer);

@@ -28,19 +28,18 @@ function mapDbToFrontend(article) {
 export async function fetchNextArticleAction(currentId) {
   await new Promise((resolve) => setTimeout(resolve, 800));
   
-  // Find the next active article that was created before the current one
-  const { data: currentArt } = await supabase.from('articles').select('created_at').eq('id', currentId).single();
+  const { data: currentArt } = await supabase.from('articles').select('published_at').eq('id', currentId).single();
   // Only pull active articles that have passed their global release schedule threshold
   let query = supabase.from('articles')
     .select('*')
     .eq('status', 'published')
     .lte('published_at', new Date().toISOString());
   
-  if (currentArt?.created_at) {
-     query = query.lt('created_at', currentArt.created_at).order('created_at', { ascending: false }).limit(1);
+  if (currentArt?.published_at) {
+     query = query.lt('published_at', currentArt.published_at).order('published_at', { ascending: false }).limit(1);
   } else {
      // fallback if ordered by something else
-     query = query.neq('id', currentId).limit(1);
+     query = query.neq('id', currentId).order('published_at', { ascending: false }).limit(1);
   }
   
   const { data, error } = await query.single();
