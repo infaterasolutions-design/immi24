@@ -6,19 +6,8 @@ import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
 
 export default function ArticleSection({ article, isFirst = false }) {
-  const [isMobile, setIsMobile] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
-
-  // Detect mobile viewport — truncation is desktop-only
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  const showFull = isExpanded || isMobile;
 
   // Decode Tiptap's escaped HTML embeds directly before rendering
   const decodedContent = useMemo(() => {
@@ -203,9 +192,12 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Rich Text Content */}
-          {showFull ? (
-            /* ── FULL CONTENT (mobile always, desktop after Keep Reading) ── */
-            <div className="prose prose-lg max-w-none font-body pb-0 text-slate-800 mt-4">
+          <div className={
+            `relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ` +
+            (isExpanded ? 'max-h-[5000px]' : 'max-h-[250px] lg:max-h-none lg:overflow-visible')
+          }>
+            <div className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-0 text-slate-800 mt-4 ${!isExpanded ? 'lg:line-clamp-4' : ''}`}>
+              
               {decodedContent ? (
                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
               ) : (
@@ -247,37 +239,29 @@ export default function ArticleSection({ article, isFirst = false }) {
                 </div>
               )}
             </div>
-          ) : (
-            /* ── COLLAPSED: desktop-only line-clamped excerpt + Keep Reading ── */
-            <div className="relative mt-4">
-              <div className="prose prose-lg max-w-none font-body text-slate-800 line-clamp-4">
-                {decodedContent ? (
-                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
-                ) : (
-                  <p className="text-xl text-slate-900 leading-relaxed font-medium">
-                    {article.paragraphs?.[0]}
-                  </p>
-                )}
-              </div>
-              <div className="mt-0 h-16 bg-gradient-to-t from-white via-white/90 to-transparent flex items-end justify-center pb-1">
-                <button 
-                  onClick={() => setIsExpanded(true)}
-                  className="px-8 py-3 bg-primary text-white font-bold tracking-widest uppercase text-sm shadow-xl rounded-full hover:scale-105 transition-transform outline-none"
-                >
-                  Keep Reading
-                </button>
-              </div>
-            </div>
-          )}
 
-          {/* Tags area — visible when expanded or on mobile */}
-          {showFull && article.tags?.length > 0 && (
-            <div className="mt-4 mb-2 flex flex-wrap gap-2 pt-4 border-t border-outline-variant/20">
-              {article.tags.map((tag) => (
+            {/* Tags area now flows naturally within the expander, but hidden on desktop when collapsed */}
+            <div className={`mt-6 mb-4 flex flex-wrap gap-2 pt-6 border-t border-outline-variant/20 ${!isExpanded ? 'lg:hidden' : ''}`}>
+              {article.tags?.map((tag) => (
                  <span key={tag} className="px-4 py-2 bg-surface-container-high rounded-full text-xs font-semibold text-on-surface-variant">#{tag}</span>
               ))}
             </div>
-          )}
+            
+            {/* Gradient Overlay & Button */}
+            <div className={
+              `w-full flex items-end justify-center transition-opacity duration-1000 ` +
+              (isExpanded ? 'opacity-0 pointer-events-none ' : 'opacity-100 ') +
+              `absolute bottom-0 left-0 right-0 h-48 pb-4 bg-gradient-to-t from-white via-white/80 to-transparent z-10 ` +
+              `lg:relative lg:h-20 lg:pb-0 lg:mt-2 lg:bg-gradient-to-t lg:from-white lg:via-white/90 lg:to-transparent`
+            }>
+              <button 
+                onClick={() => setIsExpanded(true)}
+                className="px-8 py-3 bg-primary text-white font-bold tracking-widest uppercase text-sm shadow-xl rounded-full hover:scale-105 transition-transform outline-none"
+              >
+                Keep Reading
+              </button>
+            </div>
+          </div>
 
           {/* Next Article Separator */}
           <div className="mt-3 mb-1 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
