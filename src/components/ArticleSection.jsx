@@ -1,17 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
-import { useEffect } from "react";
 
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
 
+  // Decode Tiptap's escaped HTML embeds directly before rendering
+  const decodedContent = useMemo(() => {
+    if (!article.contentHtml) return "";
+    return article.contentHtml.replace(
+      /<div class="html-embed-content">([\s\S]*?)<\/div>/g,
+      (match, p1) => {
+        const unescaped = p1
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&amp;/g, "&")
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+        return `<div class="html-embed-content">${unescaped}</div>`;
+      }
+    );
+  }, [article.contentHtml]);
+
   useEffect(() => {
-    // 1. Load Twitter widgets script
+    // 1. Load Twitter widgets script globally if missing
     if (!window.twttr) {
       const script = document.createElement("script");
       script.src = "https://platform.twitter.com/widgets.js";
@@ -19,20 +35,18 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.body.appendChild(script);
     }
 
-    // 2. Unescape HTML embeds if they were escaped by Tiptap
-    const contentBlocks = document.querySelectorAll(".html-embed-content");
-    contentBlocks.forEach(block => {
-      const escapedHtml = block.textContent;
-      if (escapedHtml.includes("<") && escapedHtml.includes(">")) {
-        block.innerHTML = escapedHtml;
+    // 2. Trigger Twitter widgets load after DOM updates
+    let attempts = 0;
+    const timer = setInterval(() => {
+      if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load();
+        clearInterval(timer);
       }
-    });
-
-    // 3. Trigger Twitter widgets load
-    if (window.twttr && window.twttr.widgets) {
-      window.twttr.widgets.load();
-    }
-  }, [article.contentHtml]);
+      if (++attempts > 20) clearInterval(timer); // give up after 2 seconds
+    }, 100);
+    
+    return () => clearInterval(timer);
+  }, [decodedContent]);
 
   if (!article) return null;
 
@@ -168,8 +182,8 @@ export default function ArticleSection({ article, isFirst = false }) {
           <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[250px]'}`}>
             <div className="prose prose-lg max-w-none font-body pb-8 md:pb-12 text-slate-800 mt-4">
               
-              {article.contentHtml ? (
-                 <div dangerouslySetInnerHTML={{ __html: article.contentHtml }} />
+              {decodedContent ? (
+                 <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
               ) : (
                 <>
                   {article.paragraphs?.map((p, idx) => (
@@ -190,7 +204,7 @@ export default function ArticleSection({ article, isFirst = false }) {
                 </>
               )}
 
-              {article.id === "1" && !article.contentHtml && ( /* Example custom block only embedded in certain mock articles */
+              {article.id === "1" && !decodedContent && ( /* Example custom block only embedded in certain mock articles */
                 <div className="my-10 p-8 rounded-2xl bg-indigo-50 border border-indigo-100">
                   <h3 className="font-headline font-bold text-indigo-900 mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[20px]">info</span>
