@@ -193,7 +193,7 @@ export default function ArticleSection({ article, isFirst = false }) {
 
           {/* Rich Text Content */}
           <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[250px]'}`}>
-            <div className="prose prose-lg max-w-none font-body pb-8 md:pb-12 text-slate-800 mt-4">
+            <div className="prose prose-lg max-w-none font-body pb-4 text-slate-800 mt-4">
               
               {decodedContent ? (
                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
@@ -236,13 +236,6 @@ export default function ArticleSection({ article, isFirst = false }) {
                 </div>
               )}
             </div>
-
-            {/* Tags area now flows naturally within the expander */}
-            <div className="mt-6 mb-4 flex flex-wrap gap-2 pt-6 border-t border-outline-variant/20">
-              {article.tags?.map((tag) => (
-                 <span key={tag} className="px-4 py-2 bg-surface-container-high rounded-full text-xs font-semibold text-on-surface-variant">#{tag}</span>
-              ))}
-            </div>
             
             {/* Gradient Overlay & Button (Fades out smoothly) */}
             <div className={`absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-4 z-10 w-full transition-opacity duration-1000 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
@@ -255,8 +248,17 @@ export default function ArticleSection({ article, isFirst = false }) {
             </div>
           </div>
 
+          {/* Tags area — only visible when expanded */}
+          {isExpanded && article.tags?.length > 0 && (
+            <div className="mt-4 mb-2 flex flex-wrap gap-2 pt-4 border-t border-outline-variant/20">
+              {article.tags.map((tag) => (
+                 <span key={tag} className="px-4 py-2 bg-surface-container-high rounded-full text-xs font-semibold text-on-surface-variant">#{tag}</span>
+              ))}
+            </div>
+          )}
+
           {/* Next Article Separator */}
-          <div className="mt-2 md:mt-3 mb-1 md:mb-2 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
+          <div className="mt-3 mb-1 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
              <span className="-top-4 absolute bg-[#F9FAFB] px-6 text-xs font-bold uppercase tracking-[0.2em] text-primary flex items-center gap-2 border border-slate-200 rounded-full py-1.5 shadow-sm z-10">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                 Next Article
