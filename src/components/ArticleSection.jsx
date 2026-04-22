@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
@@ -8,6 +8,7 @@ import SidebarWidgets from "./SidebarWidgets";
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const contentRef = useRef(null);
 
   // Decode Tiptap's escaped HTML embeds directly before rendering
   const decodedContent = useMemo(() => {
@@ -46,19 +47,29 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.body.appendChild(newScript);
     });
 
-    // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
-    if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
-    if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+    // 2. Setup Intersection Observer for lazy-loading widgets
+    // This ensures widgets are re-initialized when scrolling back to them
+    if (!contentRef.current) return;
     
-    // 3. Keep a fast interval for the first second just in case the global scripts are still downloading
-    let attempts = 0;
-    const timer = setInterval(() => {
-      if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
-      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
-      if (++attempts > 100) clearInterval(timer); // give up after 10 seconds
-    }, 100);
-    
-    return () => clearInterval(timer);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Re-initialize widgets when article comes into view
+          if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load(contentRef.current);
+          }
+          if (window.instgrm && window.instgrm.Embeds) {
+            window.instgrm.Embeds.process();
+          }
+        }
+      });
+    }, { rootMargin: "200px" });
+
+    observer.observe(contentRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [decodedContent]);
 
   if (!article) return null;
@@ -196,7 +207,7 @@ export default function ArticleSection({ article, isFirst = false }) {
             `relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ` +
             (isExpanded ? 'max-h-[5000px]' : 'max-h-[250px] lg:max-h-none lg:overflow-visible')
           }>
-            <div className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-0 text-slate-800 mt-4 ${!isExpanded ? 'lg:line-clamp-4' : ''}`}>
+            <div ref={contentRef} className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-0 text-slate-800 mt-4 ${!isExpanded ? 'lg:line-clamp-4' : ''}`}>
               
               {decodedContent ? (
                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
