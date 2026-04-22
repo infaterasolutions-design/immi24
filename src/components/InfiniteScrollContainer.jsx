@@ -97,29 +97,38 @@ export default function InfiniteScrollContainer({ initialArticle }) {
 
   return (
     <>
-      {articles.map((article, index) => (
-        <ArticleSection key={`article-${article.id}`} article={article} isFirst={index === 0} />
-      ))}
-      
-      {/* Loading Indicator / Sentinel */}
-      {hasMore && articles.length < MAX_ARTICLES && (
-        <div ref={loaderRef} className="py-8 flex justify-center items-center gap-3">
-          <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Loading Next Story...</span>
-        </div>
-      )}
+      <div className="pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative">
+        <div className="lg:col-span-8 flex flex-col gap-2 md:gap-3">
+          {articles.map((article, index) => (
+            <ArticleSection key={`article-${article.id}`} article={article} isFirst={index === 0} />
+          ))}
+          
+          {/* Loading Indicator / Sentinel */}
+          {hasMore && articles.length < MAX_ARTICLES && (
+            <div ref={loaderRef} className="py-8 flex justify-center items-center gap-3">
+              <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Loading Next Story...</span>
+            </div>
+          )}
 
-      {/* End of Feed Message and Mobile Sidebar */}
-      {(!hasMore || articles.length >= MAX_ARTICLES) && (
-        <>
-          <div className="block lg:hidden px-4 md:px-8 max-w-[1298px] mx-auto mt-12 mb-16">
-            <SidebarWidgets className="w-full" />
-          </div>
-          <div className="py-20 text-center text-slate-400 text-sm font-medium">
-            You've reached the end of the feed.
-          </div>
-        </>
-      )}
+          {/* End of Feed Message and Mobile Sidebar */}
+          {(!hasMore || articles.length >= MAX_ARTICLES) && (
+            <>
+              <div className="block lg:hidden mt-12 mb-16">
+                <SidebarWidgets className="w-full" />
+              </div>
+              <div className="py-20 text-center text-slate-400 text-sm font-medium">
+                You've reached the end of the feed.
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Sidebar Section (Desktop) */}
+        <div className="hidden lg:block lg:col-span-4">
+          <SidebarWidgets className="w-full" />
+        </div>
+      </div>
 
       {/* Fixed Bottom "Up Next" Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-100 px-6 py-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] md:block hidden">

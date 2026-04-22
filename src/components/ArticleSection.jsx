@@ -65,9 +65,9 @@ export default function ArticleSection({ article, isFirst = false }) {
 
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id} data-article-slug={article.slug}>
-      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-2 md:mt-3' : ''}`}>
+      <article className={`grid grid-cols-1 lg:grid-cols-8 gap-8 md:gap-12 relative ${!isFirst ? 'mt-4 md:mt-6 pt-4 border-t-2 border-slate-100' : ''}`}>
         {/* Un-clickable Floating Social Interaction Bar (Desktop) */}
-        <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
+        <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6 lg:col-span-1">
           <div className="sticky top-32 flex flex-col gap-4 opacity-50 cursor-not-allowed pointer-events-none">
              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
@@ -82,7 +82,7 @@ export default function ArticleSection({ article, isFirst = false }) {
         </aside>
 
         {/* Article Section */}
-        <article className="lg:col-span-7">
+        <div className="lg:col-span-7">
           {/* Breadcrumbs / Category > Subcategory */}
           <div className="flex items-center gap-3 mb-5 md:mb-6 flex-wrap">
             <div className="bg-[#eef2ff] text-[#1e3a8a] px-3 py-1.5 rounded flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase font-sans">
@@ -264,20 +264,15 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Next Article Separator */}
-          <div className="mt-3 mb-1 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
+          <div className="mt-6 mb-2 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
              <span className="-top-4 absolute bg-[#F9FAFB] px-6 text-xs font-bold uppercase tracking-[0.2em] text-primary flex items-center gap-2 border border-slate-200 rounded-full py-1.5 shadow-sm z-10">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                 Next Article
              </span>
           </div>
 
-        </article>
-
-        {/* Sidebar Section (Only rendered on the first article) */}
-        {isFirst && (
-          <SidebarWidgets className="hidden lg:block lg:col-span-4" />
-        )}
-      </main>
+        </div>
+      </article>
     </div>
   );
 }
