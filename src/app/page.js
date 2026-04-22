@@ -110,7 +110,7 @@ export default function Home() {
                     {heroArticle.title}
                   </h1>
                   <p className="text-on-surface-variant text-sm md:text-base leading-relaxed line-clamp-3">
-                    {heroArticle.paragraphs?.[0] || heroArticle.imageCaption}
+                    {(heroArticle.paragraphs?.[0]?.replace(/<[^>]*>?/gm, '') || heroArticle.imageCaption || "").slice(0, 150)}...
                   </p>
                 </div>
               </Link>

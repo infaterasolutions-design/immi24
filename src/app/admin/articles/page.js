@@ -17,10 +17,10 @@ export default function AdminArticles() {
 
   async function fetchArticles() {
     setLoading(true);
-    let { data, error } = await supabase.from("articles").select("*").order("created_at", { ascending: false });
+    let { data, error } = await supabase.from("articles").select("*").order("updated_at", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false });
     if (error) {
       // Fallback if sorting fails
-      const fallback = await supabase.from("articles").select("*");
+      const fallback = await supabase.from("articles").select("*").order("created_at", { ascending: false });
       data = fallback.data;
     }
     setArticles(data || []);

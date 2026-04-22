@@ -130,7 +130,7 @@ export const EmbedBlock = Node.create({
           scrolling: 'no',
           allowtransparency: 'true',
           loading: 'lazy',
-          style: 'width:100%;min-height:480px;border:0;border-radius:8px;',
+          style: 'width:100%;aspect-ratio:4/5;max-height:700px;border:0;border-radius:8px;',
         }],
       ];
     }
@@ -190,7 +190,9 @@ export const EmbedBlock = Node.create({
       
       if (platform === 'youtube') {
         content.innerHTML = `<div class="embed-responsive" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;"><iframe src="${data.embedUrl}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"></iframe></div>`;
-      } else if (platform === 'instagram' || platform === 'facebook') {
+      } else if (platform === 'instagram') {
+        content.innerHTML = `<iframe src="${data.embedUrl}" style="width:100%;aspect-ratio:4/5;max-height:700px;border:0;border-radius:8px;"></iframe>`;
+      } else if (platform === 'facebook') {
         content.innerHTML = `<iframe src="${data.embedUrl}" style="width:100%;min-height:400px;border:0;border-radius:8px;"></iframe>`;
       } else if (platform === 'twitter') {
         content.innerHTML = `<div class="embed-twitter-placeholder"><span class="embed-icon">𝕏</span><a href="${src}" target="_blank">Tweet: ${src}</a></div>`;

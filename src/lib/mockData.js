@@ -16,7 +16,8 @@ export async function getNextArticle(currentId) {
   // For simplicity, let's just fetch all and find the next index, or fetch next by parsing ID.
   const { data: allArts } = await supabase.from('articles')
     .select('*')
-    .lte('published_at', new Date().toISOString());
+    .lte('published_at', new Date().toISOString())
+    .order('published_at', { ascending: false });
   if (!allArts) return null;
   const currentIndex = allArts.findIndex(a => a.id === currentId);
   if (currentIndex === -1 || currentIndex === allArts.length - 1) return null;
@@ -27,7 +28,8 @@ export async function getArticlesByCategorySlug(categorySlug) {
   const { data, error } = await supabase.from('articles')
     .select('*')
     .eq('category_slug', categorySlug)
-    .lte('published_at', new Date().toISOString());
+    .lte('published_at', new Date().toISOString())
+    .order('published_at', { ascending: false });
   return (data || []).map(mapArticle);
 }
 
@@ -36,15 +38,17 @@ export async function getArticlesBySubcategorySlug(categorySlug, subCategorySlug
     .select('*')
     .eq('category_slug', categorySlug)
     .eq('sub_category_slug', subCategorySlug)
-    .lte('published_at', new Date().toISOString());
+    .lte('published_at', new Date().toISOString())
+    .order('published_at', { ascending: false });
   return (data || []).map(mapArticle);
 }
 
 export async function getAllArticles() {
   const { data, error } = await supabase.from('articles')
     .select('*')
-    .lte('published_at', new Date().toISOString());
-  return data ? data.map(mapArticle).reverse() : [];
+    .lte('published_at', new Date().toISOString())
+    .order('published_at', { ascending: false });
+  return data ? data.map(mapArticle) : [];
 }
 
 function mapArticle(a) {

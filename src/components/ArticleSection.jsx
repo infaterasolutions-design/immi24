@@ -22,7 +22,7 @@ export default function ArticleSection({ article, isFirst = false }) {
     // 2. Unescape HTML embeds if they were escaped by Tiptap
     const contentBlocks = document.querySelectorAll(".html-embed-content");
     contentBlocks.forEach(block => {
-      const escapedHtml = block.innerText;
+      const escapedHtml = block.textContent;
       if (escapedHtml.includes("<") && escapedHtml.includes(">")) {
         block.innerHTML = escapedHtml;
       }
