@@ -15,8 +15,14 @@ export default function ArticleSection({ article, isFirst = false }) {
   // Build the full public URL for this article
   const getArticleUrl = () => {
     if (typeof window === 'undefined') return '';
-    const base = window.location.origin;
-    return article.slug ? `${base}/${article.slug}` : `${base}/article/${article.id}`;
+    // Use env-based production URL if available, otherwise use current page URL
+    const siteBase = process.env.NEXT_PUBLIC_SITE_URL;
+    if (siteBase) {
+      const path = article.slug ? `/${article.slug}` : `/article/${article.id}`;
+      return `${siteBase.replace(/\/$/, '')}${path}`;
+    }
+    // Fallback: use the actual browser URL the user is on right now
+    return window.location.href;
   };
 
   const handleShare = (platform) => {
@@ -28,10 +34,10 @@ export default function ArticleSection({ article, isFirst = false }) {
     let shareUrl = '';
     switch (platform) {
       case 'facebook':
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedTitle}`;
         break;
       case 'twitter':
-        shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+        shareUrl = `https://x.com/intent/post?url=${encodedUrl}&text=${encodedTitle}`;
         break;
       case 'linkedin':
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
@@ -43,7 +49,7 @@ export default function ArticleSection({ article, isFirst = false }) {
       default:
         return;
     }
-    window.open(shareUrl, '_blank', 'width=600,height=500,scrollbars=yes,resizable=yes');
+    window.open(shareUrl, 'share_popup', 'width=600,height=500,scrollbars=yes,resizable=yes,noopener,noreferrer');
     setShowShareMenu(false);
   };
 
