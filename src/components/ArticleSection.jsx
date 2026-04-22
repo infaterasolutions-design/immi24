@@ -192,8 +192,8 @@ export default function ArticleSection({ article, isFirst = false }) {
           </div>
 
           {/* Rich Text Content */}
-          <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[250px]'}`}>
-            <div className="prose prose-lg max-w-none font-body pb-4 text-slate-800 mt-4">
+          <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[180px]'}`}>
+            <div className="prose prose-lg max-w-none font-body pb-0 text-slate-800 mt-4">
               
               {decodedContent ? (
                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
@@ -237,8 +237,8 @@ export default function ArticleSection({ article, isFirst = false }) {
               )}
             </div>
             
-            {/* Gradient Overlay & Button (Fades out smoothly) */}
-            <div className={`absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-4 z-10 w-full transition-opacity duration-1000 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            {/* Gradient Overlay & Button */}
+            <div className={`absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/90 to-transparent flex items-end justify-center pb-3 z-10 w-full transition-opacity duration-1000 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
               <button 
                 onClick={() => setIsExpanded(true)}
                 className="px-8 py-3 bg-primary text-white font-bold tracking-widest uppercase text-sm shadow-xl rounded-full hover:scale-105 transition-transform outline-none"
