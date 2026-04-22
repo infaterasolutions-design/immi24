@@ -8,6 +8,61 @@ import SidebarWidgets from "./SidebarWidgets";
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  // Build the full public URL for this article
+  const getArticleUrl = () => {
+    if (typeof window === 'undefined') return '';
+    const base = window.location.origin;
+    return article.slug ? `${base}/${article.slug}` : `${base}/article/${article.id}`;
+  };
+
+  const handleShare = (platform) => {
+    const url = getArticleUrl();
+    const title = article.title || '';
+    const encodedUrl = encodeURIComponent(url);
+    const encodedTitle = encodeURIComponent(title);
+
+    let shareUrl = '';
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+        break;
+      case 'email':
+        window.location.href = `mailto:?subject=${encodedTitle}&body=${encodedTitle}%0A%0ARead more: ${encodedUrl}`;
+        setShowShareMenu(false);
+        return;
+      default:
+        return;
+    }
+    window.open(shareUrl, '_blank', 'width=600,height=500,scrollbars=yes,resizable=yes');
+    setShowShareMenu(false);
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(getArticleUrl());
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch {
+      const input = document.createElement('input');
+      input.value = getArticleUrl();
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    }
+  };
 
   // Decode Tiptap's escaped HTML embeds directly before rendering
   const decodedContent = useMemo(() => {
@@ -66,18 +121,33 @@ export default function ArticleSection({ article, isFirst = false }) {
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id} data-article-slug={article.slug}>
       <article className={`grid grid-cols-1 lg:grid-cols-8 gap-8 md:gap-12 relative ${!isFirst ? 'mt-4 md:mt-6 pt-4 border-t-2 border-slate-100' : ''}`}>
-        {/* Un-clickable Floating Social Interaction Bar (Desktop) */}
+        {/* Floating Social Interaction Bar (Desktop) */}
         <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6 lg:col-span-1">
-          <div className="sticky top-32 flex flex-col gap-4 opacity-50 cursor-not-allowed pointer-events-none">
-             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
+          <div className="sticky top-32 flex flex-col gap-4">
+             <button
+               onClick={() => setIsLiked(!isLiked)}
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
+                 isLiked ? 'bg-primary text-white border-primary scale-110' : 'bg-transparent text-slate-500 border-slate-200 hover:text-primary hover:border-primary'
+               }`}
+             >
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
-             </div>
-             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
-               <span className="material-symbols-outlined text-[20px]">bookmark</span>
-             </div>
-             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-transparent text-slate-500 border border-slate-200">
+             </button>
+             <button
+               onClick={() => setIsSaved(!isSaved)}
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
+                 isSaved ? 'bg-amber-500 text-white border-amber-500 scale-110' : 'bg-transparent text-slate-500 border-slate-200 hover:text-amber-500 hover:border-amber-500'
+               }`}
+             >
+               <span className="material-symbols-outlined text-[20px]">{isSaved ? 'bookmark_added' : 'bookmark'}</span>
+             </button>
+             <button
+               onClick={() => setShowShareMenu(!showShareMenu)}
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
+                 showShareMenu ? 'bg-primary text-white border-primary' : 'bg-transparent text-slate-500 border-slate-200 hover:text-primary hover:border-primary'
+               }`}
+             >
                <span className="material-symbols-outlined text-[20px]">share</span>
-             </div>
+             </button>
           </div>
         </aside>
 
@@ -139,11 +209,21 @@ export default function ArticleSection({ article, isFirst = false }) {
 
           {/* Action Bar (Above the image) */}
           <div className="flex justify-end gap-2 md:gap-3 mb-2 relative z-20 w-full">
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
+             <button
+               onClick={() => setIsLiked(!isLiked)}
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm border ${
+                 isLiked ? 'bg-primary text-white border-primary' : 'bg-surface-container-lowest text-slate-600 border-outline-variant/10 hover:text-primary'
+               }`}
+             >
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
              </button>
-             <button className="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest text-slate-600 hover:text-primary transition-all shadow-sm border border-outline-variant/10">
-               <span className="material-symbols-outlined text-[20px]">bookmark</span>
+             <button
+               onClick={() => setIsSaved(!isSaved)}
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm border ${
+                 isSaved ? 'bg-amber-500 text-white border-amber-500' : 'bg-surface-container-lowest text-slate-600 border-outline-variant/10 hover:text-amber-500'
+               }`}
+             >
+               <span className="material-symbols-outlined text-[20px]">{isSaved ? 'bookmark_added' : 'bookmark'}</span>
              </button>
              <div className="relative">
                <button 
@@ -155,21 +235,23 @@ export default function ArticleSection({ article, isFirst = false }) {
                
                {/* Share Dropdown */}
                <div className={`absolute top-12 right-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-3 flex flex-col items-center gap-4 z-30 transition-all duration-700 ease-out origin-top-right ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
+                 <button onClick={() => handleShare('facebook')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/facebook.jpeg" alt="Facebook" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
+                 <button onClick={() => handleShare('twitter')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/X.jpg" alt="X" className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
                  </button>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
+                 <button onClick={() => handleShare('linkedin')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/linkedin.png" alt="LinkedIn" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
+                 <button onClick={() => handleShare('email')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
                    <img src="/social/mail.jpeg" alt="Email" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
                  <div className="h-px w-6 bg-slate-200"></div>
-                 <button className="hover:-translate-y-1 transition-transform w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex justify-center items-center border border-slate-200/50">
-                   <span className="material-symbols-outlined text-[18px]">link</span>
+                 <button onClick={handleCopyLink} className={`hover:-translate-y-1 transition-transform w-8 h-8 rounded-full flex justify-center items-center border ${
+                   copySuccess ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-slate-100 text-slate-700 border-slate-200/50'
+                 }`}>
+                   <span className="material-symbols-outlined text-[18px]">{copySuccess ? 'check' : 'link'}</span>
                  </button>
                </div>
              </div>
