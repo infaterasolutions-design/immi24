@@ -46,12 +46,16 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.body.appendChild(newScript);
     });
 
-    // 2. Fallback: Trigger common SDKs if they are already loaded
+    // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
+    if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
+    if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+    
+    // 3. Keep a fast interval for the first second just in case the global scripts are still downloading
     let attempts = 0;
     const timer = setInterval(() => {
       if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
       if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
-      if (++attempts > 20) clearInterval(timer); // give up after 2 seconds
+      if (++attempts > 10) clearInterval(timer); // give up after 1 second
     }, 100);
     
     return () => clearInterval(timer);

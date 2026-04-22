@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import PublicLayoutWrapper from "@/components/PublicLayoutWrapper";
+import Script from "next/script";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -34,6 +35,8 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="antialiased overflow-x-hidden min-h-screen flex flex-col">
+        <Script src="https://platform.twitter.com/widgets.js" strategy="afterInteractive" />
+        <Script src="https://www.instagram.com/embed.js" strategy="afterInteractive" />
         <PublicLayoutWrapper>
           {children}
         </PublicLayoutWrapper>
