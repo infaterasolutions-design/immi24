@@ -19,7 +19,7 @@ export default function AdminMediaLibrary() {
     setLoading(true);
     const [{ data: videoData }, { data: articleData }] = await Promise.all([
       supabase.from("videos").select("*").order("created_at", { ascending: false }),
-      supabase.from("articles").select("id, title, main_image, image_caption, created_at").order("created_at", { ascending: false }),
+      supabase.from("articles").select("id, title, main_image, image_caption, published_at").order("published_at", { ascending: false }),
     ]);
     setVideos(videoData || []);
     // Extract images from articles that have main_image

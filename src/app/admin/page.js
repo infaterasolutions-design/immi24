@@ -35,9 +35,9 @@ export default function AdminDashboard() {
         ]);
         
         let recentFetched = [];
-        const { data: orderedRecent, error: recentErr } = await supabase.from("articles").select("id, title, category_label, created_at").order("created_at", { ascending: false }).limit(5);
+        const { data: orderedRecent, error: recentErr } = await supabase.from("articles").select("id, title, category_label, published_at").order("published_at", { ascending: false }).limit(5);
         if (recentErr) {
-          const { data: unorderedRecent } = await supabase.from("articles").select("id, title, category_label, created_at").limit(5);
+          const { data: unorderedRecent } = await supabase.from("articles").select("id, title, category_label, published_at").limit(5);
           recentFetched = unorderedRecent || [];
         } else {
           recentFetched = orderedRecent || [];
@@ -105,8 +105,8 @@ export default function AdminDashboard() {
                   <td>
                     <span className="admin-badge admin-badge-active">{a.category_label || "—"}</span>
                   </td>
-                  <td style={{ color: "#71717a", fontSize: "0.8rem" }}>
-                    {a.created_at ? new Date(a.created_at).toLocaleDateString() : "—"}
+                  <td style={{ color: "#64748b", fontSize: "0.8rem" }}>
+                    {a.published_at ? new Date(a.published_at).toLocaleDateString() : "—"}
                   </td>
                 </tr>
               ))}
