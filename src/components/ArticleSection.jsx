@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
@@ -8,6 +8,8 @@ import SidebarWidgets from "./SidebarWidgets";
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const contentRef = useRef(null);
+  const [contentHeight, setContentHeight] = useState(0);
 
   // Decode Tiptap's escaped HTML embeds directly before rendering
   const decodedContent = useMemo(() => {
@@ -28,6 +30,13 @@ export default function ArticleSection({ article, isFirst = false }) {
     );
   }, [article.contentHtml]);
 
+  // Measure actual content height for smooth expand
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [decodedContent, article.paragraphs]);
+
   useEffect(() => {
     if (!decodedContent) return;
 
@@ -46,26 +55,36 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.body.appendChild(newScript);
     });
 
-    // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
+    // 2. Trigger common SDKs immediately if they are already loaded globally
     if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
     if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
     
-    // 3. Keep a fast interval for the first second just in case the global scripts are still downloading
+    // 3. Retry interval for scripts still downloading
     let attempts = 0;
     const timer = setInterval(() => {
       if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
       if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
-      if (++attempts > 100) clearInterval(timer); // give up after 10 seconds
+      if (++attempts > 100) clearInterval(timer);
     }, 100);
     
     return () => clearInterval(timer);
   }, [decodedContent]);
 
+  const handleExpand = useCallback(() => {
+    // Measure right before expanding for pixel-perfect transition
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+    setIsExpanded(true);
+  }, []);
+
   if (!article) return null;
+
+  const COLLAPSED_HEIGHT = 220; // px — shows ~3-4 lines of text preview
 
   return (
     <div id={`article-${article.id}`} className="article-wrapper" data-article-id={article.id} data-article-slug={article.slug}>
-      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative ${!isFirst ? 'mt-2 md:mt-3' : ''}`}>
+      <main className={`pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative`}>
         {/* Un-clickable Floating Social Interaction Bar (Desktop) */}
         <aside className="hidden lg:flex flex-col items-end pt-[190px] pr-2 xl:pr-6">
           <div className="sticky top-32 flex flex-col gap-4 opacity-50 cursor-not-allowed pointer-events-none">
@@ -124,6 +143,7 @@ export default function ArticleSection({ article, isFirst = false }) {
                   alt={article.authorName}
                   className="w-full h-full object-cover" 
                   src={article.authorImage}
+                  loading="lazy"
                 />
               ) : (
                 <span className="text-xl font-bold text-primary">
@@ -182,6 +202,7 @@ export default function ArticleSection({ article, isFirst = false }) {
                 alt={article.title}
                 className="w-full aspect-[16/9] object-cover" 
                 src={article.mainImage}
+                loading="lazy"
               />
             </div>
             {article.imageCaption && (
@@ -191,9 +212,15 @@ export default function ArticleSection({ article, isFirst = false }) {
             )}
           </div>
 
-          {/* Rich Text Content */}
-          <div className={`relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ${isExpanded ? 'max-h-[5000px]' : 'max-h-[180px]'}`}>
-            <div className="prose prose-lg max-w-none font-body pb-0 text-slate-800 mt-4">
+          {/* Rich Text Content — dynamic height, no pre-allocated space */}
+          <div 
+            className="relative overflow-hidden"
+            style={{
+              maxHeight: isExpanded ? `${contentHeight + 100}px` : `${COLLAPSED_HEIGHT}px`,
+              transition: 'max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+          >
+            <div ref={contentRef} className="prose prose-lg max-w-none font-body text-slate-800 mt-4">
               
               {decodedContent ? (
                  <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
@@ -217,7 +244,7 @@ export default function ArticleSection({ article, isFirst = false }) {
                 </>
               )}
 
-              {article.id === "1" && !decodedContent && ( /* Example custom block only embedded in certain mock articles */
+              {article.id === "1" && !decodedContent && (
                 <div className="my-10 p-8 rounded-2xl bg-indigo-50 border border-indigo-100">
                   <h3 className="font-headline font-bold text-indigo-900 mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[20px]">info</span>
@@ -237,18 +264,24 @@ export default function ArticleSection({ article, isFirst = false }) {
               )}
             </div>
             
-            {/* Gradient Overlay & Button */}
-            <div className={`absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/90 to-transparent flex items-end justify-center pb-3 z-10 w-full transition-opacity duration-1000 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-              <button 
-                onClick={() => setIsExpanded(true)}
-                className="px-8 py-3 bg-primary text-white font-bold tracking-widest uppercase text-sm shadow-xl rounded-full hover:scale-105 transition-transform outline-none"
-              >
-                Keep Reading
-              </button>
+            {/* Gradient Overlay & Keep Reading — positioned absolutely at the bottom of the clipped area */}
+            <div 
+              className={`absolute bottom-0 left-0 right-0 flex flex-col items-center z-10 transition-opacity duration-500 ${isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+              style={{ height: `${COLLAPSED_HEIGHT * 0.6}px` }}
+            >
+              <div className="w-full flex-1 bg-gradient-to-t from-white via-white/95 to-transparent" />
+              <div className="w-full bg-white pb-1 flex justify-center">
+                <button 
+                  onClick={handleExpand}
+                  className="px-8 py-3 bg-primary text-white font-bold tracking-widest uppercase text-sm shadow-xl rounded-full hover:scale-105 transition-transform outline-none"
+                >
+                  Keep Reading
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Tags area — only visible when expanded */}
+          {/* Tags area — only visible when expanded, no layout shift */}
           {isExpanded && article.tags?.length > 0 && (
             <div className="mt-4 mb-2 flex flex-wrap gap-2 pt-4 border-t border-outline-variant/20">
               {article.tags.map((tag) => (
@@ -256,14 +289,6 @@ export default function ArticleSection({ article, isFirst = false }) {
               ))}
             </div>
           )}
-
-          {/* Next Article Separator */}
-          <div className="mt-3 mb-1 w-full relative flex items-center justify-center border-t-2 border-dashed border-outline-variant/30">
-             <span className="-top-4 absolute bg-[#F9FAFB] px-6 text-xs font-bold uppercase tracking-[0.2em] text-primary flex items-center gap-2 border border-slate-200 rounded-full py-1.5 shadow-sm z-10">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                Next Article
-             </span>
-          </div>
 
         </article>
 

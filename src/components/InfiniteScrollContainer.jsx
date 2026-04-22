@@ -82,7 +82,7 @@ export default function InfiniteScrollContainer({ initialArticle }) {
           }
         });
       },
-      { rootMargin: "-30% 0px -60% 0px", threshold: 0 } // Trigger when the article enters the upper-middle part of the screen
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
     );
 
     const wrappers = document.querySelectorAll(".article-wrapper");
@@ -98,24 +98,46 @@ export default function InfiniteScrollContainer({ initialArticle }) {
   return (
     <>
       {articles.map((article, index) => (
-        <ArticleSection key={`article-${article.id}`} article={article} isFirst={index === 0} />
+        <div key={`article-block-${article.id}`}>
+          {/* Article separator — only between articles, not before the first */}
+          {index > 0 && (
+            <div className="max-w-[1298px] mx-auto px-3 md:px-4 lg:px-24">
+              <div className="relative flex items-center justify-center py-6">
+                <div className="w-full border-t-2 border-dashed border-slate-200/60" />
+                <span className="absolute bg-[#F9FAFB] px-5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary flex items-center gap-2 border border-slate-200 rounded-full py-1.5 shadow-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                  Next Article
+                </span>
+              </div>
+            </div>
+          )}
+          <ArticleSection article={article} isFirst={index === 0} />
+        </div>
       ))}
       
-      {/* Loading Indicator / Sentinel */}
+      {/* Skeleton Loader */}
       {hasMore && articles.length < MAX_ARTICLES && (
-        <div ref={loaderRef} className="py-8 flex justify-center items-center gap-3">
-          <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Loading Next Story...</span>
+        <div ref={loaderRef} className="max-w-[1298px] mx-auto px-3 md:px-4 lg:px-24 py-6">
+          <div className="animate-pulse space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="h-3 w-20 bg-slate-200 rounded"></div>
+              <div className="h-3 w-3 bg-slate-100 rounded-full"></div>
+              <div className="h-3 w-16 bg-slate-200 rounded"></div>
+            </div>
+            <div className="h-7 w-3/4 bg-slate-200 rounded"></div>
+            <div className="h-5 w-1/2 bg-slate-100 rounded"></div>
+            <div className="h-48 w-full bg-slate-100 rounded-xl"></div>
+          </div>
         </div>
       )}
 
       {/* End of Feed Message and Mobile Sidebar */}
       {(!hasMore || articles.length >= MAX_ARTICLES) && (
         <>
-          <div className="block lg:hidden px-4 md:px-8 max-w-[1298px] mx-auto mt-12 mb-16">
+          <div className="block lg:hidden px-4 md:px-8 max-w-[1298px] mx-auto mt-8 mb-12">
             <SidebarWidgets className="w-full" />
           </div>
-          <div className="py-20 text-center text-slate-400 text-sm font-medium">
+          <div className="py-10 text-center text-slate-400 text-sm font-medium">
             You've reached the end of the feed.
           </div>
         </>
