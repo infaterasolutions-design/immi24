@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 
 export default function VideoReels({ videos, startIndex = 0, onClose }) {
   const [activeIndex, setActiveIndex] = useState(startIndex);
@@ -127,10 +128,11 @@ export default function VideoReels({ videos, startIndex = 0, onClose }) {
           >
             {/* Video / Image Background */}
             <div className="absolute inset-0">
-              <img
+              <Image
                 src={video.mainImage}
                 alt={video.title}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
               {/* Dark gradient overlay for readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />

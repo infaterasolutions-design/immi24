@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 function stripHtml(html) {
   if (!html) return "";
@@ -42,8 +43,8 @@ export default function LatestUpdatesFeed({ articles }) {
               {article.subTitle || stripHtml(article.paragraphs?.[0]) || article.imageCaption}
             </p>
           </Link>
-          <Link href={`/${article.slug}`} className="w-[110px] h-[75px] md:w-[190px] md:h-[125px] overflow-hidden flex-shrink-0 block bg-slate-100">
-            <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src={article.mainImage} alt={article.title} />
+          <Link href={`/${article.slug}`} className="w-[110px] h-[75px] md:w-[190px] md:h-[125px] overflow-hidden flex-shrink-0 block bg-slate-100 relative">
+            <Image width={190} height={125} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src={article.mainImage} alt={article.title} />
           </Link>
         </article>
       ))}

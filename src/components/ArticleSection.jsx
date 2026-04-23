@@ -92,35 +92,42 @@ export default function ArticleSection({ article, isFirst = false }) {
   useEffect(() => {
     if (!decodedContent) return;
 
-    // 1. Extract and execute any scripts embedded within the HTML (e.g. Instagram embed.js)
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = decodedContent;
-    const scripts = tempDiv.querySelectorAll("script");
-    
-    scripts.forEach(oldScript => {
-      // Prevent duplicate global scripts
-      if (oldScript.src && document.querySelector(`script[src="${oldScript.src}"]`)) return;
+    const initScripts = () => {
+      // 1. Extract and execute any scripts embedded within the HTML (e.g. Instagram embed.js)
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = decodedContent;
+      const scripts = tempDiv.querySelectorAll("script");
       
-      const newScript = document.createElement("script");
-      Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-      document.body.appendChild(newScript);
-    });
+      scripts.forEach(oldScript => {
+        // Prevent duplicate global scripts
+        if (oldScript.src && document.querySelector(`script[src="${oldScript.src}"]`)) return;
+        
+        const newScript = document.createElement("script");
+        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+        document.body.appendChild(newScript);
+      });
 
-    // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
-    if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
-    if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
-    
-    // 3. Keep a fast interval for the first second just in case the global scripts are still downloading
-    let attempts = 0;
-    const timer = setInterval(() => {
+      // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
       if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
       if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
-      if (++attempts > 100) clearInterval(timer); // give up after 10 seconds
-    }, 100);
-    
-    return () => clearInterval(timer);
-  }, [decodedContent]);
+    };
+
+    const articleEl = document.getElementById(`article-${article.id}`);
+    if (!articleEl) return;
+
+    // Use IntersectionObserver to only load scripts when article is near viewport
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        initScripts();
+        observer.disconnect();
+      }
+    }, { rootMargin: "600px" });
+
+    observer.observe(articleEl);
+
+    return () => observer.disconnect();
+  }, [decodedContent, article.id]);
 
   if (!article) return null;
 
@@ -196,7 +203,8 @@ export default function ArticleSection({ article, isFirst = false }) {
           <div className="flex items-center gap-4 mb-4 md:mb-5 pb-4 md:pb-5 border-b border-slate-100">
             <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
               {article.authorImage ? (
-                <img 
+                <Image 
+                  width={56} height={56}
                   alt={article.authorName}
                   className="w-full h-full object-cover" 
                   src={article.authorImage}
@@ -242,16 +250,16 @@ export default function ArticleSection({ article, isFirst = false }) {
                {/* Share Dropdown */}
                <div className={`absolute top-12 right-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-3 flex flex-col items-center gap-4 z-30 transition-all duration-700 ease-out origin-top-right ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
                  <button onClick={() => handleShare('facebook')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/facebook.jpeg" alt="Facebook" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                   <Image src="/social/facebook.jpeg" alt="Facebook" width={32} height={32} className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
                  <button onClick={() => handleShare('twitter')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/X.jpg" alt="X" className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
+                   <Image src="/social/X.jpg" alt="X" width={32} height={32} className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
                  </button>
                  <button onClick={() => handleShare('linkedin')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/linkedin.png" alt="LinkedIn" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                   <Image src="/social/linkedin.png" alt="LinkedIn" width={32} height={32} className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
                  <button onClick={() => handleShare('email')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <img src="/social/mail.jpeg" alt="Email" className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                   <Image src="/social/mail.jpeg" alt="Email" width={32} height={32} className="w-8 h-8 object-contain rounded border border-slate-100/50" />
                  </button>
                  <div className="h-px w-6 bg-slate-200"></div>
                  <button onClick={handleCopyLink} className={`hover:-translate-y-1 transition-transform w-8 h-8 rounded-full flex justify-center items-center border ${
@@ -266,10 +274,12 @@ export default function ArticleSection({ article, isFirst = false }) {
           {/* Featured Image */}
           <div className="rounded-xl shadow-2xl shadow-slate-200/50 relative group">
             <div className="overflow-hidden rounded-xl">
-              <img 
+              <Image 
+                width={1200} height={675}
                 alt={article.title}
                 className="w-full aspect-[16/9] object-cover" 
                 src={article.mainImage}
+                priority={isFirst}
               />
             </div>
             {article.imageCaption && (

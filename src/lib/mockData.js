@@ -1,54 +1,87 @@
 import { supabase } from "./supabase";
 
+const cache = {
+  articlesById: new Map(),
+  articlesByCategory: new Map(),
+  allArticles: { data: null, timestamp: 0 },
+};
+
+const CACHE_TTL = 60000; // 60 seconds
+
 export async function getArticleById(id) {
+  if (cache.articlesById.has(id)) {
+    const cached = cache.articlesById.get(id);
+    if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
+  }
+
   const { data, error } = await supabase.from('articles').select('*').eq('id', id).single();
   if (error || !data) {
     console.error("Error fetching article by id:", error);
     return null;
   }
-  return mapArticle(data);
+  const mapped = mapArticle(data);
+  cache.articlesById.set(id, { data: mapped, timestamp: Date.now() });
+  return mapped;
 }
 
 export async function getNextArticle(currentId) {
-  // Ordered by date or ID. Suppose we just fetch all and find index, or fetch one with ID > currentId.
-  // The simplest is to match the previous logic: sort by ID desc or just get all for now to find the next.
-  // Actually, since IDs are strings like "1", "2", sorting might be lexical. 
-  // For simplicity, let's just fetch all and find the next index, or fetch next by parsing ID.
-  const { data: allArts } = await supabase.from('articles')
-    .select('*')
-    .lte('published_at', new Date().toISOString())
-    .order('published_at', { ascending: false });
+  const allArts = await getAllArticles();
   if (!allArts) return null;
   const currentIndex = allArts.findIndex(a => a.id === currentId);
   if (currentIndex === -1 || currentIndex === allArts.length - 1) return null;
-  return mapArticle(allArts[currentIndex + 1]);
+  return allArts[currentIndex + 1];
 }
 
 export async function getArticlesByCategorySlug(categorySlug) {
+  const cacheKey = categorySlug;
+  if (cache.articlesByCategory.has(cacheKey)) {
+    const cached = cache.articlesByCategory.get(cacheKey);
+    if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
+  }
+
   const { data, error } = await supabase.from('articles')
     .select('*')
     .eq('category_slug', categorySlug)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
-  return (data || []).map(mapArticle);
+  
+  const mapped = (data || []).map(mapArticle);
+  cache.articlesByCategory.set(cacheKey, { data: mapped, timestamp: Date.now() });
+  return mapped;
 }
 
 export async function getArticlesBySubcategorySlug(categorySlug, subCategorySlug) {
+  const cacheKey = `${categorySlug}_${subCategorySlug}`;
+  if (cache.articlesByCategory.has(cacheKey)) {
+    const cached = cache.articlesByCategory.get(cacheKey);
+    if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
+  }
+
   const { data, error } = await supabase.from('articles')
     .select('*')
     .eq('category_slug', categorySlug)
     .eq('sub_category_slug', subCategorySlug)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
-  return (data || []).map(mapArticle);
+  
+  const mapped = (data || []).map(mapArticle);
+  cache.articlesByCategory.set(cacheKey, { data: mapped, timestamp: Date.now() });
+  return mapped;
 }
 
 export async function getAllArticles() {
+  if (cache.allArticles.data && (Date.now() - cache.allArticles.timestamp < CACHE_TTL)) {
+    return cache.allArticles.data;
+  }
+
   const { data, error } = await supabase.from('articles')
     .select('*')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
-  return data ? data.map(mapArticle) : [];
+  
+  const mapped = data ? data.map(mapArticle) : [];
+  cache.allArticles = { data: mapped, timestamp: Date.now() };
+  return mapped;
 }
 
 function mapArticle(a) {

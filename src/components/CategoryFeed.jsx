@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
 
@@ -56,7 +57,8 @@ export default function CategoryFeed({ title, description, articles }) {
                {articles.slice(0, visibleCount).map((article) => (
                  <Link href={`/${article.slug}`} key={article.id} className="group flex flex-col space-y-3 md:space-y-4 cursor-pointer block border border-transparent hover:border-slate-100 pb-4 rounded-xl transition-all hover:shadow-lg bg-white">
                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-xl w-full">
-                     <img 
+                     <Image 
+                       width={600} height={400}
                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                        src={article.mainImage} 
                        alt={article.title} 
