@@ -6,6 +6,8 @@ import SidebarWidgets from "@/components/SidebarWidgets";
 import { getLiveEvents } from "@/lib/liveUpdatesData";
 import { useEffect, useState } from "react";
 
+const FALLBACK_IMAGE = "/images/logo.png";
+
 export default function LiveUpdatesIndexPage() {
   const [liveEvents, setLiveEvents] = useState([]);
 
@@ -34,7 +36,7 @@ export default function LiveUpdatesIndexPage() {
                 <div className="flex flex-col md:flex-row">
                   {event.heroImage && (
                     <div className="w-full md:w-[40%] aspect-[4/3] md:min-h-[220px] relative overflow-hidden bg-slate-100 flex-shrink-0">
-                      <Image src={event.heroImage} alt={event.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <Image src={event.heroImage || FALLBACK_IMAGE} alt={event.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 text-[10px] uppercase font-bold tracking-widest rounded-sm flex items-center gap-1.5 shadow-sm">
                         <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-red"></span>
                         LIVE

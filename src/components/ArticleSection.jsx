@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "./SidebarWidgets";
 
+const FALLBACK_IMAGE = "/images/logo.png";
+
 export default function ArticleSection({ article, isFirst = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -278,7 +280,7 @@ export default function ArticleSection({ article, isFirst = false }) {
                 width={1200} height={675}
                 alt={article.title}
                 className="w-full aspect-[16/9] object-cover" 
-                src={article.mainImage}
+                src={article.mainImage || FALLBACK_IMAGE}
                 priority={isFirst}
               />
             </div>

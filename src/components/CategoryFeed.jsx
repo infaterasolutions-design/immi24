@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useState } from "react";
 import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
 
+const FALLBACK_IMAGE = "/images/logo.png";
+
 // Strip HTML tags to get clean plain text for card descriptions
 function stripHtml(html) {
   if (!html) return "";
@@ -60,7 +62,7 @@ export default function CategoryFeed({ title, description, articles }) {
                      <Image 
                        width={600} height={400}
                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                       src={article.mainImage} 
+                       src={article.mainImage || FALLBACK_IMAGE} 
                        alt={article.title} 
                      />
                      <div className="absolute top-3 left-3 bg-primary px-3 py-1 text-[10px] font-bold text-white uppercase tracking-widest rounded-sm shadow-md">

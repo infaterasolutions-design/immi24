@@ -281,11 +281,6 @@ body {
     display: none !important;
   }
 
-  /* Ensure all images have proper lazy-load behavior */
-  img {
-    content-visibility: auto;
-  }
-
   /* Touch targets are handled per-component via padding */
 }
 
@@ -296,12 +291,7 @@ body {
   }
 }
 
-/* Smooth image loading */
-img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 0.4s ease-in;
-}
-img[loading="lazy"].loaded,
+/* Smooth image loading — handled natively by Next.js Image component */
 img {
   opacity: 1;
 }

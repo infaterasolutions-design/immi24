@@ -14,7 +14,7 @@ const MoreLiveCoverageWidget = dynamic(() => import("@/components/MoreLiveCovera
 const FloatingShareButton = dynamic(() => import("@/components/FloatingShareButton"));
 
 // Placeholder fallback image
-const FALLBACK_IMAGE = "https://placehold.co/800x600/e2e8f0/94a3b8?text=No+Image";
+const FALLBACK_IMAGE = "/images/logo.png";
 
 export default function Home() {
   const [email, setEmail] = useState("");

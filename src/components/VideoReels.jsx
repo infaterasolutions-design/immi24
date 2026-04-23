@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 
+const FALLBACK_IMAGE = "/images/logo.png";
+
 export default function VideoReels({ videos, startIndex = 0, onClose }) {
   const [activeIndex, setActiveIndex] = useState(startIndex);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -129,7 +131,7 @@ export default function VideoReels({ videos, startIndex = 0, onClose }) {
             {/* Video / Image Background */}
             <div className="absolute inset-0">
               <Image
-                src={video.mainImage}
+                src={video.mainImage || FALLBACK_IMAGE}
                 alt={video.title}
                 fill
                 className="object-cover"
