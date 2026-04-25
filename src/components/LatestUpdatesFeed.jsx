@@ -46,7 +46,7 @@ export default function LatestUpdatesFeed({ articles }) {
             </p>
           </Link>
           <Link href={`/${article.slug}`} className="w-[110px] h-[75px] md:w-[190px] md:h-[125px] overflow-hidden flex-shrink-0 block bg-slate-100 relative">
-            <Image width={190} height={125} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src={article.mainImage || FALLBACK_IMAGE} alt={article.title} />
+            <Image width={190} height={125} quality={60} sizes="(max-width: 768px) 110px, 190px" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src={article.mainImage || FALLBACK_IMAGE} alt={article.title} />
           </Link>
         </article>
       ))}
