@@ -22,12 +22,17 @@ const poppins = Poppins({
   display: "swap",
 });
 
+import { GoogleTagManager } from '@next/third-parties/google';
+
 export const metadata = {
   title: "The Digital Diplomat | USA Immigration News",
   description: "Your Trusted Authority on US Immigration",
 };
 
 export default function RootLayout({ children }) {
+  // Use environment variable, fallback to empty string if not set
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-PLACEHOLDER';
+
   return (
     <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable} ${poppins.variable}`}>
       <head>
@@ -47,6 +52,9 @@ export default function RootLayout({ children }) {
             `
           }}
         />
+        {/* Safely inject GTM without blocking render */}
+        {gtmId !== 'GTM-PLACEHOLDER' && <GoogleTagManager gtmId={gtmId} />}
+        
         <PublicLayoutWrapper>
           {children}
         </PublicLayoutWrapper>
