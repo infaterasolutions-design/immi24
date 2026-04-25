@@ -209,8 +209,10 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-2" onClick={closeMenu}>
               <img
                 alt="Logo"
-                className="w-[155px] h-[48px] object-contain"
+                className="object-contain"
                 src="/images/logo.png"
+                width={155}
+                height={48}
               />
             </Link>
           </div>

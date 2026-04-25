@@ -1,13 +1,16 @@
 "use client";
-import { useEffect, useState } from 'react';
-import Script from 'next/script';
+import { useEffect, useState, useCallback } from 'react';
 
 export default function LanguageTranslator() {
   const [isOpen, setIsOpen] = useState(false);
   const [dynamicLanguages, setDynamicLanguages] = useState([]);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  useEffect(() => {
-    // Provide initialization function for the Google Script
+  // Only load Google Translate when user clicks the button
+  const loadTranslateScript = useCallback(() => {
+    if (scriptLoaded) return;
+
+    // Set up the init callback before loading the script
     window.googleTranslateElementInit = () => {
       new window.google.translate.TranslateElement({
         pageLanguage: 'en',
@@ -15,12 +18,23 @@ export default function LanguageTranslator() {
       }, 'google_translate_element');
     };
 
-    // Scrape loaded list of ALL supported languages from Google's native select element
+    // Inject the script on demand
+    const script = document.createElement('script');
+    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    document.body.appendChild(script);
+    setScriptLoaded(true);
+  }, [scriptLoaded]);
+
+  // After script loads, scrape languages from Google's native select
+  useEffect(() => {
+    if (!scriptLoaded) return;
+
     const interval = setInterval(() => {
       const select = document.querySelector('.goog-te-combo');
       if (select && select.options.length > 0) {
         const extractedLangs = Array.from(select.options)
-          .filter(opt => opt.value !== '') // exclude default empty
+          .filter(opt => opt.value !== '')
           .map(opt => ({
             code: opt.value,
             name: opt.text
@@ -28,10 +42,10 @@ export default function LanguageTranslator() {
         setDynamicLanguages(extractedLangs);
         clearInterval(interval);
       }
-    }, 1000);
+    }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [scriptLoaded]);
 
   const changeLanguage = (code) => {
     const select = document.querySelector('.goog-te-combo');
@@ -40,6 +54,13 @@ export default function LanguageTranslator() {
       select.dispatchEvent(new Event('change'));
       setIsOpen(false);
     }
+  };
+
+  const handleToggle = () => {
+    if (!scriptLoaded) {
+      loadTranslateScript();
+    }
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -73,24 +94,21 @@ export default function LanguageTranslator() {
         </div>
       </div>
       
-      {/* Trigger Button with translate.png transparent logo directly */}
+      {/* Trigger Button — loads Google Translate only on first click */}
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         title="Translate Page"
         className="w-[36px] h-[44px] flex items-center justify-center hover:scale-110 hover:-rotate-12 transition-all duration-300 focus:outline-none group animate-in zoom-in"
       >
         <img 
           src="/translate.png" 
           alt="Translate" 
-          className="w-full h-full object-contain drop-shadow-xl z-10" 
+          className="w-full h-full object-contain drop-shadow-xl z-10"
+          width={36}
+          height={44}
+          loading="lazy"
         />
       </button>
-
-      {/* Google Translate External Script */}
-      <Script 
-        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        strategy="lazyOnload"
-      />
     </div>
   );
 }

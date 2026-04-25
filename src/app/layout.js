@@ -6,17 +6,20 @@ import Script from "next/script";
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const poppins = Poppins({
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "600", "700"],
   variable: "--font-poppins",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -30,14 +33,20 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <link rel="preconnect" href="https://elbxclhtmlbdlegsfzqh.supabase.co" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        />
       </head>
       <body suppressHydrationWarning className="antialiased overflow-x-hidden min-h-screen flex flex-col">
+        <Script
+          id="material-symbols-font"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              var link = document.createElement('link');
+              link.rel = 'stylesheet';
+              link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap';
+              document.head.appendChild(link);
+            `
+          }}
+        />
         <PublicLayoutWrapper>
           {children}
         </PublicLayoutWrapper>

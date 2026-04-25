@@ -2,8 +2,10 @@
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
-import LanguageTranslator from "./LanguageTranslator";
-import RecommendedPopup from "./RecommendedPopup";
+import dynamic from "next/dynamic";
+
+const LanguageTranslator = dynamic(() => import("./LanguageTranslator"), { ssr: false });
+const RecommendedPopup = dynamic(() => import("./RecommendedPopup"), { ssr: false });
 
 /**
  * Conditionally renders the public site chrome (Header, Footer, etc.)

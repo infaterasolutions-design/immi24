@@ -93,7 +93,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
               {/* Left: Featured Story */}
               <Link href={`/${heroArticle.slug}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
-                  <Image width={800} height={500} priority fetchPriority="high" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
+                  <Image width={800} height={500} priority fetchPriority="high" sizes="(max-width: 1024px) 100vw, 50vw" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
@@ -111,7 +111,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
                 {gridArticles.map((art) => (
                   <Link key={art.id} href={`/${art.slug}`} className="space-y-2 group cursor-pointer block">
                     <div className="aspect-[4/3] overflow-hidden rounded-md relative">
-                      <Image width={400} height={300} priority className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                      <Image width={400} height={300} priority sizes="(max-width: 1024px) 50vw, 25vw" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
                     <span className="text-primary text-[10px] font-bold uppercase tracking-widest block mt-2">{art.categoryLabel}</span>
                     <h3 className="font-bold headline-font text-xs md:text-sm leading-tight group-hover:text-primary transition-colors text-slate-900">{art.title}</h3>
@@ -140,7 +140,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
               {topStoryArticles.map((art) => (
                 <Link key={art.id} href={`/${art.slug}`} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
                   <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 rounded-md">
-                    <Image width={300} height={200} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                    <Image width={300} height={200} loading="lazy" sizes="280px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     <div className="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter rounded-sm">{art.categoryLabel}</div>
                   </div>
                   <h4 className="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2 text-slate-900">{art.title}</h4>
@@ -205,7 +205,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
                 return (
                   <div key={art.id} onClick={() => { setReelsStartIndex(idx); setReelsOpen(true); }} className="flex-shrink-0 w-36 md:w-44 snap-start group cursor-pointer block">
                     <div className="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
-                      <Image width={200} height={350} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                      <Image width={200} height={350} loading="lazy" sizes="176px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                       <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-3xl md:text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>play_arrow</span>
                       </div>
@@ -360,7 +360,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
           <section className="py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 bg-white border border-slate-200 shadow-sm overflow-hidden rounded-xl">
               <div className="h-48 md:h-80 lg:h-auto overflow-hidden relative min-h-[200px]">
-                <Image className="w-full h-full object-cover" src={heroArticle?.mainImage || FALLBACK_IMAGE} alt="Your Trusted Authority" fill sizes="(max-width: 768px) 100vw, 50vw" />
+                <Image className="w-full h-full object-cover" src={heroArticle?.mainImage || FALLBACK_IMAGE} alt="Your Trusted Authority" fill loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
               <div className="p-6 md:p-10 flex flex-col justify-center">
                 <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1 self-start mb-4 md:mb-6 text-[10px] font-bold uppercase tracking-widest rounded-sm">
