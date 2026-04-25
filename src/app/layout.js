@@ -25,8 +25,8 @@ const poppins = Poppins({
 import { GoogleTagManager } from '@next/third-parties/google';
 
 export const metadata = {
-  title: "The Digital Diplomat | USA Immigration News",
-  description: "Your Trusted Authority on US Immigration",
+  title: "US Immigration News & Updates | Visas, Green Cards, USCIS & ICE News",
+  description: "Get the latest USA immigration news, visa updates, green card processing times, USCIS announcements, and ICE policy changes. Trusted daily immigration updates and guides.",
 };
 
 export default function RootLayout({ children }) {
