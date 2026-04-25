@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getCategories } from "@/lib/categoryConfig";
-import { subscribeEmail } from "@/lib/supabaseHelpers";
+import { subscribeEmail } from "@/app/actions/subscribe";
 
 export default function Header() {
   const router = useRouter();

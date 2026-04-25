@@ -3,9 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { getAllArticles } from "@/lib/mockData";
-import { getLiveEvents } from "@/lib/liveUpdatesData";
-import { getVideos, subscribeEmail } from "@/lib/supabaseHelpers";
+import { subscribeEmail } from "@/app/actions/subscribe";
 import { useState, useEffect } from "react";
 
 const LatestUpdatesFeed = dynamic(() => import("@/components/LatestUpdatesFeed"));
