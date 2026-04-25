@@ -105,7 +105,7 @@ export default function Home() {
               {/* Left: Featured Story */}
               <Link href={`/${heroArticle.slug}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
-                  <Image width={800} height={500} priority className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
+                  <Image width={800} height={500} priority fetchPriority="high" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
@@ -123,7 +123,7 @@ export default function Home() {
                 {gridArticles.map((art) => (
                   <Link key={art.id} href={`/${art.slug}`} className="space-y-2 group cursor-pointer block">
                     <div className="aspect-[4/3] overflow-hidden rounded-md relative">
-                      <Image width={400} height={300} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                      <Image width={400} height={300} priority className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
                     <span className="text-primary text-[10px] font-bold uppercase tracking-widest block mt-2">{art.categoryLabel}</span>
                     <h3 className="font-bold headline-font text-xs md:text-sm leading-tight group-hover:text-primary transition-colors text-slate-900">{art.title}</h3>

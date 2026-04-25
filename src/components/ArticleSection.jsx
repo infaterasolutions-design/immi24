@@ -110,9 +110,24 @@ export default function ArticleSection({ article, isFirst = false }) {
         document.body.appendChild(newScript);
       });
 
-      // 2. Fallback: Trigger common SDKs immediately if they are already loaded globally
-      if (window.twttr && window.twttr.widgets) window.twttr.widgets.load();
-      if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+      // 2. Load external SDKs if embeds exist
+      if (decodedContent.includes('twitter-tweet') && !window.twttr) {
+        const s = document.createElement('script');
+        s.src = 'https://platform.twitter.com/widgets.js';
+        s.async = true;
+        document.body.appendChild(s);
+      } else if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load();
+      }
+
+      if (decodedContent.includes('instagram-media') && !window.instgrm) {
+        const s = document.createElement('script');
+        s.src = 'https://www.instagram.com/embed.js';
+        s.async = true;
+        document.body.appendChild(s);
+      } else if (window.instgrm && window.instgrm.Embeds) {
+        window.instgrm.Embeds.process();
+      }
     };
 
     const articleEl = document.getElementById(`article-${article.id}`);

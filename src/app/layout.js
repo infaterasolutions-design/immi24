@@ -29,14 +29,15 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable} ${poppins.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="preconnect" href="https://elbxclhtmlbdlegsfzqh.supabase.co" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
       </head>
-      <body className="antialiased overflow-x-hidden min-h-screen flex flex-col">
-        <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
-        <Script src="https://www.instagram.com/embed.js" strategy="lazyOnload" />
+      <body suppressHydrationWarning className="antialiased overflow-x-hidden min-h-screen flex flex-col">
         <PublicLayoutWrapper>
           {children}
         </PublicLayoutWrapper>
