@@ -1,47 +1,22 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { subscribeEmail } from "@/app/actions/subscribe";
-import { useState, useEffect } from "react";
 
 import LiveTickerSlider from "@/components/LiveTickerSlider";
+import NewsletterWidget from "@/components/NewsletterWidget";
+import VideoHighlights from "@/components/VideoHighlights";
 
 const LatestUpdatesFeed = dynamic(() => import("@/components/LatestUpdatesFeed"));
-const VideoReels = dynamic(() => import("@/components/VideoReels"));
 const MoreLiveCoverageWidget = dynamic(() => import("@/components/MoreLiveCoverageWidget"));
 const FloatingShareButton = dynamic(() => import("@/components/FloatingShareButton"));
 
 // Placeholder fallback image
 const FALLBACK_IMAGE = "/images/logo.png";
 
-export default function HomePageClient({ initialArticles = [], initialTickerItems = [], initialVideoArticles = [] }) {
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [reelsOpen, setReelsOpen] = useState(false);
-  const [reelsStartIndex, setReelsStartIndex] = useState(0);
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    if (email.trim()) {
-      const result = await subscribeEmail(email.trim());
-      if (result.success) {
-        setIsSubscribed(true);
-        setTimeout(() => setIsSubscribed(false), 3000);
-        setEmail("");
-      }
-    }
-  };
-
-  const [mockArticles, setMockArticles] = useState(initialArticles);
-  const [tickerItems, setTickerItems] = useState(initialTickerItems);
-  const [videoArticles, setVideoArticles] = useState(initialVideoArticles);
-
-  const allArticles = mockArticles;
-  const featuredArticle = mockArticles.find(a => a.is_featured === true);
-  const heroArticle = featuredArticle || mockArticles[0];
-  const remainingArticles = mockArticles.filter(a => a.id !== heroArticle?.id);
+export default function HomePageContent({ articles = [], tickerItems = [], videoArticles = [] }) {
+  const featuredArticle = articles.find(a => a.is_featured === true);
+  const heroArticle = featuredArticle || articles[0];
+  const remainingArticles = articles.filter(a => a.id !== heroArticle?.id);
   const gridArticles = remainingArticles.slice(0, 4);
   const topStoryArticles = remainingArticles.slice(4, 8);
   const sidebarLatestArticles = remainingArticles.slice(4, 7);
@@ -160,36 +135,11 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
           </div>
 
           {/* Video Highlights — dynamically rendered from article data */}
-          <section className="py-4">
-            <div className="flex items-center justify-between mb-4 md:mb-6">
-              <h2 className="text-lg md:text-xl font-extrabold headline-font border-l-4 border-primary pl-3 md:pl-4 uppercase tracking-tight text-slate-900">Video Highlights</h2>
-              <div className="flex gap-2">
-                <button className="p-2 md:p-1.5 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200 text-slate-600"><span className="material-symbols-outlined text-sm">chevron_left</span></button>
-                <button className="p-2 md:p-1.5 bg-slate-100 hover:bg-slate-200 transition-colors border border-slate-200 text-slate-600"><span className="material-symbols-outlined text-sm">chevron_right</span></button>
-              </div>
-            </div>
-            <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 hide-scrollbar snap-x -mx-3 px-3 md:mx-0 md:px-0">
-              {videoArticles.map((art, idx) => {
-                const durations = ["1:24", "0:58", "2:15", "1:05", "0:45"];
-                return (
-                  <div key={art.id} onClick={() => { setReelsStartIndex(idx); setReelsOpen(true); }} className="flex-shrink-0 w-36 md:w-44 snap-start group cursor-pointer block">
-                    <div className="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
-                      <Image width={200} height={350} quality={60} loading="lazy" sizes="176px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
-                      <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white text-3xl md:text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>play_arrow</span>
-                      </div>
-                      <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 text-[10px] text-white font-bold rounded-sm">{durations[idx] || "1:00"}</div>
-                    </div>
-                    <h4 className="text-[11px] md:text-xs font-bold headline-font line-clamp-2 text-center group-hover:text-primary transition-colors text-slate-900">{art.title}</h4>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+          <VideoHighlights videoArticles={videoArticles} />
 
           {/* Latest Updates Section */}
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 py-4 border-t border-slate-100">
-            <LatestUpdatesFeed articles={allArticles} />
+            <LatestUpdatesFeed articles={articles} />
 
             {/* Sidebar — hidden on mobile */}
             <aside className="hidden lg:block space-y-6">
@@ -231,57 +181,15 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
                   </div>
                 </div>
 
-                {/* Newsletter Card / Global Briefing */}
-                <div className="bg-primary p-6 text-white shadow-lg rounded-xl">
-                  <h3 className="text-xl font-extrabold headline-font mb-2">Global Briefing</h3>
-                  <p className="text-sm mb-6 opacity-90 leading-relaxed">Get the week&apos;s most critical immigration news and policy analysis directly in your inbox.</p>
-                  <form onSubmit={handleSubscribe} className="space-y-3 relative">
-                    <input 
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="w-full bg-white/10 border border-white/20 px-4 py-2.5 text-sm md:text-[15px] placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md transition-all text-white" 
-                      placeholder="Email address" 
-                      type="email" 
-                    />
-                    <button type="submit" className="w-full bg-white text-primary font-bold py-2.5 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md relative overflow-hidden">
-                      <span className={`transition-transform duration-300 ${isSubscribed ? 'scale-0 opacity-0 absolute' : 'scale-100 opacity-100'}`}>Subscribe Now</span>
-                      <span className={`transition-transform duration-300 flex items-center justify-center gap-1.5 ${isSubscribed ? 'scale-100 opacity-100' : 'scale-0 opacity-0 absolute'}`}><span className="material-symbols-outlined text-[16px]">check_circle</span> Subscribed!</span>
-                    </button>
-                    {isSubscribed && (
-                      <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome aboard.</p>
-                    )}
-                  </form>
-                </div>
+                {/* Desktop Newsletter Card */}
+                <NewsletterWidget isMobile={false} />
 
               </div>
             </aside>
           </section>
 
           {/* Mobile-only Newsletter (shown below feed on small screens) */}
-          <div className="lg:hidden">
-            <div className="bg-primary p-5 text-white shadow-lg rounded-xl">
-              <h3 className="text-lg font-extrabold headline-font mb-2">Global Briefing</h3>
-              <p className="text-sm mb-4 opacity-90 leading-relaxed">Get critical immigration news delivered to your inbox weekly.</p>
-              <form onSubmit={handleSubscribe} className="space-y-3 relative">
-                <input 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full bg-white/10 border border-white/20 px-4 py-3 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none rounded-md text-white transition-all" 
-                  placeholder="Email address" 
-                  type="email" 
-                />
-                <button type="submit" className="w-full bg-white text-primary font-bold py-3 text-[11px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-md relative overflow-hidden">
-                  <span className={`transition-transform duration-300 ${isSubscribed ? 'scale-0 opacity-0 absolute' : 'scale-100 opacity-100'}`}>Subscribe Now</span>
-                  <span className={`transition-transform duration-300 flex items-center justify-center gap-1.5 ${isSubscribed ? 'scale-100 opacity-100' : 'scale-0 opacity-0 absolute'}`}><span className="material-symbols-outlined text-[16px]">check_circle</span> Subscribed!</span>
-                </button>
-                {isSubscribed && (
-                  <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome aboard.</p>
-                )}
-              </form>
-            </div>
-          </div>
+          <NewsletterWidget isMobile={true} />
 
           {/* Mobile-only Sidebar Widgets (visible only on small screens) */}
           <div className="lg:hidden space-y-6">
@@ -357,14 +265,5 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
     </main>
 
     <FloatingShareButton />
-
-    {/* Video Reels Full-Screen Viewer */}
-    {reelsOpen && (
-      <VideoReels
-        videos={videoArticles}
-        startIndex={reelsStartIndex}
-        onClose={() => setReelsOpen(false)}
-      />
-    )}
   </>);
 }

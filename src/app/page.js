@@ -1,7 +1,7 @@
 import { getAllArticles } from "@/lib/mockData";
 import { getLiveEvents } from "@/lib/liveUpdatesData";
 import { getVideos } from "@/lib/supabaseHelpers";
-import HomePageClient from "./HomePageClient";
+import HomePageContent from "@/components/HomePageContent";
 
 export const revalidate = 3600; // Cache the HTML for 1 hour instead of 60 seconds
 
@@ -14,10 +14,10 @@ export default async function Home() {
   const tickerItems = (events || []).slice(0, 5);
 
   return (
-    <HomePageClient 
-      initialArticles={articles}
-      initialTickerItems={tickerItems}
-      initialVideoArticles={vids}
+    <HomePageContent 
+      articles={articles}
+      tickerItems={tickerItems}
+      videoArticles={vids}
     />
   );
 }
