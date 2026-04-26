@@ -37,7 +37,8 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable} ${poppins.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <link rel="preconnect" href="https://elbxclhtmlbdlegsfzqh.supabase.co" />
+        <link rel="preconnect" href="https://elbxclhtmlbdlegsfzqh.supabase.co" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://elbxclhtmlbdlegsfzqh.supabase.co" />
       </head>
       <body suppressHydrationWarning className="antialiased overflow-x-hidden min-h-screen flex flex-col">
         <Script
