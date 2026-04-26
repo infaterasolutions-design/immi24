@@ -87,18 +87,20 @@ export default function EditArticle() {
   }, [params.id, router]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const finalValue = type === 'checkbox' ? checked : value;
+
     setForm(prev => {
-      const updates = { [name]: value };
+      const updates = { [name]: finalValue };
       
       // Auto-generate slug and meta title when title changes
       if (name === "title" && !prev.slug_manually_edited) {
-        updates.slug = value.toLowerCase()
+        updates.slug = finalValue.toLowerCase()
           .replace(/[^\w\s-]/g, "")
           .replace(/\s+/g, "-")
           .replace(/--+/g, "-")
           .trim();
-        updates.meta_title = value;
+        updates.meta_title = finalValue;
       }
       
       // Track if user manually edits slug so we don't overwrite it
