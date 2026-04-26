@@ -84,8 +84,9 @@ export default function NewArticle() {
       sub_category_slug: form.sub_category_slug || ""
     };
     
-    // Remove the virtual column so Supabase doesn't reject it
+    // Remove virtual/internal columns so Supabase doesn't reject them
     delete payload.content_html;
+    delete payload.slug_manually_edited;
 
     // Convert Local Scheduled Time to UTC for the database, or default to immediate
     if (payload.published_at_local) {

@@ -128,8 +128,9 @@ export default function EditArticle() {
       sub_category_slug: form.sub_category_slug || ""
     };
     
-    // Remove the virtual column so Supabase doesn't reject it
+    // Remove virtual/internal columns so Supabase doesn't reject them
     delete payload.content_html;
+    delete payload.slug_manually_edited;
 
     // Convert local schedule back into standardized UTC ISO for database accuracy
     if (payload.published_at_local) {
