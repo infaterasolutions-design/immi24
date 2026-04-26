@@ -309,7 +309,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           {/* Rich Text Content */}
           <div className={
             `relative overflow-hidden transition-[max-height] duration-[1500ms] ease-in-out ` +
-            (isExpanded ? 'max-h-[20000px]' : 'max-h-[250px] md:max-h-[400px] lg:max-h-none lg:overflow-visible')
+            (isExpanded ? 'max-h-[50000px]' : 'max-h-[250px] md:max-h-[400px]')
           }>
             <div className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-12 text-slate-800 mt-4`}>
               
@@ -355,8 +355,8 @@ export default function ArticleSection({ article, isFirst = false }) {
               )}
             </div>
 
-            {/* Tags area now flows naturally within the expander, but hidden on desktop when collapsed */}
-            <div className={`mt-6 mb-4 flex flex-wrap gap-2 pt-6 border-t border-outline-variant/20 ${!isExpanded ? 'hidden md:flex' : 'flex'}`}>
+            {/* Tags area now flows naturally within the expander, but hidden when collapsed */}
+            <div className={`mt-6 mb-4 flex flex-wrap gap-2 pt-6 border-t border-outline-variant/20 ${!isExpanded ? 'hidden' : 'flex'}`}>
               {article.tags?.map((tag) => (
                  <span key={tag} className="px-4 py-2 bg-surface-container-high rounded-full text-xs font-semibold text-on-surface-variant">#{tag}</span>
               ))}
@@ -366,7 +366,7 @@ export default function ArticleSection({ article, isFirst = false }) {
             <div className={
               `w-full flex items-end justify-center transition-opacity duration-1000 ` +
               (isExpanded ? 'opacity-0 pointer-events-none ' : 'opacity-100 ') +
-              `absolute bottom-0 left-0 right-0 h-48 pb-4 bg-gradient-to-t from-white via-white/90 to-transparent z-10 lg:hidden`
+              `absolute bottom-0 left-0 right-0 h-48 pb-4 bg-gradient-to-t from-white via-white/90 to-transparent z-10`
             }>
               <button 
                 onClick={() => setIsExpanded(true)}
