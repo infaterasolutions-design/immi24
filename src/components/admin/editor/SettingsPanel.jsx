@@ -183,6 +183,20 @@ export default function SettingsPanel({ form, handleChange, categories }) {
             <p className="text-xs text-slate-500">Pin to the "Most Viewed" right sidebar</p>
           </div>
         </label>
+
+        <label className="flex items-center gap-3 cursor-pointer p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
+          <input 
+            type="checkbox" 
+            name="is_recommended_popup" 
+            checked={form.is_recommended_popup || false} 
+            onChange={(e) => handleChange({ target: { name: 'is_recommended_popup', value: e.target.checked } })}
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white"
+          />
+          <div>
+            <p className="text-sm font-medium text-slate-800">Recommended Popup</p>
+            <p className="text-xs text-slate-500">Show this article in the bottom right corner popup</p>
+          </div>
+        </label>
       </div>
 
       {/* Publishing Schedule */}

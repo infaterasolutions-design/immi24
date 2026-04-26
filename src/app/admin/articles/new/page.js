@@ -29,6 +29,8 @@ export default function NewArticle() {
     image_caption: "",
     status: "draft",
     is_featured: false,
+    is_most_viewed: false,
+    is_recommended_popup: false,
     is_indexed: true,
     published_at_local: "",
   });
