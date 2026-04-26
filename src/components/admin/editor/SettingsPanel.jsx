@@ -161,8 +161,8 @@ export default function SettingsPanel({ form, handleChange, categories }) {
             type="checkbox" 
             name="is_featured" 
             checked={form.is_featured || false} 
-            onChange={(e) => handleChange({ target: { name: 'is_featured', value: e.target.checked } })}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white"
+            onChange={handleChange}
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0"
           />
           <div>
             <p className="text-sm font-medium text-slate-800">Featured Article</p>
@@ -175,8 +175,8 @@ export default function SettingsPanel({ form, handleChange, categories }) {
             type="checkbox" 
             name="is_most_viewed" 
             checked={form.is_most_viewed || false} 
-            onChange={(e) => handleChange({ target: { name: 'is_most_viewed', value: e.target.checked } })}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white"
+            onChange={handleChange}
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0"
           />
           <div>
             <p className="text-sm font-medium text-slate-800">Most Viewed Sidebar</p>
@@ -189,8 +189,8 @@ export default function SettingsPanel({ form, handleChange, categories }) {
             type="checkbox" 
             name="is_recommended_popup" 
             checked={form.is_recommended_popup || false} 
-            onChange={(e) => handleChange({ target: { name: 'is_recommended_popup', value: e.target.checked } })}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white"
+            onChange={handleChange}
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0"
           />
           <div>
             <p className="text-sm font-medium text-slate-800">Recommended Popup</p>

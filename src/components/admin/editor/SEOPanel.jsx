@@ -127,7 +127,7 @@ export default function SEOPanel({ form, handleChange }) {
             name="is_indexed" 
             checked={form.is_indexed !== false} 
             onChange={handleChange}
-            className="rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white" 
+            className="rounded border-slate-300 text-indigo-500 focus:ring-0" 
           />
           <label htmlFor="index_toggle" className="text-xs text-slate-600 cursor-pointer">
             Allow search engines to index this page
