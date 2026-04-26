@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import { subscribeEmail } from "@/app/actions/subscribe";
 import { useState, useEffect } from "react";
 
+import LiveTickerSlider from "@/components/LiveTickerSlider";
+
 const LatestUpdatesFeed = dynamic(() => import("@/components/LatestUpdatesFeed"));
 const VideoReels = dynamic(() => import("@/components/VideoReels"));
 const MoreLiveCoverageWidget = dynamic(() => import("@/components/MoreLiveCoverageWidget"));
@@ -35,7 +37,6 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
   const [mockArticles, setMockArticles] = useState(initialArticles);
   const [tickerItems, setTickerItems] = useState(initialTickerItems);
   const [videoArticles, setVideoArticles] = useState(initialVideoArticles);
-  const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
 
   const allArticles = mockArticles;
   const featuredArticle = mockArticles.find(a => a.is_featured === true);
@@ -46,13 +47,6 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
   const sidebarLatestArticles = remainingArticles.slice(4, 7);
   const sidebarMostViewed = remainingArticles.slice(0, 3);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTickerIndex((prev) => (prev + 1) % tickerItems.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [tickerItems.length]);
-
   return (<>
     <main className="mt-2 md:mt-4 px-3 md:px-4 lg:px-0 mb-12">
       <div className="max-w-[1298px] mx-auto flex justify-center px-0 md:px-4 lg:px-24">
@@ -60,32 +54,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
         <div className="flex-grow space-y-6 md:space-y-8 w-full">
           
           {/* Live Updates Ticker Slider */}
-          <Link href={`/live-updates/${tickerItems[currentTickerIndex]?.id || ''}`} className="flex items-center gap-3 bg-white p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
-            <span className="bg-tertiary text-white px-3 md:px-4 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:bg-primary transition-colors flex-shrink-0 z-10 relative flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-red"></span>
-              Live Update
-            </span>
-            <div className="flex-grow h-5 md:h-6 relative overflow-hidden">
-              {tickerItems.map((item, idx) => {
-                let positionClass = 'translate-x-full opacity-0';
-                if (idx === currentTickerIndex) {
-                  positionClass = 'translate-x-0 opacity-100 z-10';
-                } else if (idx === (currentTickerIndex - 1 + tickerItems.length) % tickerItems.length) {
-                  positionClass = '-translate-x-full opacity-0';
-                }
-
-                return (
-                  <p 
-                    key={item.id}
-                    className={`absolute left-0 top-0 w-full text-xs md:text-sm font-medium truncate text-slate-800 group-hover:text-primary transition-all duration-500 ease-in-out ${positionClass}`}
-                  >
-                    {item.title}
-                  </p>
-                );
-              })}
-            </div>
-            <span className="material-symbols-outlined text-primary ml-auto mr-2 group-hover:translate-x-1 transition-transform hidden sm:block z-10 bg-white relative">arrow_forward</span>
-          </Link>
+          <LiveTickerSlider tickerItems={tickerItems} />
 
           {/* Hero Section: 50/50 Balance → stacks on mobile */}
           {heroArticle && (
