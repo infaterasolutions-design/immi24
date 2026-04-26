@@ -156,47 +156,51 @@ export default function SettingsPanel({ form, handleChange, categories }) {
       {/* Status Toggle */}
       <div>
         <h3 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Visibility</h3>
-        <label className="flex items-center gap-3 cursor-pointer p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
+        
+        <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
           <input 
             type="checkbox" 
+            id="is_featured_toggle"
             name="is_featured" 
-            checked={form.is_featured || false} 
+            checked={form.is_featured === true} 
             onChange={handleChange}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0"
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 cursor-pointer"
           />
-          <div>
+          <label htmlFor="is_featured_toggle" className="cursor-pointer flex-1">
             <p className="text-sm font-medium text-slate-800">Featured Article</p>
             <p className="text-xs text-slate-500">Pin strictly to the homepage hero</p>
-          </div>
-        </label>
+          </label>
+        </div>
 
-        <label className="flex items-center gap-3 cursor-pointer p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
+        <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
           <input 
             type="checkbox" 
+            id="is_most_viewed_toggle"
             name="is_most_viewed" 
-            checked={form.is_most_viewed || false} 
+            checked={form.is_most_viewed === true} 
             onChange={handleChange}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0"
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 cursor-pointer"
           />
-          <div>
+          <label htmlFor="is_most_viewed_toggle" className="cursor-pointer flex-1">
             <p className="text-sm font-medium text-slate-800">Most Viewed Sidebar</p>
             <p className="text-xs text-slate-500">Pin to the "Most Viewed" right sidebar</p>
-          </div>
-        </label>
+          </label>
+        </div>
 
-        <label className="flex items-center gap-3 cursor-pointer p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
+        <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
           <input 
             type="checkbox" 
+            id="is_recommended_popup_toggle"
             name="is_recommended_popup" 
-            checked={form.is_recommended_popup || false} 
+            checked={form.is_recommended_popup === true} 
             onChange={handleChange}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0"
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 cursor-pointer"
           />
-          <div>
+          <label htmlFor="is_recommended_popup_toggle" className="cursor-pointer flex-1">
             <p className="text-sm font-medium text-slate-800">Recommended Popup</p>
             <p className="text-xs text-slate-500">Show this article in the bottom right corner popup</p>
-          </div>
-        </label>
+          </label>
+        </div>
       </div>
 
       {/* Publishing Schedule */}
