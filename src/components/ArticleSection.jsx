@@ -195,7 +195,7 @@ export default function ArticleSection({ article, isFirst = false }) {
                 <>
                   <span className="text-[#1e3a8a]/40 text-xs leading-none relative -top-[1px]">|</span>
                   <Link href={`/category/${article.categorySlug}/${article.subCategorySlug}`} className="hover:opacity-80 transition-opacity">
-                    {article.categoryLabel.toUpperCase()}
+                    {article.subCategorySlug.toUpperCase().replace(/-/g, ' ')}
                   </Link>
                 </>
               )}
