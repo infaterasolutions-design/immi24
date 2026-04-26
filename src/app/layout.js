@@ -22,7 +22,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-import { GoogleTagManager } from '@next/third-parties/google';
+import DelayedGTM from '@/components/DelayedGTM';
 
 export const metadata = {
   title: "US Immigration News & Updates | Visas, Green Cards, USCIS & ICE News",
@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning className="antialiased overflow-x-hidden min-h-screen flex flex-col">
         {/* Safely inject GTM without blocking render */}
-        {gtmId !== 'GTM-PLACEHOLDER' && <GoogleTagManager gtmId={gtmId} />}
+        {gtmId !== 'GTM-PLACEHOLDER' && <DelayedGTM gtmId={gtmId} />}
         
         <PublicLayoutWrapper>
           {children}
