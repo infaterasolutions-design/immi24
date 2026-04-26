@@ -39,20 +39,11 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <link rel="preconnect" href="https://elbxclhtmlbdlegsfzqh.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://elbxclhtmlbdlegsfzqh.supabase.co" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
       </head>
       <body suppressHydrationWarning className="antialiased overflow-x-hidden min-h-screen flex flex-col">
-        <Script
-          id="material-symbols-font"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              var link = document.createElement('link');
-              link.rel = 'stylesheet';
-              link.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap';
-              document.head.appendChild(link);
-            `
-          }}
-        />
         {/* Safely inject GTM without blocking render */}
         {gtmId !== 'GTM-PLACEHOLDER' && <GoogleTagManager gtmId={gtmId} />}
         

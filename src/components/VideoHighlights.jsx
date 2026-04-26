@@ -29,7 +29,7 @@ export default function VideoHighlights({ videoArticles }) {
             return (
               <div key={art.id} onClick={() => { setReelsStartIndex(idx); setReelsOpen(true); }} className="flex-shrink-0 w-36 md:w-44 snap-start group cursor-pointer block">
                 <div className="relative aspect-[9/16] video-card-rounded overflow-hidden mb-2">
-                  <Image width={200} height={350} quality={60} loading="lazy" sizes="176px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                  <Image width={200} height={350} quality={40} loading="lazy" decoding="async" sizes="176px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                   <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
                     <span className="material-symbols-outlined text-white text-3xl md:text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>play_arrow</span>
                   </div>
