@@ -38,11 +38,13 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
   const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
 
   const allArticles = mockArticles;
-  const heroArticle = mockArticles[0];
-  const gridArticles = mockArticles.slice(1, 5);
-  const topStoryArticles = mockArticles.slice(5, 9);
-  const sidebarLatestArticles = mockArticles.slice(5, 8);
-  const sidebarMostViewed = mockArticles.slice(0, 3);
+  const featuredArticle = mockArticles.find(a => a.is_featured === true);
+  const heroArticle = featuredArticle || mockArticles[0];
+  const remainingArticles = mockArticles.filter(a => a.id !== heroArticle?.id);
+  const gridArticles = remainingArticles.slice(0, 4);
+  const topStoryArticles = remainingArticles.slice(4, 8);
+  const sidebarLatestArticles = remainingArticles.slice(4, 7);
+  const sidebarMostViewed = remainingArticles.slice(0, 3);
 
   useEffect(() => {
     const timer = setInterval(() => {
