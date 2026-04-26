@@ -157,49 +157,43 @@ export default function SettingsPanel({ form, handleChange, categories }) {
       <div>
         <h3 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Visibility</h3>
         
-        <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
-          <input 
-            type="checkbox" 
-            id="is_featured_toggle"
-            name="is_featured" 
-            checked={form.is_featured === true} 
-            onChange={handleChange}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 cursor-pointer"
-          />
-          <label htmlFor="is_featured_toggle" className="cursor-pointer flex-1">
+        <div 
+          onClick={() => handleChange({ target: { name: 'is_featured', type: 'checkbox', checked: !form.is_featured } })}
+          className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4 cursor-pointer select-none"
+        >
+          <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 flex-shrink-0 ${form.is_featured ? 'bg-indigo-500' : 'bg-slate-300'}`}>
+            <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all duration-200 ${form.is_featured ? 'left-[18px]' : 'left-0.5'}`} />
+          </div>
+          <div>
             <p className="text-sm font-medium text-slate-800">Featured Article</p>
             <p className="text-xs text-slate-500">Pin strictly to the homepage hero</p>
-          </label>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
-          <input 
-            type="checkbox" 
-            id="is_most_viewed_toggle"
-            name="is_most_viewed" 
-            checked={form.is_most_viewed === true} 
-            onChange={handleChange}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 cursor-pointer"
-          />
-          <label htmlFor="is_most_viewed_toggle" className="cursor-pointer flex-1">
+        <div 
+          onClick={() => handleChange({ target: { name: 'is_most_viewed', type: 'checkbox', checked: !form.is_most_viewed } })}
+          className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4 cursor-pointer select-none"
+        >
+          <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 flex-shrink-0 ${form.is_most_viewed ? 'bg-indigo-500' : 'bg-slate-300'}`}>
+            <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all duration-200 ${form.is_most_viewed ? 'left-[18px]' : 'left-0.5'}`} />
+          </div>
+          <div>
             <p className="text-sm font-medium text-slate-800">Most Viewed Sidebar</p>
-            <p className="text-xs text-slate-500">Pin to the "Most Viewed" right sidebar</p>
-          </label>
+            <p className="text-xs text-slate-500">Pin to the &quot;Most Viewed&quot; right sidebar</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
-          <input 
-            type="checkbox" 
-            id="is_recommended_popup_toggle"
-            name="is_recommended_popup" 
-            checked={form.is_recommended_popup === true} 
-            onChange={handleChange}
-            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 cursor-pointer"
-          />
-          <label htmlFor="is_recommended_popup_toggle" className="cursor-pointer flex-1">
+        <div 
+          onClick={() => handleChange({ target: { name: 'is_recommended_popup', type: 'checkbox', checked: !form.is_recommended_popup } })}
+          className="flex items-center gap-3 p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4 cursor-pointer select-none"
+        >
+          <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 flex-shrink-0 ${form.is_recommended_popup ? 'bg-indigo-500' : 'bg-slate-300'}`}>
+            <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all duration-200 ${form.is_recommended_popup ? 'left-[18px]' : 'left-0.5'}`} />
+          </div>
+          <div>
             <p className="text-sm font-medium text-slate-800">Recommended Popup</p>
             <p className="text-xs text-slate-500">Show this article in the bottom right corner popup</p>
-          </label>
+          </div>
         </div>
       </div>
 
