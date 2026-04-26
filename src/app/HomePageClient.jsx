@@ -93,7 +93,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
               {/* Left: Featured Story */}
               <Link href={heroArticle.slug ? `/${heroArticle.slug}` : `/article/${heroArticle.id}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
-                  <Image width={800} height={500} quality={60} priority fetchPriority="high" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
+                  <Image unoptimized width={800} height={500} quality={60} priority fetchPriority="high" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
@@ -111,7 +111,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
                 {gridArticles.map((art) => (
                   <Link key={art.id} href={art.slug ? `/${art.slug}` : `/article/${art.id}`} className="space-y-2 group cursor-pointer block">
                     <div className="aspect-[4/3] overflow-hidden rounded-md relative">
-                      <Image width={400} height={300} quality={60} priority sizes="(max-width: 768px) 50vw, 25vw" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
+                      <Image width={400} height={300} quality={60} sizes="(max-width: 768px) 50vw, 25vw" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
                     <span className="text-primary text-[10px] font-bold uppercase tracking-widest block mt-2">{art.categoryLabel}</span>
                     <h3 className="font-bold headline-font text-xs md:text-sm leading-tight group-hover:text-primary transition-colors text-slate-900">{art.title}</h3>
