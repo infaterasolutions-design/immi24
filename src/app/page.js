@@ -3,7 +3,7 @@ import { getLiveEvents } from "@/lib/liveUpdatesData";
 import { getVideos } from "@/lib/supabaseHelpers";
 import HomePageClient from "./HomePageClient";
 
-export const revalidate = 60; // Cache the HTML for 60 seconds
+export const revalidate = 3600; // Cache the HTML for 1 hour instead of 60 seconds
 
 export default async function Home() {
   const [articles, events, vids] = await Promise.all([
