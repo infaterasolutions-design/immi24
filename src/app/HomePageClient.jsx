@@ -93,7 +93,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
               {/* Left: Featured Story */}
               <Link href={heroArticle.slug ? `/${heroArticle.slug}` : `/article/${heroArticle.id}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
-                  <Image unoptimized width={800} height={500} quality={60} priority fetchPriority="high" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
+                  <Image width={800} height={500} quality={60} priority fetchPriority="high" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
                 <div className="space-y-2 md:space-y-3">
                   <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
