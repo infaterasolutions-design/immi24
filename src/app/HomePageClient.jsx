@@ -89,7 +89,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
           {heroArticle && (
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Left: Featured Story */}
-              <Link href={`/${heroArticle.slug}`} className="group cursor-pointer block">
+              <Link href={heroArticle.slug ? `/${heroArticle.slug}` : `/article/${heroArticle.id}`} className="group cursor-pointer block">
                 <div className="relative aspect-[16/10] overflow-hidden mb-3 md:mb-4 rounded-md">
                   <Image width={800} height={500} quality={60} priority fetchPriority="high" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
@@ -107,7 +107,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
               {/* Right: 2x2 Grid */}
               <div className="grid grid-cols-2 gap-4 md:gap-6">
                 {gridArticles.map((art) => (
-                  <Link key={art.id} href={`/${art.slug}`} className="space-y-2 group cursor-pointer block">
+                  <Link key={art.id} href={art.slug ? `/${art.slug}` : `/article/${art.id}`} className="space-y-2 group cursor-pointer block">
                     <div className="aspect-[4/3] overflow-hidden rounded-md relative">
                       <Image width={400} height={300} quality={60} priority sizes="(max-width: 768px) 50vw, 25vw" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
@@ -136,7 +136,7 @@ export default function HomePageClient({ initialArticles = [], initialTickerItem
             </div>
             <div className="flex gap-4 md:gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x -mx-3 px-3 md:mx-0 md:px-0">
               {topStoryArticles.map((art) => (
-                <Link key={art.id} href={`/${art.slug}`} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
+                <Link key={art.id} href={art.slug ? `/${art.slug}` : `/article/${art.id}`} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
                   <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 rounded-md">
                     <Image width={300} height={200} quality={60} loading="lazy" sizes="280px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     <div className="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter rounded-sm">{art.categoryLabel}</div>

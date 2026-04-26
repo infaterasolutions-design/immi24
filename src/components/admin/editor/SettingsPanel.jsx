@@ -166,7 +166,21 @@ export default function SettingsPanel({ form, handleChange, categories }) {
           />
           <div>
             <p className="text-sm font-medium text-slate-800">Featured Article</p>
-            <p className="text-xs text-slate-500">Pin strictly to the homepage</p>
+            <p className="text-xs text-slate-500">Pin strictly to the homepage hero</p>
+          </div>
+        </label>
+
+        <label className="flex items-center gap-3 cursor-pointer p-3 border border-slate-200 rounded-md bg-slate-50 hover:border-indigo-400 transition-colors mb-4">
+          <input 
+            type="checkbox" 
+            name="is_most_viewed" 
+            checked={form.is_most_viewed || false} 
+            onChange={(e) => handleChange({ target: { name: 'is_most_viewed', value: e.target.checked } })}
+            className="w-4 h-4 rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white"
+          />
+          <div>
+            <p className="text-sm font-medium text-slate-800">Most Viewed Sidebar</p>
+            <p className="text-xs text-slate-500">Pin to the "Most Viewed" right sidebar</p>
           </div>
         </label>
       </div>

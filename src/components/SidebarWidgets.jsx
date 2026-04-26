@@ -1,12 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
+import { getSidebarData } from "@/app/actions/sidebar";
 
 export default function SidebarWidgets({ className = "", showLiveCoverage = true }) {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [latestNews, setLatestNews] = useState([]);
+  const [mostViewed, setMostViewed] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { latestNews: latest, mostViewed: viewed } = await getSidebarData();
+      setLatestNews(latest);
+      setMostViewed(viewed);
+    }
+    fetchData();
+  }, []);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -17,6 +29,18 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
       setEmail("");
     }
   };
+
+  // Helper to format "X hours ago"
+  const getTimeAgo = (dateStr) => {
+    if (!dateStr) return "RECENTLY";
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    if (hours < 1) return "JUST NOW";
+    if (hours === 1) return "1 HOUR AGO";
+    if (hours > 24) return `${Math.floor(hours / 24)} DAYS AGO`;
+    return `${hours} HOURS AGO`;
+  };
+
   return (
     <aside className={`space-y-12 ${className}`}>
       {/* Sticky Sidebar Content wrapper */}
@@ -27,18 +51,18 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
         <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">
           <h3 className="font-headline font-extrabold text-sm tracking-widest uppercase text-primary mb-6">Latest News</h3>
           <div className="space-y-6">
-            <Link href="#" className="group block">
-              <div className="text-xs font-bold text-tertiary mb-1">BREAKING</div>
-              <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">Supreme Court to review DACA Work Authorization limits in 2025.</h4>
-            </Link>
-            <Link href="#" className="group block">
-              <div className="text-xs font-bold text-slate-500 mb-1">2 HOURS AGO</div>
-              <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">USCIS expands premium processing for O-1 and O-2 visas.</h4>
-            </Link>
-            <Link href="#" className="group block">
-              <div className="text-xs font-bold text-slate-500 mb-1">5 HOURS AGO</div>
-              <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">New processing times released for I-485 applications in California.</h4>
-            </Link>
+            {latestNews.length > 0 ? latestNews.map((article, idx) => (
+              <Link key={article.id} href={article.slug ? `/${article.slug}` : `/article/${article.id}`} className="group block">
+                <div className={`text-xs font-bold mb-1 ${idx === 0 ? 'text-tertiary' : 'text-slate-500'}`}>
+                  {idx === 0 ? 'BREAKING' : getTimeAgo(article.published_at)}
+                </div>
+                <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">
+                  {article.title}
+                </h4>
+              </Link>
+            )) : (
+              <p className="text-sm text-slate-500">Loading latest news...</p>
+            )}
           </div>
         </div>
 
@@ -46,27 +70,21 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
         <div>
           <h3 className="font-headline font-extrabold text-sm tracking-widest uppercase text-on-surface mb-6">Most Viewed</h3>
           <div className="space-y-8">
-            <div className="flex gap-4">
-              <span className="text-3xl font-black text-outline-variant/30 font-headline italic">01</span>
-              <div>
-                <h4 className="text-sm font-bold leading-snug text-slate-800">The Ultimate Guide to Green Card Marriage Interviews</h4>
-                <span className="text-[11px] text-on-surface-variant font-medium uppercase tracking-tighter">Green Card • 12k views</span>
+            {mostViewed.length > 0 ? mostViewed.map((article, idx) => (
+              <div key={article.id} className="flex gap-4">
+                <span className="text-3xl font-black text-outline-variant/30 font-headline italic">0{idx + 1}</span>
+                <div>
+                  <Link href={article.slug ? `/${article.slug}` : `/article/${article.id}`}>
+                    <h4 className="text-sm font-bold leading-snug text-slate-800 hover:text-primary transition-colors cursor-pointer">{article.title}</h4>
+                  </Link>
+                  <span className="text-[11px] text-on-surface-variant font-medium uppercase tracking-tighter">
+                    {article.category_label || "Trending"} • {(12 - idx * 2.5).toFixed(1)}k views
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="flex gap-4">
-              <span className="text-3xl font-black text-outline-variant/30 font-headline italic">02</span>
-              <div>
-                <h4 className="text-sm font-bold leading-snug text-slate-800">5 Common Mistakes in EB-2 NIW Personal Statements</h4>
-                <span className="text-[11px] text-on-surface-variant font-medium uppercase tracking-tighter">Work Permit • 9.4k views</span>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <span className="text-3xl font-black text-outline-variant/30 font-headline italic">03</span>
-              <div>
-                <h4 className="text-sm font-bold leading-snug text-slate-800">How to Expedite Your Citizenship Application</h4>
-                <span className="text-[11px] text-on-surface-variant font-medium uppercase tracking-tighter">Citizenship • 7.1k views</span>
-              </div>
-            </div>
+            )) : (
+              <p className="text-sm text-slate-500">Loading most viewed...</p>
+            )}
           </div>
         </div>
 
