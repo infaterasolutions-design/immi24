@@ -126,7 +126,7 @@ export default function SEOPanel({ form, handleChange }) {
             id="index_toggle"
             name="is_indexed" 
             checked={form.is_indexed !== false} 
-            onChange={(e) => handleChange({ target: { name: 'is_indexed', value: e.target.checked } })}
+            onChange={handleChange}
             className="rounded border-slate-300 text-indigo-500 focus:ring-0 bg-white" 
           />
           <label htmlFor="index_toggle" className="text-xs text-slate-600 cursor-pointer">
