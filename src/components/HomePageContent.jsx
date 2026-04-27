@@ -5,9 +5,9 @@ import dynamic from "next/dynamic";
 import LiveTickerSlider from "@/components/LiveTickerSlider";
 import NewsletterWidget from "@/components/NewsletterWidget";
 import VideoHighlights from "@/components/VideoHighlights";
+import MoreLiveCoverageWidget from "@/components/MoreLiveCoverageWidget";
 
 const LatestUpdatesFeed = dynamic(() => import("@/components/LatestUpdatesFeed"));
-const MoreLiveCoverageWidget = dynamic(() => import("@/components/MoreLiveCoverageWidget"));
 const FloatingShareButton = dynamic(() => import("@/components/FloatingShareButton"));
 
 // Placeholder fallback image

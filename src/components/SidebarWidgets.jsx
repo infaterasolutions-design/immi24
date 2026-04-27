@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
 import { getSidebarData } from "@/app/actions/sidebar";
 
 export default function SidebarWidgets({ className = "", showLiveCoverage = true }) {
@@ -47,7 +46,27 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
     <aside className={`space-y-12 ${className}`}>
       {/* Sticky Sidebar Content wrapper */}
       <div className="sticky top-32 space-y-12">
-        {showLiveCoverage && <MoreLiveCoverageWidget events={liveEvents} />}
+        {showLiveCoverage && liveEvents.length > 0 && (
+          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/50 mb-6">
+            <h3 className="font-headline font-extrabold text-sm tracking-widest uppercase text-primary mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse-red"></span>
+              More Live Coverage
+            </h3>
+            <div className="space-y-6">
+              {liveEvents.slice(0, 4).map((event) => (
+                <Link key={event.id} href={`/live-updates/${event.id}`} className="group block">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">LATEST COVERAGE</span>
+                  <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800 line-clamp-2">
+                    {event.title}
+                  </h4>
+                  <span className="text-[10px] font-bold text-rose-600 tracking-widest mt-1 uppercase flex items-center gap-1">
+                     <span className="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse-red inline-block"></span> Live Now
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Latest News Sidebar */}
         <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">
