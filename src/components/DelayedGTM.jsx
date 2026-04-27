@@ -24,17 +24,11 @@ export default function DelayedGTM({ gtmId }) {
     window.addEventListener("touchstart", loadGTM, { passive: true });
     window.addEventListener("keydown", loadGTM, { passive: true });
 
-    // Fallback: load after 4 seconds even if no interaction (bypasses Lighthouse which runs for ~3.5s)
-    const fallbackTimer = setTimeout(() => {
-      loadGTM();
-    }, 4000);
-
     return () => {
       window.removeEventListener("scroll", loadGTM);
       window.removeEventListener("mousemove", loadGTM);
       window.removeEventListener("touchstart", loadGTM);
       window.removeEventListener("keydown", loadGTM);
-      clearTimeout(fallbackTimer);
     };
   }, [shouldLoad]);
 
