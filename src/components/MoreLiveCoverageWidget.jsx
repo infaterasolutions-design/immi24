@@ -1,19 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getLiveEvents } from "@/lib/liveUpdatesData";
 
-export default function MoreLiveCoverageWidget() {
-  const [displayEvents, setDisplayEvents] = useState([]);
-
-  useEffect(() => {
-    async function load() {
-      const events = await getLiveEvents();
-      setDisplayEvents((events || []).slice(0, 4));
-    }
-    load();
-  }, []);
+export default function MoreLiveCoverageWidget({ events = [] }) {
+  const displayEvents = events.slice(0, 4);
 
   if (displayEvents.length === 0) return null;
 

@@ -153,7 +153,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
                 <NewsletterWidget isMobile={true} />
               </div>
 
-              <MoreLiveCoverageWidget />
+              <MoreLiveCoverageWidget events={tickerItems} />
               
               {/* Latest News */}
               <div className="bg-slate-50 p-5 lg:p-6 rounded-none lg:rounded-2xl border border-slate-200/50">
