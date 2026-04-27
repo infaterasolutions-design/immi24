@@ -137,101 +137,65 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
           {/* Video Highlights — dynamically rendered from article data */}
           <VideoHighlights videoArticles={videoArticles} />
 
-          {/* Latest Updates Section */}
+          {/* Latest Updates Section & Sidebar */}
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 py-4 border-t border-slate-100">
-            <LatestUpdatesFeed articles={articles} />
+            
+            {/* Left/Main Column */}
+            <div className="lg:col-span-2">
+              <LatestUpdatesFeed articles={articles} />
+            </div>
 
-            {/* Sidebar — hidden on mobile */}
-            <aside className="hidden lg:block space-y-6">
-              <div className="space-y-6">
-                
-                <MoreLiveCoverageWidget />
-                
-                {/* Latest News — dynamic */}
-                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/50">
-                  <h3 className="font-extrabold text-sm tracking-widest uppercase text-primary mb-6 border-b border-slate-200 pb-3">Latest News</h3>
-                  <div className="space-y-5">
-                    {sidebarLatestArticles.map((art, idx) => (
-                      <div key={art.id}>
-                        {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-5"></div>}
-                        <Link href={`/${art.slug}`} className="group block">
-                          <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
-                            {idx === 0 ? "BREAKING" : art.date}
-                          </div>
-                          <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">{art.title}</h4>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Most Viewed — dynamic */}
-                <div>
-                  <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-6">Most Viewed</h3>
-                  <div className="space-y-8">
-                    {sidebarMostViewed.map((art, idx) => (
-                      <Link key={art.id} href={`/${art.slug}`} className="flex gap-4 group">
-                        <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
-                        <div>
-                          <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>
-                          <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">{art.categoryLabel}</span>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Desktop Newsletter Card */}
-                <NewsletterWidget isMobile={false} />
-
+            {/* Right/Sidebar Column (stacks below on mobile) */}
+            <aside className="space-y-6 lg:col-span-1">
+              
+              {/* Mobile-only Newsletter (shows above sidebar widgets on mobile) */}
+              <div className="lg:hidden">
+                <NewsletterWidget isMobile={true} />
               </div>
+
+              <MoreLiveCoverageWidget />
+              
+              {/* Latest News */}
+              <div className="bg-slate-50 p-5 lg:p-6 rounded-none lg:rounded-2xl border border-slate-200/50">
+                <h3 className="font-extrabold text-sm tracking-widest uppercase text-primary mb-5 lg:mb-6 border-b border-slate-200 pb-3">Latest News</h3>
+                <div className="space-y-4 lg:space-y-5">
+                  {sidebarLatestArticles.map((art, idx) => (
+                    <div key={art.id}>
+                      {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-4 lg:mb-5"></div>}
+                      <Link href={`/${art.slug}`} className="group block">
+                        <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
+                          {idx === 0 ? "BREAKING" : art.date}
+                        </div>
+                        <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">{art.title}</h4>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Most Viewed */}
+              <div>
+                <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-5 lg:mb-6">Most Viewed</h3>
+                <div className="space-y-6 lg:space-y-8">
+                  {sidebarMostViewed.map((art, idx) => (
+                    <Link key={art.id} href={`/${art.slug}`} className="flex gap-4 group">
+                      <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
+                      <div>
+                        <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>
+                        <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">{art.categoryLabel}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop Newsletter Card (shows at bottom of sidebar on desktop) */}
+              <div className="hidden lg:block">
+                <NewsletterWidget isMobile={false} />
+              </div>
+
             </aside>
           </section>
-
-          {/* Mobile-only Newsletter (shown below feed on small screens) */}
-          <NewsletterWidget isMobile={true} />
-
-          {/* Mobile-only Sidebar Widgets (visible only on small screens) */}
-          <div className="lg:hidden space-y-6">
-
-            {/* More Live Coverage — Mobile */}
-            <MoreLiveCoverageWidget />
-
-            {/* Latest News — Mobile */}
-            <div className="bg-slate-50 p-5 border border-slate-200/50">
-              <h3 className="font-extrabold text-sm tracking-widest uppercase text-primary mb-5 border-b border-slate-200 pb-3">Latest News</h3>
-              <div className="space-y-4">
-                {sidebarLatestArticles.map((art, idx) => (
-                  <div key={art.id}>
-                    {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-4"></div>}
-                    <Link href={`/${art.slug}`} className="group block">
-                      <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
-                        {idx === 0 ? "BREAKING" : art.date}
-                      </div>
-                      <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">{art.title}</h4>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Most Viewed — Mobile */}
-            <div>
-              <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-5">Most Viewed</h3>
-              <div className="space-y-6">
-                {sidebarMostViewed.map((art, idx) => (
-                  <Link key={art.id} href={`/${art.slug}`} className="flex gap-4 group">
-                    <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>
-                      <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">{art.categoryLabel}</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-          </div>
 
           {/* Trust Section: Trusted Authority — uses first article image */}
           <section className="py-4">
