@@ -10,12 +10,14 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [latestNews, setLatestNews] = useState([]);
   const [mostViewed, setMostViewed] = useState([]);
+  const [liveEvents, setLiveEvents] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const { latestNews: latest, mostViewed: viewed } = await getSidebarData();
+      const { latestNews: latest, mostViewed: viewed, liveEvents: events } = await getSidebarData();
       setLatestNews(latest);
       setMostViewed(viewed);
+      setLiveEvents(events);
     }
     fetchData();
   }, []);
@@ -45,7 +47,7 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
     <aside className={`space-y-12 ${className}`}>
       {/* Sticky Sidebar Content wrapper */}
       <div className="sticky top-32 space-y-12">
-        {showLiveCoverage && <MoreLiveCoverageWidget />}
+        {showLiveCoverage && <MoreLiveCoverageWidget events={liveEvents} />}
 
         {/* Latest News Sidebar */}
         <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">

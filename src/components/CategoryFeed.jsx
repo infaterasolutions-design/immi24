@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import MoreLiveCoverageWidget from "./MoreLiveCoverageWidget";
+import SidebarWidgets from "./SidebarWidgets";
 
 const FALLBACK_IMAGE = "/images/logo.png";
 
@@ -21,17 +21,6 @@ function getExcerpt(article) {
 }
 export default function CategoryFeed({ title, description, articles }) {
   const [visibleCount, setVisibleCount] = useState(6);
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setIsSubscribed(true);
-      setTimeout(() => setIsSubscribed(false), 3000);
-      setEmail("");
-    }
-  };
 
   const handleLoadMore = () => {
     setVisibleCount(prev => prev + 6);
@@ -106,86 +95,9 @@ export default function CategoryFeed({ title, description, articles }) {
         </div>
 
         {/* Right Sidebar Widget — hidden on mobile */}
-        <aside className="lg:col-span-4 space-y-12 hidden lg:block">
-          <div className="space-y-12">
-            
-            <MoreLiveCoverageWidget />
-            
-            {/* Latest News Sidebar */}
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200/50">
-              <h3 className="font-extrabold text-sm tracking-widest uppercase text-primary mb-6 border-b border-slate-200 pb-3">Latest News</h3>
-              <div className="space-y-5">
-                <Link href="/article/6" className="group block">
-                  <div className="text-[10px] font-bold text-rose-600 tracking-widest uppercase mb-1">BREAKING</div>
-                  <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">Supreme Court to review DACA Work Authorization limits in 2025.</h4>
-                </Link>
-                <div className="h-px w-full bg-slate-200/60"></div>
-                <Link href="/article/7" className="group block">
-                  <div className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-1">2 HOURS AGO</div>
-                  <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">USCIS expands premium processing for O-1 and O-2 visas.</h4>
-                </Link>
-                <div className="h-px w-full bg-slate-200/60"></div>
-                <Link href="/article/10" className="group block">
-                  <div className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-1">5 HOURS AGO</div>
-                  <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">New processing times released for I-485 applications in California.</h4>
-                </Link>
-              </div>
-            </div>
-
-            {/* Most Viewed */}
-            <div>
-              <h3 className="font-extrabold text-sm tracking-widest uppercase text-slate-900 mb-6">Most Viewed</h3>
-              <div className="space-y-8">
-                <div className="flex gap-4">
-                  <span className="text-3xl font-black text-slate-200 headline-font italic">01</span>
-                  <div>
-                    <h4 className="text-sm font-bold leading-snug text-slate-800">The Ultimate Guide to Green Card Marriage Interviews</h4>
-                    <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">Green Card • 12k views</span>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <span className="text-3xl font-black text-slate-200 headline-font italic">02</span>
-                  <div>
-                    <h4 className="text-sm font-bold leading-snug text-slate-800">5 Common Mistakes in EB-2 NIW Personal Statements</h4>
-                    <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">Work Permit • 9.4k views</span>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <span className="text-3xl font-black text-slate-200 headline-font italic">03</span>
-                  <div>
-                    <h4 className="text-sm font-bold leading-snug text-slate-800">How to Expedite Your Citizenship Application</h4>
-                    <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">Citizenship • 7.1k views</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Newsletter Box */}
-            <div className="bg-primary rounded-2xl p-8 text-white shadow-xl relative overflow-hidden mt-6">
-              <div className="relative z-10">
-                <span className="material-symbols-outlined mb-4 text-3xl opacity-90" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
-                <h3 className="font-extrabold text-xl mb-2 headline-font">Global Briefing</h3>
-                <p className="text-sm text-white/90 leading-relaxed mb-6">Stay updated with critical immigration law changes delivered to your inbox weekly.</p>
-                <form onSubmit={handleSubscribe} className="space-y-3 relative">
-                  <input 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg py-3 px-4 text-sm placeholder:text-white/60 focus:ring-1 focus:ring-white outline-none transition-all" 
-                    placeholder="Email address" 
-                    type="email" 
-                  />
-                  <button type="submit" className="w-full bg-white text-primary font-bold py-3 px-4 rounded-lg text-xs uppercase tracking-widest hover:bg-slate-50 transition-colors">
-                    {isSubscribed ? "Subscribed!" : "Subscribe Now"}
-                  </button>
-                  {isSubscribed && (
-                    <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome aboard.</p>
-                  )}
-                </form>
-              </div>
-            </div>
-          </div>
-        </aside>
+        <div className="lg:col-span-4 hidden lg:block">
+          <SidebarWidgets showLiveCoverage={true} />
+        </div>
       </div>
     </div>
   );

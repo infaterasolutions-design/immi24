@@ -28,12 +28,19 @@ export async function getSidebarData() {
       mostViewedData = fallbackData;
     }
 
+    // 3. Fetch Live Events (top 4)
+    const { data: liveEventsData } = await supabase
+      .from('live_events')
+      .select('*')
+      .limit(4);
+
     return {
       latestNews: latestData || [],
-      mostViewed: mostViewedData || []
+      mostViewed: mostViewedData || [],
+      liveEvents: liveEventsData || []
     };
   } catch (error) {
     console.error("Error fetching sidebar data:", error);
-    return { latestNews: [], mostViewed: [] };
+    return { latestNews: [], mostViewed: [], liveEvents: [] };
   }
 }
