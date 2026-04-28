@@ -33,6 +33,7 @@ export default function NewArticle() {
     is_recommended_popup: false,
     is_indexed: true,
     published_at_local: "",
+    location_id: null,
   });
 
   useEffect(() => {

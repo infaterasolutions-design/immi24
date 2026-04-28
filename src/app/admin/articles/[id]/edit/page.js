@@ -34,6 +34,7 @@ export default function EditArticle() {
     is_most_viewed: false,
     is_recommended_popup: false,
     is_indexed: true,
+    location_id: null,
   });
 
   useEffect(() => {

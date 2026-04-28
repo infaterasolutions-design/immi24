@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
+import LocationSelector from "./LocationSelector";
 
 export default function SettingsPanel({ form, handleChange, categories }) {
   const [isUploading, setIsUploading] = useState(false);
@@ -138,6 +139,12 @@ export default function SettingsPanel({ form, handleChange, categories }) {
               className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
             />
           </div>
+
+          {/* Location Selector */}
+          <LocationSelector
+            locationId={form.location_id}
+            onLocationChange={(id) => handleChange({ target: { name: "location_id", value: id } })}
+          />
           
           <div>
              <label className="block text-xs text-slate-500 mb-1">Read Time</label>

@@ -217,7 +217,7 @@ export default function ArticleSection({ article, isFirst = false }) {
           )}
 
           {/* Author Info */}
-          <div className="flex items-center gap-4 mb-4 md:mb-5 pb-4 md:pb-5 border-b border-slate-100">
+          <div className="flex items-center gap-4 mb-1 pb-2 border-b border-slate-100">
             <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
               {article.authorImage ? (
                 <Image 
@@ -234,9 +234,36 @@ export default function ArticleSection({ article, isFirst = false }) {
             </div>
             <div className="flex flex-col justify-center gap-1.5">
               <div className="text-slate-900 font-bold text-[16px] leading-none">{article.authorName}</div>
-              <div className="text-slate-500 text-[14px] leading-none">Washington, D.C. • MAR 14, 2024 at 10:00 AM EDT</div>
+              <div className="text-slate-500 text-[13px] leading-none flex items-center gap-1">
+                <span>🕒</span>
+                <span>{article.date || new Date(article.published_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
+              </div>
             </div>
           </div>
+
+          {/* Location Badge — styled like category breadcrumb */}
+          {article.location && (
+            <div className="flex items-center gap-3 mb-5 md:mb-6">
+              <div className="bg-[#eef2ff] text-[#1e3a8a] px-3 py-1.5 rounded flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase font-sans">
+                <span className="text-sm leading-none">📍</span>
+                {article.location.parentSlug ? (
+                  <>
+                    <Link href={`/location/${article.location.parentSlug}`} className="hover:opacity-80 transition-opacity">
+                      {article.location.parentName}
+                    </Link>
+                    <span className="text-[#1e3a8a]/40 text-xs leading-none relative -top-[1px]">|</span>
+                    <Link href={`/location/${article.location.parentSlug}/${article.location.slug}`} className="hover:opacity-80 transition-opacity">
+                      {article.location.name}
+                    </Link>
+                  </>
+                ) : (
+                  <Link href={`/location/${article.location.slug}`} className="hover:opacity-80 transition-opacity">
+                    {article.location.name}
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Action Bar (Above the image) */}
           <div className="flex justify-end gap-2 md:gap-3 mb-2 relative z-20 w-full">
