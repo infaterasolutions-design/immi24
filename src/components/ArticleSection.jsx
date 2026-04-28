@@ -234,10 +234,16 @@ export default function ArticleSection({ article, isFirst = false }) {
             </div>
             <div className="flex flex-col justify-center gap-1.5">
               <div className="text-slate-900 font-bold text-[16px] leading-none">{article.authorName}</div>
-              <div className="text-slate-500 text-[13px] leading-none flex items-center gap-1">
-                <span>🕒</span>
-                <span>{article.date || new Date(article.published_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
-              </div>
+              <div className="text-slate-500 text-[14px] leading-none">{(() => {
+                const d = article.published_at ? new Date(article.published_at) : null;
+                if (!d) return article.date || "";
+                const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+                const day = d.getDate();
+                const year = d.getFullYear();
+                const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+                const tz = d.toLocaleTimeString("en-US", { timeZoneName: "short" }).split(" ").pop();
+                return `${month} ${day}, ${year} at ${time} ${tz}`;
+              })()}</div>
             </div>
           </div>
 
