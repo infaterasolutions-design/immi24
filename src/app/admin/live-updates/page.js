@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getAllLiveEvents, createLiveEvent, updateLiveEvent, deleteLiveEvent as removeLiveEvent } from "../../../app/actions/liveEventsActions";
+import { revalidateServerPath } from "../../../app/actions/revalidate";
 import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
 import DataTable from "../../../components/admin/DataTable";
 import RoleGuard from "../../../components/admin/RoleGuard";
@@ -45,6 +46,10 @@ export default function AdminLiveUpdates() {
       showToast(error, "error"); 
       return; 
     }
+    
+    // Clear cache for homepage
+    await revalidateServerPath("/", "layout");
+    
     showToast(editEvent ? "Event updated" : "Event created");
     setShowModal(false);
     setEditEvent(null);

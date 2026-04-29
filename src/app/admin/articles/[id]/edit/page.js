@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { supabase } from "../../../../../lib/supabase";
+import { revalidateServerPath } from "../../../../../app/actions/revalidate";
 import TiptapEditor from "../../../../../components/admin/editor/TiptapEditor";
 import SEOPanel from "../../../../../components/admin/editor/SEOPanel";
 import SettingsPanel from "../../../../../components/admin/editor/SettingsPanel";
@@ -147,6 +148,15 @@ export default function EditArticle() {
     if (error) {
       alert("Failed to update: " + error.message);
     } else {
+      // Clear cache for homepage, specific article page, and category page
+      await revalidateServerPath("/", "layout");
+      if (payload.slug) {
+        await revalidateServerPath(`/${payload.slug}`, "page");
+      }
+      if (payload.category_slug) {
+        await revalidateServerPath(`/category/${payload.category_slug}`, "page");
+      }
+
       router.push(`/admin/articles`);
     }
   };

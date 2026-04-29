@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabase";
+import { revalidateServerPath } from "../../../../app/actions/revalidate";
 import TiptapEditor from "../../../../components/admin/editor/TiptapEditor";
 import SEOPanel from "../../../../components/admin/editor/SEOPanel";
 import SettingsPanel from "../../../../components/admin/editor/SettingsPanel";
@@ -107,6 +108,12 @@ export default function NewArticle() {
     if (error) {
       alert("Failed to save: " + error.message);
     } else {
+      // Clear the cache for the homepage and potentially category pages
+      await revalidateServerPath("/", "layout");
+      if (payload.category_slug) {
+        await revalidateServerPath(`/category/${payload.category_slug}`, "page");
+      }
+      
       router.push(`/admin/articles`);
     }
   };
