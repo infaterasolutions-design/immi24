@@ -66,7 +66,7 @@ export async function getLiveEventById(id) {
 /**
  * Create a new live event with auto-slug generation
  */
-export async function createLiveEvent({ title, slug, description, status, date, date_picker, hero_image, image_caption, header_context }) {
+export async function createLiveEvent({ title, slug, description, status, date, date_picker, authors, hero_image, image_caption, header_context }) {
   await checkAuth();
 
   if (!title || title.trim().length === 0) {
@@ -110,7 +110,7 @@ export async function createLiveEvent({ title, slug, description, status, date, 
         description: description?.trim() || null,
         status: status || "inactive",
         date: date || new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
-        authors: [],
+        authors: authors || [],
         hero_image: hero_image || null,
         image_caption: image_caption || null,
         header_context: header_context || null

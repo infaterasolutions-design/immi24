@@ -5,11 +5,35 @@ import { useState, use, useEffect } from "react";
 import SidebarWidgets from "@/components/SidebarWidgets";
 import { getLiveEventById } from "@/lib/liveUpdatesData";
 
-const LiveUpdateCard = ({ update }) => {
+const LiveUpdateCard = ({ update, eventId }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = (platform) => {
+    const url = `${window.location.origin}/live-updates/${eventId}#${update.id}`;
+    const text = update.title ? encodeURIComponent(update.title) : encodeURIComponent("Live Update");
+    const encodedUrl = encodeURIComponent(url);
+
+    if (platform === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, '_blank', 'width=600,height=400');
+      setShowShareMenu(false);
+    } else if (platform === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${text}`, '_blank', 'width=600,height=400');
+      setShowShareMenu(false);
+    } else if (platform === 'copy') {
+      navigator.clipboard.writeText(url).then(() => {
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+          setShowShareMenu(false);
+        }, 2000);
+      });
+    }
+  };
 
   return (
-    <article className="relative pl-8 lg:pl-0 group mb-10 lg:mb-14">
+    <article id={update.id} className="relative pl-8 lg:pl-0 group mb-10 lg:mb-14 scroll-mt-24">
       {/* Timeline dots */}
       {update.isFirst ? (
         <div className="absolute left-[-6px] lg:left-[-32px] top-1 w-[18px] h-[18px] bg-amber-500 rounded-full ring-2 ring-amber-200 z-10 flex items-center justify-center">
@@ -66,9 +90,53 @@ const LiveUpdateCard = ({ update }) => {
           </div>
 
           {/* Share Button intersecting the bottom border */}
-          <button className="absolute -bottom-5 right-4 md:right-8 w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 hover:shadow-md shadow-sm transition-all group/share z-20">
-            <span className="material-symbols-outlined text-[18px]">share</span>
-          </button>
+          <div className="absolute -bottom-5 right-4 md:right-8 z-20 flex flex-col items-end">
+            {showShareMenu && (
+              <div 
+                onMouseDown={(e) => e.preventDefault()} 
+                className="mb-2 bg-white border border-slate-200 rounded-full shadow-lg flex items-center p-1.5 animate-fade-in-up origin-bottom gap-1"
+              >
+                <button 
+                  onMouseDown={() => handleShare('facebook')} 
+                  title="Share on Facebook"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-[#1877F2] transition-colors"
+                >
+                  <span className="font-bold text-lg leading-none mt-[-2px]">f</span>
+                </button>
+                <div className="w-px h-5 bg-slate-200 mx-0.5" />
+                <button 
+                  onMouseDown={() => handleShare('twitter')} 
+                  title="Share on X"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-900 transition-colors"
+                >
+                  <span className="font-bold text-lg leading-none mt-[-2px]">𝕏</span>
+                </button>
+                <div className="w-px h-5 bg-slate-200 mx-0.5" />
+                <div className="relative">
+                  <button 
+                    onMouseDown={() => handleShare('copy')} 
+                    title="Copy Link"
+                    className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${copied ? 'bg-green-50 text-green-600' : 'hover:bg-slate-100 text-slate-600'}`}
+                  >
+                    <span className="material-symbols-outlined text-[18px]">{copied ? 'check' : 'link'}</span>
+                  </button>
+                  {copied && (
+                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg whitespace-nowrap animate-fade-in-up">
+                      Copied!
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-2 border-transparent border-t-slate-800" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            <button 
+              onClick={() => setShowShareMenu(!showShareMenu)}
+              onBlur={() => setTimeout(() => setShowShareMenu(false), 200)}
+              className="w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-primary hover:shadow-md hover:border-primary/30 shadow-sm transition-all group/share"
+            >
+              <span className="material-symbols-outlined text-[18px]">share</span>
+            </button>
+          </div>
         </div>
       </div>
     </article>
@@ -286,7 +354,7 @@ export default function LiveUpdateEventPage({ params }) {
               <>
                 <div className="absolute left-[3px] lg:left-[-23px] top-6 bottom-0 w-[1px] bg-slate-200"></div>
                 {visibleUpdates.map((update) => (
-                  <LiveUpdateCard key={update.id} update={update} />
+                  <LiveUpdateCard key={update.id} update={update} eventId={event.id} />
                 ))}
               </>
             ) : (

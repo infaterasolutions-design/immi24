@@ -153,7 +153,12 @@ function LiveEventModal({ event, onClose, onSave }) {
     hero_image: event?.hero_image || "",
     image_caption: event?.image_caption || "",
     header_context: event?.header_context || "",
+    authors: event?.authors || [],
   });
+
+  const [newAuthorName, setNewAuthorName] = useState("");
+  const [newAuthorImage, setNewAuthorImage] = useState("");
+  const [uploadingAuthorImg, setUploadingAuthorImg] = useState(false);
 
   function generateSlug(text) {
     return text
@@ -197,6 +202,37 @@ function LiveEventModal({ event, onClose, onSave }) {
     } finally {
       setUploading(false);
     }
+  }
+
+  async function handleAuthorImageUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingAuthorImg(true);
+    try {
+      const url = await uploadMediaToSupabase(file);
+      if (url) setNewAuthorImage(url);
+    } catch (err) {
+      alert("Failed to upload image: " + err.message);
+    } finally {
+      setUploadingAuthorImg(false);
+    }
+  }
+
+  function addAuthor() {
+    if (!newAuthorName.trim()) return;
+    setForm(prev => ({
+      ...prev,
+      authors: [...prev.authors, { name: newAuthorName.trim(), image: newAuthorImage || "/images/u1.jpg" }]
+    }));
+    setNewAuthorName("");
+    setNewAuthorImage("");
+  }
+
+  function removeAuthor(indexToRemove) {
+    setForm(prev => ({
+      ...prev,
+      authors: prev.authors.filter((_, i) => i !== indexToRemove)
+    }));
   }
 
   async function handleSubmit(e) {
@@ -363,6 +399,45 @@ function LiveEventModal({ event, onClose, onSave }) {
                   onChange={handleChange}
                   placeholder="e.g., AP Photo / Reuters"
                 />
+              </div>
+
+              {/* Authors Management */}
+              <div style={sectionStyle}>
+                <label style={{ ...labelStyle, marginBottom: 12 }}>Authors</label>
+                
+                {/* Current Authors List */}
+                {form.authors && form.authors.length > 0 && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+                    {form.authors.map((author, index) => (
+                      <div key={index} style={{ display: "flex", alignItems: "center", background: "#e2e8f0", padding: "4px 8px 4px 4px", borderRadius: 20, gap: 6 }}>
+                        <img src={author.image} alt="author" style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover" }} />
+                        <span style={{ fontSize: "0.8rem", fontWeight: 600, color: "#334155" }}>{author.name}</span>
+                        <button type="button" onClick={() => removeAuthor(index)} style={{ background: "none", border: "none", color: "#64748b", cursor: "pointer", fontSize: "1rem", lineHeight: 1, padding: 0, marginLeft: 4 }}>×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Add New Author */}
+                <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
+                  <div style={{ flex: 1 }}>
+                    <input
+                      style={{ ...inputStyle, fontSize: "0.85rem", padding: "8px 12px" }}
+                      value={newAuthorName}
+                      onChange={(e) => setNewAuthorName(e.target.value)}
+                      placeholder="Author Name"
+                    />
+                  </div>
+                  <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                    <label style={{ width: 36, height: 36, border: "1px dashed #cbd5e1", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: uploadingAuthorImg ? "wait" : "pointer", overflow: "hidden", background: "#fff" }}>
+                      {uploadingAuthorImg ? "⏳" : newAuthorImage ? <img src={newAuthorImage} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "📷"}
+                      <input type="file" accept="image/*" onChange={handleAuthorImageUpload} disabled={uploadingAuthorImg} style={{ display: "none" }} />
+                    </label>
+                    <button type="button" onClick={addAuthor} disabled={!newAuthorName.trim()} style={{ padding: "8px 12px", border: "none", borderRadius: 8, fontSize: "0.85rem", fontWeight: 600, cursor: newAuthorName.trim() ? "pointer" : "not-allowed", background: newAuthorName.trim() ? "#10b981" : "#cbd5e1", color: "#fff" }}>
+                      Add
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
