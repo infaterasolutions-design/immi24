@@ -9,7 +9,7 @@ export async function generateMetadata({ params }) {
   if (!subcategory) return { title: 'Not Found' };
   
   return {
-    title: `${subcategory.name} - The Digital Diplomat`
+    title: `${subcategory.name} - United States Immigration News`
   };
 }
 

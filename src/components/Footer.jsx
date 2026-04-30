@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <span className="text-2xl font-extrabold tracking-tighter headline-font block mb-4 md:mb-6 text-slate-900">
               <img
-                alt="The Digital Diplomat Logo"
+                alt="United States Immigration News Logo"
                 className="w-auto object-contain mb-4 md:mb-6 h-10 md:h-14"
                 src="/images/logo.png"
               />
@@ -51,7 +51,7 @@ export default function Footer() {
       
       {/* Full-width bottom bar */}
       <div className="border-t border-slate-200 py-6 md:py-8 px-4 md:px-6 text-center text-slate-400 text-xs mt-8 md:mt-12 w-full">
-        © 2024 The Digital Diplomat Editorial. All rights reserved.
+        © 2024 United States Immigration News Editorial. All rights reserved.
       </div>
     </footer>
   );

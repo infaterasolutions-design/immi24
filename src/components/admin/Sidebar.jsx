@@ -34,7 +34,7 @@ export default function AdminSidebar({ user }) {
     <div className="admin-sidebar">
       <div className="admin-sidebar-brand">
         <h1>Admin Panel</h1>
-        <span>The Digital Diplomat</span>
+        <span>United States Immigration News</span>
       </div>
 
       <div className="admin-sidebar-user">
