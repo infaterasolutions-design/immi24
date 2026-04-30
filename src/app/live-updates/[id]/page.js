@@ -89,7 +89,7 @@ const LiveUpdateCard = ({ update, eventId }) => {
             )}
           </div>
 
-          {/* Share Button intersecting the bottom border */}
+            {/* Share Button intersecting the bottom border */}
           <div className="absolute -bottom-5 right-4 md:right-8 z-20 flex flex-col items-end">
             {showShareMenu && (
               <div 
@@ -130,7 +130,18 @@ const LiveUpdateCard = ({ update, eventId }) => {
               </div>
             )}
             <button 
-              onClick={() => setShowShareMenu(!showShareMenu)}
+              onClick={() => {
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile && navigator.share) {
+                  navigator.share({
+                    title: update.title || "Live Update",
+                    text: "Check out this live update",
+                    url: `${window.location.origin}/live-updates/${eventId}#${update.id}`,
+                  }).catch((err) => console.log("Share canceled", err));
+                } else {
+                  setShowShareMenu(!showShareMenu);
+                }
+              }}
               onBlur={() => setTimeout(() => setShowShareMenu(false), 200)}
               className="w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-primary hover:shadow-md hover:border-primary/30 shadow-sm transition-all group/share"
             >
