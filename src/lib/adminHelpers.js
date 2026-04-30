@@ -53,7 +53,8 @@ export async function getAdminLiveEvents() {
   try {
     const { data, error } = await supabase
       .from('live_events')
-      .select('*');
+      .select('*')
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error("Error fetching admin live events:", error.message, error.details, error.hint);

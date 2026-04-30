@@ -13,7 +13,7 @@ export async function getLiveEvents() {
     return cache.liveEvents.data;
   }
 
-  const { data, error } = await supabase.from('live_events').select('*');
+  const { data, error } = await supabase.from('live_events').select('*').order('created_at', { ascending: false });
   const mapped = (data || []).map(mapLiveEvent);
   cache.liveEvents = { data: mapped, timestamp: Date.now() };
   return mapped;

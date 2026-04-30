@@ -32,6 +32,7 @@ export async function getSidebarData() {
     const { data: liveEventsData } = await supabase
       .from('live_events')
       .select('*')
+      .order('created_at', { ascending: false })
       .limit(4);
 
     return {
