@@ -59,7 +59,10 @@ export default function ArticleSection({ article, isFirst = false }) {
     try {
       await navigator.clipboard.writeText(getArticleUrl());
       setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      setTimeout(() => {
+        setCopySuccess(false);
+        setShowShareMenu(false);
+      }, 2000);
     } catch {
       const input = document.createElement('input');
       input.value = getArticleUrl();
@@ -68,7 +71,10 @@ export default function ArticleSection({ article, isFirst = false }) {
       document.execCommand('copy');
       document.body.removeChild(input);
       setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      setTimeout(() => {
+        setCopySuccess(false);
+        setShowShareMenu(false);
+      }, 2000);
     }
   };
 
@@ -171,7 +177,17 @@ export default function ArticleSection({ article, isFirst = false }) {
                <span className="material-symbols-outlined text-[20px]">{isSaved ? 'bookmark_added' : 'bookmark'}</span>
              </button>
              <button
-               onClick={() => setShowShareMenu(!showShareMenu)}
+               onClick={() => {
+                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                 if (isMobile && navigator.share) {
+                   navigator.share({
+                     title: article.title || "Article",
+                     url: getArticleUrl(),
+                   }).catch((err) => console.log("Share canceled", err));
+                 } else {
+                   setShowShareMenu(!showShareMenu);
+                 }
+               }}
                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
                  showShareMenu ? 'bg-primary text-white border-primary' : 'bg-transparent text-slate-500 border-slate-200 hover:text-primary hover:border-primary'
                }`}
@@ -291,32 +307,50 @@ export default function ArticleSection({ article, isFirst = false }) {
              </button>
              <div className="relative">
                <button 
-                 onClick={() => setShowShareMenu(!showShareMenu)}
+                 onClick={() => {
+                   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                   if (isMobile && navigator.share) {
+                     navigator.share({
+                       title: article.title || "Article",
+                       url: getArticleUrl(),
+                     }).catch((err) => console.log("Share canceled", err));
+                   } else {
+                     setShowShareMenu(!showShareMenu);
+                   }
+                 }}
+                 onBlur={() => setTimeout(() => setShowShareMenu(false), 200)}
                  className={`w-10 h-10 rounded-full flex items-center justify-center ${showShareMenu ? 'bg-primary text-white' : 'bg-surface-container-lowest text-slate-600'} hover:text-white hover:bg-primary transition-all shadow-sm border border-outline-variant/10`}
                >
                  <span className="material-symbols-outlined text-[20px]">share</span>
                </button>
                
                {/* Share Dropdown */}
-               <div className={`absolute top-12 right-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-3 flex flex-col items-center gap-4 z-30 transition-all duration-700 ease-out origin-top-right ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
-                 <button onClick={() => handleShare('facebook')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <Image src="/social/facebook.jpeg" alt="Facebook" width={32} height={32} className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+               <div 
+                 onMouseDown={(e) => e.preventDefault()}
+                 className={`absolute top-12 right-0 mt-2 bg-white rounded-full shadow-2xl border border-slate-200 p-1.5 flex flex-row items-center gap-1 z-30 transition-all duration-300 ease-out origin-top-right ${showShareMenu ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
+                 <button onMouseDown={() => handleShare('facebook')} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-[#1877F2] transition-colors">
+                   <span className="font-bold text-lg leading-none mt-[-2px]">f</span>
                  </button>
-                 <button onClick={() => handleShare('twitter')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <Image src="/social/X.jpg" alt="X" width={32} height={32} className="w-8 h-8 object-contain rounded-full border border-slate-100/50" />
+                 <div className="w-px h-5 bg-slate-200 mx-0.5" />
+                 <button onMouseDown={() => handleShare('twitter')} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-900 transition-colors">
+                   <span className="font-bold text-lg leading-none mt-[-2px]">𝕏</span>
                  </button>
-                 <button onClick={() => handleShare('linkedin')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <Image src="/social/linkedin.png" alt="LinkedIn" width={32} height={32} className="w-8 h-8 object-contain rounded border border-slate-100/50" />
+                 <div className="w-px h-5 bg-slate-200 mx-0.5" />
+                 <button onMouseDown={() => handleShare('linkedin')} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+                   <Image src="/social/linkedin.png" alt="LinkedIn" width={16} height={16} className="w-4 h-4 object-contain opacity-80" />
                  </button>
-                 <button onClick={() => handleShare('email')} className="hover:-translate-y-1 transition-transform w-8 h-8 flex justify-center items-center">
-                   <Image src="/social/mail.jpeg" alt="Email" width={32} height={32} className="w-8 h-8 object-contain rounded border border-slate-100/50" />
-                 </button>
-                 <div className="h-px w-6 bg-slate-200"></div>
-                 <button onClick={handleCopyLink} className={`hover:-translate-y-1 transition-transform w-8 h-8 rounded-full flex justify-center items-center border ${
-                   copySuccess ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-slate-100 text-slate-700 border-slate-200/50'
-                 }`}>
-                   <span className="material-symbols-outlined text-[18px]">{copySuccess ? 'check' : 'link'}</span>
-                 </button>
+                 <div className="w-px h-5 bg-slate-200 mx-0.5" />
+                 <div className="relative">
+                   <button onMouseDown={handleCopyLink} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${copySuccess ? 'bg-green-50 text-green-600' : 'hover:bg-slate-100 text-slate-600'}`}>
+                     <span className="material-symbols-outlined text-[18px]">{copySuccess ? 'check' : 'link'}</span>
+                   </button>
+                   {copySuccess && (
+                     <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg whitespace-nowrap animate-fade-in-up">
+                       Copied!
+                       <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-2 border-transparent border-t-slate-800" />
+                     </div>
+                   )}
+                 </div>
                </div>
              </div>
           </div>
