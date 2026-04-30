@@ -35,8 +35,16 @@ export default function AdminArticles() {
 
   async function handleDelete(id) {
     if (!confirm("Are you sure you want to delete this article?")) return;
+    
+    // First, delete any linked videos to avoid foreign key constraint violations
+    await supabase.from("videos").delete().eq("article_id", id);
+    
     const { error } = await supabase.from("articles").delete().eq("id", id);
-    if (error) { showToast("Failed to delete", "error"); return; }
+    if (error && (error.message || error.code || error.details)) { 
+      console.error("Delete error:", JSON.stringify(error));
+      showToast(`Failed to delete: ${error.message || error.details || error.code}`, "error"); 
+      return; 
+    }
     showToast("Article deleted");
     fetchArticles();
   }
