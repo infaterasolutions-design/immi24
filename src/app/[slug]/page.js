@@ -6,6 +6,9 @@ import { supabase } from "@/lib/supabase";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://unitedstatesimmigrationnews.com").replace(/\/+$/, "");
 
+// ISR — automatically refresh cached page data every 60 seconds
+export const revalidate = 60;
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const { data: article } = await supabase
