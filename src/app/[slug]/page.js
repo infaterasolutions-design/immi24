@@ -3,7 +3,7 @@ import { fetchArticleInitialDataBySlug } from "@/app/actions/article";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://unitedstatesimmigrationnews.com";
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://unitedstatesimmigrationnews.com").replace(/\/+$/, "");
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
