@@ -1,57 +1,159 @@
-import Link from "next/link";
-import ArticleSection from "./ArticleSection";
-import SidebarWidgets from "./SidebarWidgets";
+"use client";
 
-export default function InfiniteScrollContainer({ initialArticle, sidebarData, nextArticle }) {
+import { useState, useEffect, useRef, useCallback } from "react";
+import ArticleSection from "./ArticleSection";
+import ScrollToTopButton from "./ScrollToTopButton";
+import SidebarWidgets from "./SidebarWidgets";
+import { fetchNextArticleAction } from "@/app/actions/article";
+
+const MAX_ARTICLES = 4;
+
+export default function InfiniteScrollContainer({ initialArticle, sidebarData }) {
+  const [articles, setArticles] = useState([initialArticle]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [visibleArticle, setVisibleArticle] = useState(initialArticle.id);
+
+  const loaderRef = useRef(null);
+  const observerRef = useRef(null);
+  const visibilityObserverRef = useRef(null);
+
+  const fetchNextArticle = useCallback(async () => {
+    if (isLoading || !hasMore || articles.length >= MAX_ARTICLES) return;
+
+    try {
+      setIsLoading(true);
+      const currentLastId = articles[articles.length - 1].id;
+      const nextArticle = await fetchNextArticleAction(currentLastId);
+
+      if (nextArticle) {
+        setArticles((prev) => [...prev, nextArticle]);
+        if (articles.length + 1 >= MAX_ARTICLES) {
+          setHasMore(false);
+        }
+      } else {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Failed to load next article:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [articles, isLoading, hasMore]);
+
+  // Observer for triggering fetch
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        fetchNextArticle();
+      }
+    }, { rootMargin: "200px" });
+
+    if (loaderRef.current) {
+      observerRef.current.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [fetchNextArticle, hasMore]);
+
+  // Observer for URL updates based on visibility
+  useEffect(() => {
+    if (visibilityObserverRef.current) visibilityObserverRef.current.disconnect();
+
+    visibilityObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const articleId = entry.target.getAttribute("data-article-id");
+            const articleSlug = entry.target.getAttribute("data-article-slug");
+            if (articleId && articleId !== visibleArticle) {
+              setVisibleArticle(articleId);
+              // Update URL without a page reload
+              if (articleSlug) {
+                window.history.replaceState(null, "", `/${articleSlug}`);
+              } else {
+                window.history.replaceState(null, "", `/article/${articleId}`);
+              }
+            }
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 } // Trigger when the article enters the upper-middle part of the screen
+    );
+
+    const wrappers = document.querySelectorAll(".article-wrapper");
+    wrappers.forEach((wrapper) => {
+      visibilityObserverRef.current.observe(wrapper);
+    });
+
+    return () => {
+      if (visibilityObserverRef.current) visibilityObserverRef.current.disconnect();
+    };
+  }, [articles, visibleArticle]);
+
   return (
     <>
       <div className="pt-4 md:pt-8 pb-0 px-3 md:px-4 lg:px-24 max-w-[1298px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative">
         <div className="lg:col-span-8 flex flex-col gap-2 md:gap-3">
-          <ArticleSection article={initialArticle} isFirst={true} />
+          {articles.map((article, index) => (
+            <ArticleSection key={`article-${article.id}`} article={article} isFirst={index === 0} />
+          ))}
           
-          {/* Next Story / Keep Reading — already loaded, shows instantly */}
-          {nextArticle && (
-            <div className="mt-12 pt-10 border-t border-slate-200">
-              <h3 className="font-headline font-black text-2xl text-slate-800 mb-6 flex items-center gap-3">
-                <span className="w-2 h-8 bg-primary rounded-full inline-block"></span>
-                Keep Reading
-              </h3>
-              <Link href={`/${nextArticle.slug}`} className="group flex flex-col sm:flex-row bg-slate-50 hover:bg-slate-100 rounded-2xl overflow-hidden transition-colors border border-slate-200">
-                {nextArticle.main_image && (
-                  <div className="sm:w-1/3 aspect-[16/9] sm:aspect-square relative overflow-hidden shrink-0">
-                    <img 
-                      src={nextArticle.main_image} 
-                      alt={nextArticle.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                )}
-                <div className="p-6 flex flex-col justify-center">
-                  <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest mb-2 block">
-                    {nextArticle.category_label || "Next Article"}
-                  </span>
-                  <h4 className="text-lg sm:text-xl font-bold leading-tight group-hover:text-primary transition-colors text-slate-800 mb-2">
-                    {nextArticle.title}
-                  </h4>
-                  {nextArticle.read_time && (
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-                      {nextArticle.read_time} Min Read
-                    </span>
-                  )}
-                </div>
-              </Link>
+          {/* Loading Indicator / Sentinel */}
+          {hasMore && articles.length < MAX_ARTICLES && (
+            <div ref={loaderRef} className="py-8 flex justify-center items-center gap-3">
+              <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Loading Next Story...</span>
             </div>
           )}
 
           {/* End of Feed Message and Mobile Sidebar */}
-          <div className="block lg:hidden mt-12 mb-16">
-            <SidebarWidgets className="w-full" initialData={sidebarData} />
-          </div>
+          {(!hasMore || articles.length >= MAX_ARTICLES) && (
+            <>
+              <div className="block lg:hidden mt-12 mb-16">
+                <SidebarWidgets className="w-full" initialData={sidebarData} />
+              </div>
+              <div className="py-20 text-center text-slate-400 text-sm font-medium">
+                You've reached the end of the feed.
+              </div>
+            </>
+          )}
         </div>
 
         {/* Sidebar Section (Desktop) */}
         <div className="hidden lg:block lg:col-span-4">
           <SidebarWidgets className="w-full" initialData={sidebarData} />
+        </div>
+      </div>
+
+      {/* Fixed Bottom "Up Next" Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-100 px-6 py-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] md:block hidden">
+        <div className="max-w-[1298px] mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:block">
+              <div className="text-[10px] font-extrabold text-primary uppercase tracking-widest mb-1">Currently Reading</div>
+              <div className="text-sm font-bold max-w-xs truncate text-slate-800">
+                {articles.find((a) => a.id === visibleArticle)?.title || articles[0].title}
+              </div>
+            </div>
+            <div className="h-8 w-px bg-slate-200"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-slate-400">Article {articles.findIndex((a) => a.id === visibleArticle) + 1} of {hasMore ? "4" : articles.length}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+             <button 
+               className="px-6 py-2 bg-primary text-on-primary rounded-full text-xs font-bold hover:scale-105 transition-transform opacity-50 cursor-not-allowed"
+               disabled
+             >
+               Next Story
+             </button>
+             <ScrollToTopButton />
+          </div>
         </div>
       </div>
     </>

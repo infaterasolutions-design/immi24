@@ -1,5 +1,5 @@
 import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
-import { fetchArticleInitialDataBySlug, fetchNextArticleAction } from "@/app/actions/article";
+import { fetchArticleInitialDataBySlug } from "@/app/actions/article";
 import { getSidebarData } from "@/app/actions/sidebar";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -65,12 +65,9 @@ export default async function ArticlePage({ params }) {
   if (!article) {
     return notFound();
   }
-
-  // Pre-fetch the next article on the server
-  const nextArticle = await fetchNextArticleAction(article.id);
   
   return (
-    <InfiniteScrollContainer initialArticle={article} sidebarData={sidebarData} nextArticle={nextArticle} />
+    <InfiniteScrollContainer initialArticle={article} sidebarData={sidebarData} />
   );
 }
 
