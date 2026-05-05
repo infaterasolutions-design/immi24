@@ -8,10 +8,14 @@ import { fetchNextArticleAction } from "@/app/actions/article";
 
 const MAX_ARTICLES = 4;
 
-export default function InfiniteScrollContainer({ initialArticle, sidebarData }) {
-  const [articles, setArticles] = useState([initialArticle]);
+export default function InfiniteScrollContainer({ initialArticle, sidebarData, nextArticle }) {
+  // Initialize with initialArticle, and nextArticle if it exists
+  const initialArticles = nextArticle ? [initialArticle, nextArticle] : [initialArticle];
+  
+  const [articles, setArticles] = useState(initialArticles);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  // Only try to load more if we actually found a next article to begin with
+  const [hasMore, setHasMore] = useState(initialArticles.length < MAX_ARTICLES && !!nextArticle);
   const [visibleArticle, setVisibleArticle] = useState(initialArticle.id);
 
   const loaderRef = useRef(null);
