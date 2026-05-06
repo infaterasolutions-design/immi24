@@ -4,8 +4,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import dynamic from "next/dynamic";
 
-const LanguageTranslator = dynamic(() => import("./LanguageTranslator"), { ssr: false });
-const RecommendedPopup = dynamic(() => import("./RecommendedPopup"), { ssr: false });
+const LanguageTranslator = dynamic(() => import("./LanguageTranslator"));
+const RecommendedPopup = dynamic(() => import("./RecommendedPopup"));
 
 /**
  * Conditionally renders the public site chrome (Header, Footer, etc.)
