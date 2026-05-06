@@ -51,7 +51,7 @@ export default function Footer() {
       
       {/* Full-width bottom bar */}
       <div className="border-t border-slate-200 py-6 md:py-8 px-4 md:px-6 text-center text-slate-400 text-xs mt-8 md:mt-12 w-full">
-        © 2024 United States Immigration News Editorial. All rights reserved.
+        &copy; {new Date().getFullYear()} United States Immigration News Editorial. All rights reserved.
       </div>
     </footer>
   );
