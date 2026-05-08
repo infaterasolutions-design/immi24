@@ -1,11 +1,18 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { getRecommendedPopupData } from "@/app/actions/popupAction";
 
 export default function RecommendedPopup() {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
+
+  const isArticlePage = pathname !== "/" &&
+    !pathname.startsWith("/category") &&
+    !pathname.startsWith("/live-updates") &&
+    !pathname.startsWith("/admin");
 
   useEffect(() => {
     async function fetchData() {
@@ -20,7 +27,7 @@ export default function RecommendedPopup() {
 
   return (
     <div 
-      className="fixed bottom-6 right-0 z-[60] w-[150px]"
+      className={`fixed ${isArticlePage ? 'bottom-24' : 'bottom-6'} right-0 z-[60] w-[150px]`}
       style={{ height: '46.1px' }}
     >
       <div className="bg-white rounded-l-md shadow-2xl overflow-hidden border-y border-l border-slate-200 h-full w-full flex items-center shadow-red-500/10">
