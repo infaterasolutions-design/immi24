@@ -18,7 +18,14 @@ import EditorToolbar from "./EditorToolbar";
 import TableBubbleMenu from "./TableBubbleMenu";
 import EmbedResizeToolbar from "./EmbedResizeToolbar";
 import EmbedModal from "./EmbedModal";
+import EditorBubbleMenu from "./EditorBubbleMenu";
+import InternalLinkModal from "./InternalLinkModal";
+import { SlashCommands } from "./extensions/SlashCommands";
+import getSuggestion from "./extensions/slashCommandSuggestion";
+import Underline from "@tiptap/extension-underline";
+import { TextStyle, FontSize } from "@tiptap/extension-text-style";
 import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
+import { useRef } from "react";
 
 // URL patterns we auto-detect on paste
 const EMBED_URL_PATTERNS = [
@@ -51,6 +58,21 @@ function detectPlatformFromUrl(url) {
 export default function TiptapEditor({ content, onChange }) {
   const [isUploading, setIsUploading] = useState(false);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [linkModalInitialUrl, setLinkModalInitialUrl] = useState("");
+  const [, setEditorUpdate] = useState(0);
+  const fileInputRef = useRef(null);
+
+  const triggerFileUpload = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      handleImageUpload(e.target.files[0], null, null);
+    }
+    e.target.value = '';
+  };
 
   // Load Twitter widgets script for previews
   useEffect(() => {
@@ -67,6 +89,19 @@ export default function TiptapEditor({ content, onChange }) {
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4, 5] },
       }),
+      Underline,
+      TextStyle,
+      FontSize,
+      SlashCommands.configure({
+        suggestion: getSuggestion(
+          () => {
+            setLinkModalInitialUrl("");
+            setShowLinkModal(true);
+          },
+          () => setShowEmbedModal(true),
+          () => triggerFileUpload()
+        ),
+      }),
       Callout,
       EmbedBlock,
       HtmlEmbed,
@@ -76,6 +111,8 @@ export default function TiptapEditor({ content, onChange }) {
       }),
       Link.configure({
         openOnClick: false,
+        autolink: true,
+        linkOnPaste: true,
       }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
@@ -95,9 +132,31 @@ export default function TiptapEditor({ content, onChange }) {
     ],
     content: content || "",
     immediatelyRender: false,
+    onTransaction: () => {
+      // Force re-render on every transaction so toolbar isActive() updates correctly
+      setEditorUpdate((v) => v + 1);
+    },
     editorProps: {
       attributes: {
         class: "prose prose-slate max-w-none focus:outline-none min-h-[500px]",
+      },
+      handleKeyDown: (view, event) => {
+        // Ctrl+K or Cmd+K to open link modal
+        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+          event.preventDefault();
+          const { state } = view;
+          const { selection } = state;
+          
+          if (!selection.empty) {
+            const marks = state.doc.resolve(selection.from).marks();
+            const linkMark = marks.find(mark => mark.type.name === 'link');
+            setLinkModalInitialUrl(linkMark ? linkMark.attrs.href : "");
+            setShowLinkModal(true);
+            return true;
+          }
+          return false;
+        }
+        return false;
       },
       handleDrop: function (view, event, slice, moved) {
         if (
@@ -202,6 +261,19 @@ export default function TiptapEditor({ content, onChange }) {
     [editor]
   );
 
+  const handleLinkInsert = useCallback(
+    ({ url, openInNewTab }) => {
+      if (editor) {
+        if (!url) {
+          editor.chain().focus().extendMarkRange('link').unsetLink().run();
+          return;
+        }
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url, target: openInNewTab ? '_blank' : '_self' }).run();
+      }
+    },
+    [editor]
+  );
+
   // Effect to sync content if it changes externally
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
@@ -212,12 +284,13 @@ export default function TiptapEditor({ content, onChange }) {
   if (!editor) return null;
 
   return (
-    <div className="tiptap-container rounded-lg border border-slate-200 bg-slate-50 overflow-hidden flex flex-col h-full">
+    <div className="tiptap-container rounded-lg border border-slate-200 bg-slate-50 flex flex-col h-full relative">
       <EditorToolbar
         editor={editor}
         onImageUpload={(file) => handleImageUpload(file, null, null)}
         onEmbedClick={() => setShowEmbedModal(true)}
       />
+      <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
 
       <div className="p-8 flex-1 overflow-y-auto relative bg-white">
         {isUploading && (
@@ -226,6 +299,16 @@ export default function TiptapEditor({ content, onChange }) {
           </div>
         )}
         <TableBubbleMenu editor={editor} />
+        <EditorBubbleMenu 
+          editor={editor} 
+          onEmbedClick={() => {
+            const { state } = editor;
+            const marks = state.doc.resolve(state.selection.from).marks();
+            const linkMark = marks.find(mark => mark.type.name === 'link');
+            setLinkModalInitialUrl(linkMark ? linkMark.attrs.href : "");
+            setShowLinkModal(true);
+          }} 
+        />
         <EmbedResizeToolbar editor={editor} />
         <EditorContent editor={editor} className="outline-none" />
       </div>
@@ -235,6 +318,13 @@ export default function TiptapEditor({ content, onChange }) {
         onClose={() => setShowEmbedModal(false)}
         onInsert={handleEmbedInsert}
         onHtmlInsert={handleHtmlEmbedInsert}
+      />
+
+      <InternalLinkModal
+        isOpen={showLinkModal}
+        onClose={() => setShowLinkModal(false)}
+        onInsert={handleLinkInsert}
+        initialUrl={linkModalInitialUrl}
       />
     </div>
   );

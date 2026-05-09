@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect, useReducer } from "react";
 import { 
   Bold, Italic, Underline, Strikethrough, Heading1, Heading2, Heading3,
   List, ListOrdered, Quote, Code, AlignLeft, AlignCenter, AlignRight, 
@@ -7,6 +7,17 @@ import {
 } from "lucide-react";
 
 export default function EditorToolbar({ editor, onImageUpload, onEmbedClick }) {
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+  useEffect(() => {
+    if (!editor) return;
+    editor.on('selectionUpdate', forceUpdate);
+    editor.on('transaction', forceUpdate);
+    return () => {
+      editor.off('selectionUpdate', forceUpdate);
+      editor.off('transaction', forceUpdate);
+    };
+  }, [editor]);
   const fileInputRef = useRef(null);
 
   const addYoutubeVideo = useCallback(() => {
@@ -29,8 +40,35 @@ export default function EditorToolbar({ editor, onImageUpload, onEmbedClick }) {
 
   if (!editor) return null;
 
+  const currentFontSize = editor.getAttributes('textStyle')?.fontSize || '';
+
   return (
     <div className="flex flex-wrap items-center gap-1 p-2 bg-white border-b border-slate-200 sticky top-0 z-10 rounded-t-lg">
+      <select
+        value={currentFontSize}
+        onChange={(e) => {
+          if (!e.target.value) {
+            editor.chain().focus().unsetFontSize().run();
+          } else {
+            editor.chain().focus().setFontSize(e.target.value).run();
+          }
+        }}
+        className="text-sm border border-slate-200 rounded px-2 py-1 h-8 text-slate-700 bg-white hover:border-indigo-300 focus:outline-none focus:border-indigo-500 cursor-pointer mr-1"
+      >
+        <option value="">Size</option>
+        <option value="12px">12</option>
+        <option value="14px">14</option>
+        <option value="16px">16</option>
+        <option value="18px">18</option>
+        <option value="20px">20</option>
+        <option value="24px">24</option>
+        <option value="28px">28</option>
+        <option value="32px">32</option>
+        <option value="36px">36</option>
+        <option value="48px">48</option>
+        <option value="64px">64</option>
+      </select>
+      <Divider />
       <ToolbarButton icon={<Bold size={16} />} onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive("bold")} />
       <ToolbarButton icon={<Italic size={16} />} onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive("italic")} />
       <ToolbarButton icon={<Underline size={16} />} onClick={() => editor.chain().focus().toggleUnderline?.().run()} isActive={editor.isActive("underline")} />
