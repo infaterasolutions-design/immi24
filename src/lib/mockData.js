@@ -14,7 +14,7 @@ export async function getArticleById(id) {
     if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
   }
 
-  const { data, error } = await supabase.from('articles').select('*').eq('id', id).single();
+  const { data, error } = await supabase.from('articles').select('*').eq('id', id).eq('status', 'published').single();
   if (error || !data) {
     console.error("Error fetching article by id:", error);
     return null;
@@ -42,6 +42,7 @@ export async function getArticlesByCategorySlug(categorySlug) {
   const { data, error } = await supabase.from('articles')
     .select('*')
     .eq('category_slug', categorySlug)
+    .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
   
@@ -61,6 +62,7 @@ export async function getArticlesBySubcategorySlug(categorySlug, subCategorySlug
     .select('*')
     .eq('category_slug', categorySlug)
     .eq('sub_category_slug', subCategorySlug)
+    .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
   
@@ -76,6 +78,7 @@ export async function getAllArticles() {
 
   const { data, error } = await supabase.from('articles')
     .select('*')
+    .eq('status', 'published')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
   

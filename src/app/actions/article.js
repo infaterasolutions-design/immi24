@@ -93,14 +93,14 @@ export async function fetchNextArticleAction(slug, publishedAt) {
 }
 
 export async function fetchArticleInitialData(id) {
-  const { data, error } = await supabase.from('articles').select(ARTICLE_SELECT).eq('id', id).single();
+  const { data, error } = await supabase.from('articles').select(ARTICLE_SELECT).eq('id', id).eq('status', 'published').single();
   if (error || !data) return null;
   
   return resolveArticle(data);
 }
 
 export async function fetchArticleInitialDataBySlug(slug) {
-  const { data, error } = await supabase.from('articles').select(ARTICLE_SELECT).eq('slug', slug).single();
+  const { data, error } = await supabase.from('articles').select(ARTICLE_SELECT).eq('slug', slug).eq('status', 'published').single();
   if (error || !data) return null;
   
   return resolveArticle(data);

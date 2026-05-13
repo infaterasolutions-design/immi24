@@ -8,7 +8,16 @@ export default async function ArticleByIdPage({ params }) {
   // 1. Fetch initial SSR article by ID
   const article = await fetchArticleInitialData(id);
 
-  if (!article) {
+  const now = new Date();
+  const publishedAt = article?.published_at 
+    ? new Date(article.published_at) 
+    : null;
+
+  if (
+    !article ||
+    article.status !== 'published' ||
+    (publishedAt && publishedAt > now)
+  ) {
     return notFound();
   }
   

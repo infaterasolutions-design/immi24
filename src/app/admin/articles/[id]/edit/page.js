@@ -97,11 +97,12 @@ export default function EditArticle() {
       
       // Auto-generate slug and meta title when title changes
       if (name === "title" && !prev.slug_manually_edited) {
-        updates.slug = finalValue.toLowerCase()
-          .replace(/[^\w\s-]/g, "")
-          .replace(/\s+/g, "-")
-          .replace(/--+/g, "-")
-          .trim();
+        updates.slug = finalValue.toString().toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-]+/g, '')
+          .replace(/\-\-+/g, '-')
+          .replace(/^-+/, '')
+          .replace(/-+$/, '');
         updates.meta_title = finalValue;
       }
       
@@ -129,6 +130,16 @@ export default function EditArticle() {
       category_slug: form.category_slug || "",
       sub_category_slug: form.sub_category_slug || ""
     };
+    
+    // Final robust sanitization of the slug to prevent trailing hyphens or slashes
+    if (payload.slug) {
+      payload.slug = payload.slug.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+    }
     
     // Remove virtual/internal columns so Supabase doesn't reject them
     delete payload.content_html;

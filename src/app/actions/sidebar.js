@@ -8,6 +8,7 @@ export async function getSidebarData() {
     const { data: latestData } = await supabase
       .from('articles')
       .select('id, title, slug, published_at')
+      .eq('status', 'published')
       .lte('published_at', new Date().toISOString())
       .order('published_at', { ascending: false })
       .limit(3);
@@ -16,6 +17,7 @@ export async function getSidebarData() {
     let { data: mostViewedData } = await supabase
       .from('articles')
       .select('id, title, slug, category_label')
+      .eq('status', 'published')
       .eq('is_most_viewed', true)
       .limit(3);
 
@@ -24,6 +26,7 @@ export async function getSidebarData() {
       const { data: fallbackData } = await supabase
         .from('articles')
         .select('id, title, slug, category_label')
+        .eq('status', 'published')
         .limit(3);
       mostViewedData = fallbackData;
     }

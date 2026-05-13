@@ -13,6 +13,7 @@ export async function GET(request) {
     const { data, error } = await supabase
       .from('articles')
       .select('id, title, slug, category')
+      .eq('status', 'published')
       .ilike('title', `%${q}%`)
       .limit(6);
 

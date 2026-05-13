@@ -70,7 +70,16 @@ export default async function ArticlePage({ params }) {
     getSidebarData(),
   ]);
 
-  if (!article) {
+  const now = new Date();
+  const publishedAt = article?.published_at 
+    ? new Date(article.published_at) 
+    : null;
+
+  if (
+    !article ||
+    article.status !== 'published' ||
+    (publishedAt && publishedAt > now)
+  ) {
     return notFound();
   }
 
