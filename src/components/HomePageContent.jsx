@@ -201,7 +201,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
           <section className="py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 bg-white border border-slate-200 shadow-sm overflow-hidden rounded-xl">
               <div className="h-48 md:h-80 lg:h-auto overflow-hidden relative min-h-[200px]">
-                <Image className="w-full h-full object-cover" src="/images/trusted-authority.png" alt="Your Trusted Authority" fill loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
+                <Image className="w-full h-full object-cover" src="/images/trusted-authority.jpg" alt="Your Trusted Authority" fill loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
               <div className="p-6 md:p-10 flex flex-col justify-center">
                 <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1 self-start mb-4 md:mb-6 text-[10px] font-bold uppercase tracking-widest rounded-sm">
