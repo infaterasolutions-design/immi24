@@ -357,3 +357,86 @@ img {
 .html-embed-content iframe {
   margin: 0 auto !important;
 }
+
+/* -- Drop Cap styles ------------------------- */
+
+/* Modern path  targets first p inside the div */
+.drop-cap-article p:first-of-type::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 0.82;
+  margin-right: 8px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #0f172a;
+}
+
+/* Legacy path  targets the first p directly */
+.drop-cap-first::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 0.82;
+  margin-right: 8px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #0f172a;
+}
+
+/* Clearfix  prevents layout breaking after drop cap */
+.drop-cap-article p:first-of-type::after,
+.drop-cap-first::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .drop-cap-article p:first-of-type::first-letter,
+  .drop-cap-first::first-letter {
+    color: #f1f5f9;
+  }
+}
+
+/* Mobile  smaller drop cap on small screens */
+@media (max-width: 640px) {
+  .drop-cap-article p:first-of-type::first-letter,
+  .drop-cap-first::first-letter {
+    font-size: 3.5rem;
+    margin-right: 6px;
+    margin-top: 4px;
+  }
+}
+
+/* Safety  do NOT apply drop cap to blockquotes, 
+   lists, or headings inside the article body */
+.drop-cap-article blockquote::first-letter,
+.drop-cap-article h1::first-letter,
+.drop-cap-article h2::first-letter,
+.drop-cap-article h3::first-letter,
+.drop-cap-article li::first-letter {
+  float: none;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  color: inherit;
+  margin: 0;
+  line-height: inherit;
+}
+
+/* Tailwind Prose Compatibility */
+.prose .drop-cap-article p:first-of-type::first-letter,
+.prose .drop-cap-first::first-letter {
+  float: left;
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 0.82;
+  margin-right: 8px;
+  margin-top: 6px;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #0f172a;
+}

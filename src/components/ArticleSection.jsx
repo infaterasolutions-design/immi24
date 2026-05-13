@@ -384,11 +384,11 @@ export default function ArticleSection({ article, isFirst = false }) {
             <div className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-12 text-slate-800 mt-4`}>
               
               {decodedContent ? (
-                 <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
+                 <div className="drop-cap-article" dangerouslySetInnerHTML={{ __html: decodedContent }} />
               ) : (
                 <>
                   {article.paragraphs?.map((p, idx) => (
-                    <p key={idx} className={idx === 0 ? "text-xl text-slate-900 leading-relaxed font-medium mb-8" : "mb-6"}>{p}</p>
+                    <p key={idx} className={idx === 0 ? "text-xl text-slate-900 leading-relaxed font-medium mb-8 drop-cap-first" : "mb-6"}>{p}</p>
                   ))}
                   
                   {article.quote && (
