@@ -26,6 +26,7 @@ const poppins = Poppins({
 
 import DelayedGTM from '@/components/DelayedGTM';
 import SocialSidebar from '@/components/SocialSidebar';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata = {
   title: "US Immigration News & Updates | Visas, Green Cards, USCIS & ICE News",
@@ -64,6 +65,8 @@ export default function RootLayout({ children }) {
         />
         {/* Safely inject GTM without blocking render */}
         {gtmId !== 'GTM-PLACEHOLDER' && <DelayedGTM gtmId={gtmId} />}
+        
+        <GoogleAnalytics gaId="G-3C6CJJ0R09" />
         
         <SocialSidebar />
         
