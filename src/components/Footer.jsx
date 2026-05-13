@@ -36,14 +36,21 @@ export default function Footer() {
             </ul>
           </div>
           <div className="col-span-2 md:col-span-1">
-            <h4 className="font-bold uppercase tracking-widest text-xs mb-4 md:mb-6 text-slate-900">CONNECT</h4>
-            <div className="flex gap-4 mb-6">
-              <Link href="#" className="w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors bg-slate-200">
-                <span className="material-symbols-outlined text-sm">alternate_email</span>
-              </Link>
-              <Link href="#" className="w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors bg-slate-200">
-                <span className="material-symbols-outlined text-sm">share</span>
-              </Link>
+            <h4 className="font-bold uppercase tracking-widest text-xs mb-4 md:mb-6 text-slate-900">OUR OFFICE</h4>
+            <div className="text-sm leading-relaxed text-slate-600 space-y-3">
+              <p>
+                <strong className="block text-slate-900">SANAZ E-COM LLC</strong>
+              </p>
+              <p>
+                <strong className="block text-slate-900 text-xs uppercase tracking-widest mt-2">Mailing Address</strong>
+                823 CONGRESS AVE, STE 150 #1505,<br />
+                AUSTIN, TX 78767
+              </p>
+              <p>
+                <strong className="block text-slate-900 text-xs uppercase tracking-widest mt-2">Physical Address</strong>
+                823 CONGRESS AVE, STE 150 #1505,<br />
+                AUSTIN, TX 78767
+              </p>
             </div>
           </div>
         </div>
