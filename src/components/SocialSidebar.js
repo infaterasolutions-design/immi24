@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { FaXTwitter, FaLinkedinIn, FaFacebook, FaYoutube, FaInstagram } from "react-icons/fa6";
 
 export default function SocialSidebar() {
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +19,8 @@ export default function SocialSidebar() {
     
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   const socialLinks = [
     {
