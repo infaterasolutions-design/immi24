@@ -4,7 +4,7 @@ import { getSidebarData } from "@/app/actions/sidebar";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://unitedstatesimmigrationnews.com").replace(/\/+$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.unitedstatesimmigrationnews.com").replace(/\/+$/, "");
 
 // ISR — automatically refresh cached page data every 60 seconds
 export const revalidate = 60;
@@ -30,6 +30,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${title} - United States Immigration News`,
     description,
+    alternates: {
+      canonical: `https://www.unitedstatesimmigrationnews.com/${article.slug}`,
+    },
     openGraph: {
       title,
       description,
