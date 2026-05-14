@@ -384,7 +384,11 @@ export default function ArticleSection({ article, isFirst = false }) {
             <div className={`prose prose-lg max-w-none font-body pb-8 md:pb-12 lg:pb-12 text-slate-800 mt-4`}>
               
               {decodedContent ? (
-                 <div className="drop-cap-article" dangerouslySetInnerHTML={{ __html: decodedContent }} />
+                 <div className={
+                   decodedContent?.trimStart().startsWith('<p') 
+                     ? 'drop-cap-article' 
+                     : ''
+                 } dangerouslySetInnerHTML={{ __html: decodedContent }} />
               ) : (
                 <>
                   {article.paragraphs?.map((p, idx) => (
