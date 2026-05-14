@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "unitedstatesimmigrationnews.com"
+        }
+      ],
+      "destination": "https://www.unitedstatesimmigrationnews.com/:path*",
+      "permanent": true
+    }
+  ]
+}
