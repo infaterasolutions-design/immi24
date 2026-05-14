@@ -310,7 +310,7 @@ export default function TiptapEditor({ content, onChange }) {
           }} 
         />
         <EmbedResizeToolbar editor={editor} />
-        <EditorContent editor={editor} className="outline-none" />
+        <EditorContent editor={editor} className="outline-none tiptap-editor-content" />
       </div>
 
       <EmbedModal
