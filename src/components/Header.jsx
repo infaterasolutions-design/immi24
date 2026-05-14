@@ -50,11 +50,14 @@ export default function Header() {
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (email.trim()) {
-      const result = await subscribeEmail(email.trim());
+    const subscribedEmail = email.trim();
+    if (subscribedEmail) {
+      const result = await subscribeEmail(subscribedEmail);
       if (result.success) {
         setIsSubscribed(true);
         localStorage.setItem('user_subscribed', 'true');
+        sessionStorage.setItem('popup_shown_this_session', 'true');
+        sessionStorage.setItem('user_email', subscribedEmail);
         setTimeout(() => {
           setIsSubscribed(false);
           setShowSubscribeModal(false);
@@ -66,21 +69,48 @@ export default function Header() {
 
   // Auto-trigger subscribe popup for new visitors
   useEffect(() => {
+    const shownThisSession = sessionStorage.getItem('popup_shown_this_session');
+    if (shownThisSession) return;
     if (pathname.startsWith('/admin')) return;
 
-    const isAlreadySubscribed = localStorage.getItem('user_subscribed');
-    const shownThisSession = sessionStorage.getItem('popup_shown_this_session');
+    let timer;
 
-    if (isAlreadySubscribed) return;
-    if (shownThisSession) return;
+    const checkAndShow = async () => {
+      // Layer 1: check localStorage first (fast)
+      const localSubscribed = localStorage.getItem('user_subscribed');
+      if (localSubscribed) return;
 
-    const timer = setTimeout(() => {
-      setShowSubscribeModal(true);
-      sessionStorage.setItem('popup_shown_this_session', 'true');
-    }, 3000);
+      // Layer 2: check sessionStorage email flag
+      const sessionEmail = sessionStorage.getItem('user_email');
 
-    return () => clearTimeout(timer);
-  }, []);
+      // Layer 3: check Supabase if email known
+      if (sessionEmail) {
+        try {
+          const res = await fetch(`/api/check-subscription?email=${encodeURIComponent(sessionEmail)}`);
+          const data = await res.json();
+          if (data.subscribed) {
+            // Re-save to localStorage so next check is instant
+            localStorage.setItem('user_subscribed', 'true');
+            return;
+          }
+        } catch (err) {
+          console.error('Subscription check failed:', err);
+        }
+      }
+
+      // Show popup after 3 seconds
+      timer = setTimeout(() => {
+        sessionStorage.setItem('popup_shown_this_session', 'true');
+        setShowSubscribeModal(true);
+      }, 3000);
+    };
+
+    checkAndShow();
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [pathname]);
 
   // Lock body scroll when menu is open
   useEffect(() => {
