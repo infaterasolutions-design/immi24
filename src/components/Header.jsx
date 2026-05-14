@@ -326,31 +326,63 @@ export default function Header() {
           <div className="flex items-center gap-3 flex-shrink-0">
             
             {/* Desktop Advanced Search */}
-            <form 
-              onSubmit={handleSearchSubmit} 
-              className={`hidden lg:flex items-center bg-slate-100 px-3 py-1.5 border transition-all duration-300 ease-in-out rounded-full shadow-inner ${isSearchFocused ? 'border-primary ring-2 ring-primary/20 w-80' : 'border-slate-200 w-64'}`}
-            >
-              <button type="submit" className="text-slate-400 hover:text-primary transition-colors flex items-center justify-center">
-                <span className="material-symbols-outlined text-lg">search</span>
-              </button>
-              <input 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setIsSearchFocused(false)}
-                className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none mx-2 text-slate-700" 
-                placeholder="Search news, updates..." 
-                type="text" 
-              />
-              <button 
-                type="button" 
-                onClick={startVoiceSearch}
-                title="Search by Voice"
-                className={`flex items-center justify-center transition-colors ${isListening ? 'text-red-500 animate-pulse' : 'text-slate-400 hover:text-primary'}`}
+            <div className="hidden lg:block relative">
+              <form 
+                onSubmit={handleSearchSubmit} 
+                className={`flex items-center bg-slate-100 px-3 py-1.5 border transition-all duration-300 ease-in-out rounded-full shadow-inner ${isSearchFocused ? 'border-primary ring-2 ring-primary/20 w-80' : 'border-slate-200 w-64'}`}
               >
-                <span className="material-symbols-outlined text-lg">mic</span>
-              </button>
-            </form>
+                <button type="submit" className="text-slate-400 hover:text-primary transition-colors flex items-center justify-center">
+                  <span className="material-symbols-outlined text-lg">search</span>
+                </button>
+                <input 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                  className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none mx-2 text-slate-700" 
+                  placeholder="Search news, updates..." 
+                  type="text" 
+                />
+                <button 
+                  type="button" 
+                  onClick={startVoiceSearch}
+                  title="Search by Voice"
+                  className={`flex items-center justify-center transition-colors ${isListening ? 'text-red-500 animate-pulse' : 'text-slate-400 hover:text-primary'}`}
+                >
+                  <span className="material-symbols-outlined text-lg">mic</span>
+                </button>
+              </form>
+
+              {/* Desktop Live Suggestions Dropdown */}
+              {isSearchFocused && (suggestions.length > 0 || (searchQuery.length >= 2 && !isSearching)) && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 shadow-xl z-[60] py-2 max-h-[360px] overflow-y-auto" onMouseDown={(e) => e.preventDefault()}>
+                  {isSearching && (
+                    <div className="p-4 text-center text-slate-500 text-sm">Searching...</div>
+                  )}
+                  
+                  {!isSearching && suggestions.length > 0 && (
+                    <ul>
+                      {suggestions.map((item) => (
+                        <li key={item.id}>
+                          <Link 
+                            href={`/${item.slug}`} 
+                            onClick={closeAll}
+                            className="flex justify-between items-center px-5 py-2.5 cursor-pointer transition-colors hover:bg-slate-50"
+                          >
+                            <span className="text-[14px] text-primary font-normal truncate pr-4">{item.title}</span>
+                            <span className="text-[11px] px-2 py-0.5 rounded-full bg-black/5 text-slate-500 whitespace-nowrap ml-3">{item.category_label}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  
+                  {!isSearching && searchQuery.length >= 2 && suggestions.length === 0 && (
+                    <div className="p-4 text-center text-slate-500 text-sm">No results for &quot;{searchQuery}&quot;</div>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Mobile: Search / Mic Icons */}
             <div className="flex lg:hidden items-center gap-1">
