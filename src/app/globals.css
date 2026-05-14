@@ -122,6 +122,11 @@ body {
 .ProseMirror ul, .ProseMirror ol { margin: 0.75rem 0 !important; padding-left: 1.5rem; }
 .ProseMirror li { margin-bottom: 0.15rem !important; }
 .ProseMirror li > p { margin-bottom: 0 !important; }
+/* TipTap Editor — reduce excessive heading margins from prose-lg */
+.ProseMirror h1 { margin-top: 1.5rem !important; margin-bottom: 0.5rem !important; }
+.ProseMirror h2 { margin-top: 1.25rem !important; margin-bottom: 0.5rem !important; }
+.ProseMirror h3 { margin-top: 1rem !important; margin-bottom: 0.4rem !important; }
+.ProseMirror h4 { margin-top: 0.75rem !important; margin-bottom: 0.25rem !important; }
 .prose .info-callout {
     background-color: #f3f6fc;
     border: 1px solid #dce2ed;
