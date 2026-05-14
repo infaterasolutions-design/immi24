@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getCategories } from "@/lib/categoryConfig";
 import { subscribeEmail } from "@/app/actions/subscribe";
 import { FaXTwitter, FaLinkedinIn, FaFacebook, FaYoutube, FaInstagram } from 'react-icons/fa6';
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -53,6 +54,7 @@ export default function Header() {
       const result = await subscribeEmail(email.trim());
       if (result.success) {
         setIsSubscribed(true);
+        localStorage.setItem('user_subscribed', 'true');
         setTimeout(() => {
           setIsSubscribed(false);
           setShowSubscribeModal(false);
@@ -61,6 +63,24 @@ export default function Header() {
       }
     }
   };
+
+  // Auto-trigger subscribe popup for new visitors
+  useEffect(() => {
+    if (pathname.startsWith('/admin')) return;
+
+    const isAlreadySubscribed = localStorage.getItem('user_subscribed');
+    const shownThisSession = sessionStorage.getItem('popup_shown_this_session');
+
+    if (isAlreadySubscribed) return;
+    if (shownThisSession) return;
+
+    const timer = setTimeout(() => {
+      setShowSubscribeModal(true);
+      sessionStorage.setItem('popup_shown_this_session', 'true');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Lock body scroll when menu is open
   useEffect(() => {
