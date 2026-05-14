@@ -461,8 +461,8 @@ img {
 .prose h2,
 .prose h3,
 .prose h4 {
-  margin-top: 1.4em !important;
-  margin-bottom: 0.4em !important;
+  margin-top: 0.8em !important;
+  margin-bottom: 0.3em !important;
 }
 
 /* Tighten gap between heading and 
@@ -478,7 +478,7 @@ img {
 .prose p + h2,
 .prose p + h3,
 .prose p + h4 {
-  margin-top: 1.4em !important;
+  margin-top: 0.8em !important;
 }
 
 /* Remove double spacing when heading 
