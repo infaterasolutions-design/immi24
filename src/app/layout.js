@@ -33,6 +33,10 @@ export const metadata = {
   description: "Get the latest USA immigration news, visa updates, green card processing times, USCIS announcements, and ICE policy changes. Trusted daily immigration updates and guides.",
   alternates: {
     canonical: 'https://www.unitedstatesimmigrationnews.com',
+    languages: {
+      'en-US': 'https://www.unitedstatesimmigrationnews.com',
+      'x-default': 'https://www.unitedstatesimmigrationnews.com',
+    },
   },
   verification: {
     google: 'Ldppw4bsEBlMOJ9twEOQSXGwZG-kvWPWXw8t5IBhPe4',

@@ -32,6 +32,10 @@ export async function generateMetadata({ params }) {
     description,
     alternates: {
       canonical: `https://www.unitedstatesimmigrationnews.com/${article.slug}`,
+      languages: {
+        'en-US': `https://www.unitedstatesimmigrationnews.com/${article.slug}`,
+        'x-default': `https://www.unitedstatesimmigrationnews.com/${article.slug}`,
+      },
     },
     openGraph: {
       title,
