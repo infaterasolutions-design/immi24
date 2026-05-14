@@ -18,7 +18,7 @@ export default function AdminSubscribers() {
     const { data } = await supabase
       .from("subscribers")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("subscribed_at", { ascending: false });
     setSubscribers(data || []);
     setLoading(false);
   }
@@ -31,7 +31,7 @@ export default function AdminSubscribers() {
   function handleExport() {
     if (subscribers.length === 0) return;
     const csvContent = "Email,Subscribed Date\n" +
-      subscribers.map(s => `${s.email},${s.created_at ? new Date(s.created_at).toLocaleDateString() : ""}`).join("\n");
+      subscribers.map(s => `${s.email},${s.subscribed_at ? new Date(s.subscribed_at).toLocaleDateString() : ""}`).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -50,9 +50,9 @@ export default function AdminSubscribers() {
     { key: "email", label: "Email", render: (row) => (
       <span style={{ fontWeight: 500, color: "#1e293b" }}>{row.email}</span>
     )},
-    { key: "created_at", label: "Subscribed On", render: (row) => (
+    { key: "subscribed_at", label: "Subscribed On", render: (row) => (
       <span style={{ color: "#71717a", fontSize: "0.8rem" }}>
-        {row.created_at ? new Date(row.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—"}
+        {row.subscribed_at ? new Date(row.subscribed_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—"}
       </span>
     )},
   ];
