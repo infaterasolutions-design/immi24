@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { getSidebarData } from "@/app/actions/sidebar";
+import { getLiveEventUrlMap, getLiveEventUrlFromMap } from "@/lib/liveEventUrls";
 
 export default function SidebarWidgets({ className = "", showLiveCoverage = true, initialData }) {
   const [email, setEmail] = useState("");
@@ -11,6 +12,11 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
   const [mostViewed, setMostViewed] = useState(initialData?.mostViewed || []);
   const [liveEvents, setLiveEvents] = useState(initialData?.liveEvents || []);
   const [fetchFailed, setFetchFailed] = useState(false);
+  const [urlMap, setUrlMap] = useState(null);
+
+  useEffect(() => {
+    getLiveEventUrlMap().then(setUrlMap);
+  }, []);
 
   // Define outside useEffect so the Retry button can also call it
   const fetchSidebarData = useCallback(async () => {
@@ -71,7 +77,7 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
             </h3>
             <div className="space-y-6">
               {liveEvents.slice(0, 4).map((event) => (
-                <Link key={event.id} href={`/live-updates/${event.id}`} className="group block">
+                <Link key={event.id} href={getLiveEventUrlFromMap(event.id, urlMap)} className="group block">
                   <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">LATEST COVERAGE</span>
                   <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800 line-clamp-2">
                     {event.title}

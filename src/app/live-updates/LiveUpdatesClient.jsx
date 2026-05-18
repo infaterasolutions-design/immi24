@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarWidgets from "@/components/SidebarWidgets";
 import { getLiveEvents } from "@/lib/liveUpdatesData";
+import { getLiveEventUrlMap, getLiveEventUrlFromMap } from "@/lib/liveEventUrls";
 import { useEffect, useState } from "react";
 
 const FALLBACK_IMAGE = "/images/logo.png";
@@ -11,8 +12,10 @@ const FALLBACK_IMAGE = "/images/logo.png";
 export default function LiveUpdatesClient({ initialUpdates }) {
   const [liveEvents, setLiveEvents] = useState(initialUpdates);
   const [lastUpdated, setLastUpdated] = useState("");
+  const [urlMap, setUrlMap] = useState(null);
 
   useEffect(() => {
+    getLiveEventUrlMap().then(setUrlMap);
     // Set initial timestamp safely on client side
     setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     
@@ -45,7 +48,7 @@ export default function LiveUpdatesClient({ initialUpdates }) {
             )}
             
             {liveEvents.map((event) => (
-              <Link key={event.id} href={`/live-updates/${event.id}`} className="group block bg-white border border-slate-200 hover:border-primary/40 hover:shadow-md transition-all rounded-xl overflow-hidden">
+              <Link key={event.id} href={getLiveEventUrlFromMap(event.id, urlMap)} className="group block bg-white border border-slate-200 hover:border-primary/40 hover:shadow-md transition-all rounded-xl overflow-hidden">
                 <div className="flex flex-col md:flex-row">
                   {event.heroImage && (
                     <div className="w-full md:w-[40%] aspect-[4/3] md:min-h-[220px] relative overflow-hidden bg-slate-100 flex-shrink-0">

@@ -147,6 +147,7 @@ function LiveEventModal({ event, onClose, onSave }) {
   const [form, setForm] = useState({
     title: event?.title || "",
     slug: event?.slug || "",
+    topic_url: event?.topic_url || "",
     description: event?.description || "",
     status: event?.status || "active",
     date: event?.date || new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
@@ -161,6 +162,7 @@ function LiveEventModal({ event, onClose, onSave }) {
   const [uploadingAuthorImg, setUploadingAuthorImg] = useState(false);
 
   function generateSlug(text) {
+    if (!text) return "";
     return text
       .toLowerCase()
       .trim()
@@ -288,9 +290,9 @@ function LiveEventModal({ event, onClose, onSave }) {
 
               {/* Slug */}
               <div>
-                <label style={labelStyle}>URL Slug</label>
+                <label style={labelStyle}>Internal Reference ID (No Spaces)</label>
                 <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-                  <span style={{ padding: "10px 12px", background: "#f1f5f9", border: "1px solid #e2e8f0", borderRight: "none", borderRadius: "8px 0 0 8px", fontSize: "0.85rem", color: "#64748b", whiteSpace: "nowrap" }}>/live-updates/</span>
+                  <span style={{ padding: "10px 12px", background: "#f1f5f9", border: "1px solid #e2e8f0", borderRight: "none", borderRadius: "8px 0 0 8px", fontSize: "0.85rem", color: "#64748b", whiteSpace: "nowrap" }}>/</span>
                   <input
                     style={{ ...inputStyle, borderRadius: "0 8px 8px 0", fontFamily: "monospace", fontSize: "0.9rem" }}
                     name="slug"
@@ -299,7 +301,23 @@ function LiveEventModal({ event, onClose, onSave }) {
                     placeholder="auto-generated-slug"
                   />
                 </div>
-                <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: 4 }}>Auto-generated from title. Edit to customize.</p>
+                <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: 4 }}>Auto-generated from title. This serves as the default URL slug.</p>
+              </div>
+
+              {/* Topic URL */}
+              <div>
+                <label style={labelStyle}>Custom Live Page URL (Optional)</label>
+                <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+                  <span style={{ padding: "10px 12px", background: "#f1f5f9", border: "1px solid #e2e8f0", borderRight: "none", borderRadius: "8px 0 0 8px", fontSize: "0.85rem", color: "#64748b", whiteSpace: "nowrap" }}>/</span>
+                  <input
+                    style={{ ...inputStyle, borderRadius: "0 8px 8px 0", fontFamily: "monospace", fontSize: "0.9rem" }}
+                    name="topic_url"
+                    value={form.topic_url || ""}
+                    onChange={handleChange}
+                    placeholder="e.g. ice-news"
+                  />
+                </div>
+                <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginTop: 4 }}>If set, overrides the default slug. The live event will be served at this URL.</p>
               </div>
 
               {/* Description */}

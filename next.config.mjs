@@ -67,6 +67,12 @@ const nextConfig = {
       // Catch-all for any remaining /category/ routes
       { source: '/category/:slug', destination: '/:slug/', permanent: true },
       { source: '/category/:slug/:sub', destination: '/:slug/:sub/', permanent: true },
+
+      // ─── Live Updates → Topic Cluster URLs (301 permanent) ───
+      { source: '/live-updates/ice-immigration-enforcement-updates-live', destination: '/ice-news/', permanent: true },
+      { source: '/live-updates/immigration-news-today-trump-announcements-uscis-updates-policy-developments', destination: '/immigration-news/', permanent: true },
+      // Catch-all: any remaining /live-updates/:slug → homepage
+      { source: '/live-updates/:slug', destination: '/', permanent: true },
     ];
   },
 };

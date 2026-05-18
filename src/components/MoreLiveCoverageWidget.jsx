@@ -1,7 +1,16 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { getLiveEventUrlMap, getLiveEventUrlFromMap } from "@/lib/liveEventUrls";
 
 export default function MoreLiveCoverageWidget({ events = [] }) {
   const displayEvents = events.slice(0, 4);
+  const [urlMap, setUrlMap] = useState(null);
+
+  useEffect(() => {
+    getLiveEventUrlMap().then(setUrlMap);
+  }, []);
 
   if (displayEvents.length === 0) return null;
 
@@ -14,7 +23,7 @@ export default function MoreLiveCoverageWidget({ events = [] }) {
       <div className="space-y-6">
         {displayEvents.map((event) => {
           return (
-            <Link key={event.id} href={`/live-updates/${event.id}`} className="group block">
+            <Link key={event.id} href={getLiveEventUrlFromMap(event.id, urlMap)} className="group block">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">LATEST COVERAGE</span>
               <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800 line-clamp-2">
                 {event.title}

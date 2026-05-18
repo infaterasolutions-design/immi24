@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
  * Generate a URL-safe slug from a string
  */
 function generateSlug(text) {
+  if (!text) return "";
   return text
     .toLowerCase()
     .trim()
@@ -66,7 +67,7 @@ export async function getLiveEventById(id) {
 /**
  * Create a new live event with auto-slug generation
  */
-export async function createLiveEvent({ title, slug, description, status, date, date_picker, authors, hero_image, image_caption, header_context }) {
+export async function createLiveEvent({ title, slug, description, status, date, date_picker, authors, hero_image, image_caption, header_context, topic_url }) {
   await checkAuth();
 
   if (!title || title.trim().length === 0) {
@@ -113,7 +114,8 @@ export async function createLiveEvent({ title, slug, description, status, date, 
         authors: authors || [],
         hero_image: hero_image || null,
         image_caption: image_caption || null,
-        header_context: header_context || null
+        header_context: header_context || null,
+        topic_url: topic_url?.trim() || null
       }])
       .select();
 
@@ -138,6 +140,14 @@ export async function updateLiveEvent(id, updateData) {
   // If slug is being updated, clean it up
   if (updateData.slug) {
     updateData.slug = generateSlug(updateData.slug);
+  }
+  
+  if (updateData.topic_url !== undefined) {
+    if (!updateData.topic_url || updateData.topic_url.trim() === "") {
+      updateData.topic_url = null; // Enforce null if empty so unique constraint isn't violated
+    } else {
+      updateData.topic_url = generateSlug(updateData.topic_url);
+    }
   }
 
   try {

@@ -2,9 +2,15 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { getLiveEventUrlMap, getLiveEventUrlFromMap } from "@/lib/liveEventUrls";
 
 export default function LiveTickerSlider({ tickerItems }) {
   const [currentTickerIndex, setCurrentTickerIndex] = useState(0);
+  const [urlMap, setUrlMap] = useState(null);
+
+  useEffect(() => {
+    getLiveEventUrlMap().then(setUrlMap);
+  }, []);
 
   useEffect(() => {
     if (!tickerItems || tickerItems.length === 0) return;
@@ -16,8 +22,11 @@ export default function LiveTickerSlider({ tickerItems }) {
 
   if (!tickerItems || tickerItems.length === 0) return null;
 
+  const currentItem = tickerItems[currentTickerIndex];
+  const href = getLiveEventUrlFromMap(currentItem?.id || '', urlMap);
+
   return (
-    <Link href={`/live-updates/${tickerItems[currentTickerIndex]?.id || ''}`} className="flex items-center gap-3 bg-white p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
+    <Link href={href} className="flex items-center gap-3 bg-white p-2 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden">
       <span className="bg-tertiary text-white px-3 md:px-4 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider group-hover:bg-primary transition-colors flex-shrink-0 z-10 relative flex items-center gap-1.5">
         <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-red"></span>
         Live Update

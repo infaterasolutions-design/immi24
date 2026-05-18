@@ -1,10 +1,12 @@
 import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
 import CategoryIndexPage from "@/components/CategoryIndexPage";
+import LiveUpdatePageContent from "@/components/LiveUpdatePageContent";
 import { fetchArticleInitialDataBySlug, fetchNextArticleAction } from "@/app/actions/article";
 import { getSidebarData } from "@/app/actions/sidebar";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { getCategoryBySlug, isParentCategory } from "@/lib/categoryConfig";
+import { getLiveEventIdByTopicUrl } from "@/lib/liveEventUrls";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.unitedstatesimmigrationnews.com").replace(/\/+$/, "");
 
@@ -22,6 +24,32 @@ export async function generateMetadata({ params }) {
       description: category.seo_description || category.description || `Latest ${category.name} news and updates.`,
       alternates: {
         canonical: `https://www.unitedstatesimmigrationnews.com/${category.slug}/`,
+      },
+      robots: { index: true, follow: true, 'max-image-preview': 'large' },
+    };
+  }
+
+  // ─── Check if slug is a live event (topic_url or id) ───
+  let liveEventId = await getLiveEventIdByTopicUrl(slug);
+  
+  if (!liveEventId) {
+    // Fallback: Check if the slug is directly the ID of a live event
+    const { data } = await supabase.from("live_events").select("id").eq("id", slug).maybeSingle();
+    if (data) liveEventId = data.id;
+  }
+
+  if (liveEventId) {
+    const { data: liveEvent } = await supabase
+      .from("live_events")
+      .select("title, header_context")
+      .eq("id", liveEventId)
+      .single();
+    const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    return {
+      title: liveEvent?.title || `${label} - United States Immigration News`,
+      description: liveEvent?.header_context?.slice(0, 160) || `Live updates for ${label}.`,
+      alternates: {
+        canonical: `https://www.unitedstatesimmigrationnews.com/${slug}/`,
       },
       robots: { index: true, follow: true, 'max-image-preview': 'large' },
     };
@@ -111,6 +139,25 @@ export default async function SlugPage({ params }) {
         category={category}
         subcategories={category.subcategories || []}
         articles={articles || []}
+      />
+    );
+  }
+
+  // ─── Smart Detection: Is this a live event (topic_url or id)? ───
+  let liveEventId = await getLiveEventIdByTopicUrl(slug);
+  
+  if (!liveEventId) {
+    const { data } = await supabase.from("live_events").select("id").eq("id", slug).maybeSingle();
+    if (data) liveEventId = data.id;
+  }
+
+  if (liveEventId) {
+    const label = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    return (
+      <LiveUpdatePageContent
+        eventId={liveEventId}
+        breadcrumbLabel={label}
+        pageUrl={`/${slug}/`}
       />
     );
   }
