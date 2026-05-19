@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { name: 'Dashboard', path: '/admin', icon: '📊', roles: ['super_admin', 'editor', 'viewer'], section: 'Overview' },
   { name: 'Articles', path: '/admin/articles', icon: '📰', roles: ['super_admin', 'editor', 'viewer'], section: 'Content' },
   { name: 'Categories', path: '/admin/categories', icon: '📂', roles: ['super_admin', 'editor'], section: 'Content' },
+  { name: 'Locations', path: '/admin/locations', icon: '📍', roles: ['super_admin', 'editor'], section: 'Content' },
   { name: 'Live Updates', path: '/admin/live-updates', icon: '🔴', roles: ['super_admin', 'editor', 'viewer'], section: 'Content' },
   { name: 'Media Library', path: '/admin/media', icon: '🎬', roles: ['super_admin', 'editor', 'viewer'], section: 'Content' },
   { name: 'Subscribers', path: '/admin/subscribers', icon: '📧', roles: ['super_admin', 'editor'], section: 'Audience' },

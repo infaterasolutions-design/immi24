@@ -78,6 +78,7 @@ function getPageTitle(pathname) {
     "/admin": "Dashboard",
     "/admin/articles": "Articles",
     "/admin/categories": "Categories",
+    "/admin/locations": "Locations",
     "/admin/live-updates": "Live Updates",
     "/admin/media": "Media Library",
     "/admin/subscribers": "Subscribers",
