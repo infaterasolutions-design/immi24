@@ -63,9 +63,10 @@ const LiveUpdateCard = ({ update, pageUrl }) => {
           )}
 
           <div className="relative">
-            <div className={`text-[17px] leading-[1.65] font-serif text-slate-800 whitespace-pre-wrap transition-all duration-300 ${!isExpanded ? 'line-clamp-8' : ''}`}>
-               {update.content}
-            </div>
+            <div 
+              className={`text-[17px] leading-[1.65] font-serif text-slate-800 transition-all duration-300 prose prose-slate max-w-none prose-a:text-primary prose-a:no-underline hover:prose-a:underline ${!isExpanded ? 'line-clamp-8' : ''}`}
+              dangerouslySetInnerHTML={{ __html: update.content }}
+            />
             
             {update.quote && (
               <div className={`bg-slate-50 border-l-4 border-slate-300 p-4 md:p-5 mt-4 italic text-sm md:text-base text-slate-700 font-medium rounded-r-xl ${!isExpanded ? 'hidden' : 'block'}`}>

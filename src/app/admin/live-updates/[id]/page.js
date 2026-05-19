@@ -6,6 +6,7 @@ import { getLiveEventById } from "../../../../app/actions/liveEventsActions";
 import { getUpdatesByEvent, addLiveUpdate, updateLiveUpdate, deleteLiveUpdate } from "../../../../app/actions/liveUpdatesActions";
 import { uploadMediaToSupabase } from "../../../../lib/adminHelpers";
 import RoleGuard from "../../../../components/admin/RoleGuard";
+import TiptapEditor from "../../../../components/admin/editor/TiptapEditor";
 import Link from "next/link";
 
 export default function AdminLiveEventDetail() {
@@ -205,13 +206,9 @@ function UpdateForm({ onSubmit, initialData = null, onCancel = null }) {
 
       <div>
         <label style={labelStyle}>Content *</label>
-        <textarea
-          style={{ ...inputStyle, resize: "vertical" }}
-          rows={4}
-          required
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Write the update content..."
+        <TiptapEditor
+          content={content}
+          onChange={(html) => setContent(html)}
         />
       </div>
 
@@ -288,7 +285,7 @@ function UpdateItem({ update, onEdit, onDelete }) {
         </div>
       </div>
       {update.title && <h4 style={{ margin: "0 0 6px", fontSize: "1rem", fontWeight: 700, color: "#0f172a" }}>{update.title}</h4>}
-      <p style={{ margin: 0, color: "#334155", whiteSpace: "pre-wrap", fontSize: "0.95rem", lineHeight: 1.6 }}>{update.content}</p>
+      <div className="prose prose-sm prose-slate max-w-none" style={{ margin: 0, color: "#334155", fontSize: "0.95rem", lineHeight: 1.6 }} dangerouslySetInnerHTML={{ __html: update.content }} />
       {update.images && update.images.length > 0 && (
         <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
           {update.images.map((img, idx) => (

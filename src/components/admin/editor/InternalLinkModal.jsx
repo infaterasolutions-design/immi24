@@ -136,7 +136,7 @@ export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUr
         </div>
 
         {/* Input */}
-        <form onSubmit={handleManualUrlSubmit} className="p-4 border-b border-slate-100">
+        <div className="p-4 border-b border-slate-100">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
@@ -145,6 +145,11 @@ export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUr
               placeholder="Search articles or paste a URL..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleManualUrlSubmit(e);
+                }
+              }}
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
             />
           </div>
@@ -168,7 +173,7 @@ export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUr
               </button>
             )}
           </div>
-        </form>
+        </div>
 
         {/* Results */}
         <div className="flex-1 overflow-y-auto p-2 bg-slate-50/50">
