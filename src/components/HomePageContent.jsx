@@ -205,19 +205,19 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
               </div>
               <div className="p-6 md:p-10 flex flex-col justify-center">
                 <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1 self-start mb-4 md:mb-6 text-[10px] font-bold uppercase tracking-widest rounded-sm">
-                  <span className="material-symbols-outlined text-sm">verified</span> Verified Accuracy
+                  <span className="material-symbols-outlined text-sm">fact_check</span> Fact-Checked Reporting
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold headline-font mb-3 md:mb-4 leading-tight text-slate-900">Your Trusted Authority on US Immigration</h2>
-                <p className="text-slate-600 mb-6 md:mb-8 leading-relaxed text-sm md:text-base">For over a decade, we&apos;ve provided millions of readers with fact-checked, up-to-the-minute analysis of shifting immigration policies and procedural changes.</p>
+                <h2 className="text-2xl md:text-3xl font-extrabold headline-font mb-3 md:mb-4 leading-tight text-slate-900">Your Real-Time Source on US Immigration</h2>
+                <p className="text-slate-600 mb-6 md:mb-8 leading-relaxed text-sm md:text-base">We deliver fast, fact-checked analysis of shifting U.S. immigration policies, visa updates, and procedural changes — updated 24/7.</p>
                 <div className="flex items-center gap-6 md:gap-8">
                   <div>
-                    <p className="text-xl md:text-2xl font-extrabold text-primary headline-font">12M+</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Annual Readers</p>
+                    <p className="text-xl md:text-2xl font-extrabold text-primary headline-font">Updated</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">EVERY HOUR</p>
                   </div>
                   <div className="w-px h-10 bg-slate-200"></div>
                   <div>
                     <p className="text-xl md:text-2xl font-extrabold text-primary headline-font">24/7</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policy Tracking</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">POLICY TRACKING</p>
                   </div>
                 </div>
               </div>
