@@ -1,7 +1,7 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
-
+import { getClusterDisplayName } from "@/lib/clusterHelpers";
 // Simple join — only fetch the direct location (no nested self-join which Supabase doesn't support)
 const ARTICLE_SELECT = '*, location:locations!location_id(id, name, slug, parent_id)';
 
@@ -66,7 +66,12 @@ async function resolveArticle(article) {
   if (article.location && article.location.parent_id) {
     article.location = await fetchLocationParent(article.location);
   }
-  return mapDbToFrontend(article);
+  
+  const mapped = mapDbToFrontend(article);
+  if (mapped.cluster_slug) {
+    mapped.clusterDisplayName = await getClusterDisplayName(mapped.cluster_slug);
+  }
+  return mapped;
 }
 
 export async function fetchNextArticleAction(slug, publishedAt) {

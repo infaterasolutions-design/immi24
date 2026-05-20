@@ -224,7 +224,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           <Breadcrumb
             category={
               article.cluster_slug
-                ? { name: article.cluster_slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), slug: article.cluster_slug }
+                ? { name: article.clusterDisplayName || article.cluster_slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), slug: article.cluster_slug }
                 : (article.categorySlug ? { name: article.categoryLabel || article.categorySlug, slug: article.categorySlug } : null)
             }
             subcategory={
@@ -238,7 +238,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
             {article.cluster_slug ? (
               <div className="bg-[#eef2ff] text-[#1e3a8a] px-3 py-1.5 rounded flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase font-sans">
                 <Link href={`/${article.cluster_slug}/`} className="hover:opacity-80 transition-opacity">
-                  {article.cluster_slug.toUpperCase().replace(/-/g, ' ')}
+                  {article.clusterDisplayName || article.cluster_slug.toUpperCase().replace(/-/g, ' ')}
                 </Link>
               </div>
             ) : article.categorySlug ? (

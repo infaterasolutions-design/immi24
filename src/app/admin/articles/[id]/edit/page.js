@@ -42,9 +42,9 @@ export default function EditArticle() {
 
   useEffect(() => {
     async function fetchData() {
-      const [{ data: catData }, { data: eventsData }, { data: articleData, error }] = await Promise.all([
+      const [{ data: catData }, { data: clustersData }, { data: articleData, error }] = await Promise.all([
         supabase.from("categories").select("*"),
-        supabase.from("live_events").select("topic_url, title"),
+        supabase.from("clusters").select("*").order("name", { ascending: true }),
         supabase.from("articles").select("*").eq("id", params.id).single()
       ]);
 
@@ -61,13 +61,8 @@ export default function EditArticle() {
         setCategories(tree);
       }
       
-      if (eventsData || catData) {
-        const eventClusters = (eventsData || []).filter(e => e.topic_url).map(e => ({ slug: e.topic_url, name: e.title }));
-        const categoryClusters = (catData || []).filter(c => !c.parent_slug).map(c => ({ slug: c.slug, name: `Category: ${c.name}` }));
-        const allClusters = [...eventClusters, ...categoryClusters];
-        
-        const uniqueClusters = Array.from(new Map(allClusters.map(c => [c.slug, c])).values());
-        setClusters(uniqueClusters);
+      if (clustersData) {
+        setClusters(clustersData);
       }
       
       if (error || !articleData) {
