@@ -13,10 +13,12 @@ export async function GET() {
 
   const pages = [
     { path: '/', priority: '1.0', changefreq: 'daily' },
-    { path: '/about', priority: '0.4', changefreq: 'monthly' },
-    { path: '/contact', priority: '0.4', changefreq: 'monthly' },
-    { path: '/editorial-guidelines', priority: '0.4', changefreq: 'monthly' },
-    { path: '/advertise', priority: '0.4', changefreq: 'monthly' },
+    { path: '/about-us/', priority: '0.5', changefreq: 'monthly' },
+    { path: '/contact-us/', priority: '0.5', changefreq: 'monthly' },
+    { path: '/privacy-policy/', priority: '0.4', changefreq: 'monthly' },
+    { path: '/disclaimer/', priority: '0.4', changefreq: 'monthly' },
+    { path: '/term-conditions/', priority: '0.4', changefreq: 'monthly' },
+    { path: '/advertise-with-us/', priority: '0.5', changefreq: 'monthly' },
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

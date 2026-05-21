@@ -29,10 +29,12 @@ export default function Footer() {
           <div>
             <h4 className="font-bold uppercase tracking-widest text-xs mb-4 md:mb-6 text-slate-900">COMPANY</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">Editorial Guidelines</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">Contact</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">Advertising</Link></li>
+              <li><Link href="/about-us/" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
+              <li><Link href="/contact-us/" className="hover:text-primary transition-colors py-1 block">Contact Us</Link></li>
+              <li><Link href="/privacy-policy/" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
+              <li><Link href="/disclaimer/" className="hover:text-primary transition-colors py-1 block">Disclaimer</Link></li>
+              <li><Link href="/term-conditions/" className="hover:text-primary transition-colors py-1 block">Term & Conditions</Link></li>
+              <li><Link href="/advertise-with-us/" className="hover:text-primary transition-colors py-1 block">Advertise with Us</Link></li>
             </ul>
           </div>
           <div className="col-span-2 md:col-span-1">
