@@ -1,3 +1,19 @@
+# Block Ahrefs crawler
+User-agent: AhrefsBot
+Disallow: /
+
+# Block SEMrush crawler
+User-agent: SemrushBot
+Disallow: /
+
+# Block SEMrush audit bot
+User-agent: SemrushBot-SA
+Disallow: /
+
+# Block SEMrush backlink bot
+User-agent: SemrushBot-BM
+Disallow: /
+
 User-agent: *
 
 # Block admin and backend
