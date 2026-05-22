@@ -227,21 +227,19 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           <div className="sticky top-32 flex flex-col gap-4">
              <button
                onClick={() => handleInteraction("left", "like")}
-               className={`h-10 px-4 rounded-full flex items-center justify-center gap-2 transition-all border ${
-                 leftIsLiked ? 'bg-primary text-white border-primary scale-105' : 'bg-transparent text-slate-500 border-slate-200 hover:text-primary hover:border-primary'
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
+                 leftIsLiked ? 'bg-primary text-white border-primary scale-110' : 'bg-transparent text-slate-500 border-slate-200 hover:text-primary hover:border-primary'
                }`}
              >
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
-               <span className="text-sm font-bold">{leftLikesCount > 0 ? leftLikesCount : "Like"}</span>
              </button>
              <button
                onClick={() => handleInteraction("left", "save")}
-               className={`h-10 px-4 rounded-full flex items-center justify-center gap-2 transition-all border ${
-                 leftIsSaved ? 'bg-amber-500 text-white border-amber-500 scale-105' : 'bg-transparent text-slate-500 border-slate-200 hover:text-amber-500 hover:border-amber-500'
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
+                 leftIsSaved ? 'bg-amber-500 text-white border-amber-500 scale-110' : 'bg-transparent text-slate-500 border-slate-200 hover:text-amber-500 hover:border-amber-500'
                }`}
              >
                <span className="material-symbols-outlined text-[20px]">{leftIsSaved ? 'bookmark_added' : 'bookmark'}</span>
-               <span className="text-sm font-bold">{leftSavesCount > 0 ? leftSavesCount : "Save"}</span>
              </button>
              <button
                onClick={() => {
@@ -255,12 +253,11 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                    setShowLeftShare(!showLeftShare);
                  }
                }}
-               className={`h-10 px-4 rounded-full flex items-center justify-center gap-2 transition-all border ${
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all border ${
                  showLeftShare ? 'bg-primary text-white border-primary' : 'bg-transparent text-slate-500 border-slate-200 hover:text-primary hover:border-primary'
                }`}
              >
                <span className="material-symbols-outlined text-[20px]">share</span>
-               <span className="text-sm font-bold">Share</span>
              </button>
           </div>
         </aside>
@@ -378,21 +375,19 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           <div className="flex justify-end gap-2 md:gap-3 mb-2 relative z-20 w-full">
              <button
                onClick={() => handleInteraction("top", "like")}
-               className={`h-10 px-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-sm border ${
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm border ${
                  topIsLiked ? 'bg-primary text-white border-primary' : 'bg-surface-container-lowest text-slate-600 border-outline-variant/10 hover:text-primary'
                }`}
              >
                <span className="material-symbols-outlined text-[20px]">thumb_up</span>
-               <span className="text-sm font-bold">{topLikesCount > 0 ? topLikesCount : "Like"}</span>
              </button>
              <button
                onClick={() => handleInteraction("top", "save")}
-               className={`h-10 px-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-sm border ${
+               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm border ${
                  topIsSaved ? 'bg-amber-500 text-white border-amber-500' : 'bg-surface-container-lowest text-slate-600 border-outline-variant/10 hover:text-amber-500'
                }`}
              >
                <span className="material-symbols-outlined text-[20px]">{topIsSaved ? 'bookmark_added' : 'bookmark'}</span>
-               <span className="text-sm font-bold">{topSavesCount > 0 ? topSavesCount : "Save"}</span>
              </button>
              <div className="relative">
                <button 
@@ -408,10 +403,9 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                    }
                  }}
                  onBlur={() => setTimeout(() => setShowTopShare(false), 200)}
-                 className={`h-10 px-4 rounded-full flex items-center justify-center gap-2 ${showTopShare ? 'bg-primary text-white' : 'bg-surface-container-lowest text-slate-600'} hover:text-white hover:bg-primary transition-all shadow-sm border border-outline-variant/10`}
+                 className={`w-10 h-10 rounded-full flex items-center justify-center ${showTopShare ? 'bg-primary text-white' : 'bg-surface-container-lowest text-slate-600'} hover:text-white hover:bg-primary transition-all shadow-sm border border-outline-variant/10`}
                >
                  <span className="material-symbols-outlined text-[20px]">share</span>
-                 <span className="text-sm font-bold">Share</span>
                </button>
                
                {/* Share Dropdown */}
