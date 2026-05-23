@@ -667,7 +667,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
 
             {/* Sponsored Section (Mathematically aligned to grid) */}
             {isExpanded && sponsoredContent.length > 0 && (
-              <div className="w-auto -ml-4 -mr-4 pl-4 pr-4 md:-ml-8 md:-mr-8 md:pl-8 md:pr-8 lg:-ml-[calc((100%+3rem)/7+2rem)] lg:pl-[calc((100%+3rem)/7+2rem)] lg:-mr-[calc((100%+3rem)/7*4+2rem)] lg:pr-0 bg-[#F9FAFB] py-8 mt-6 mb-8 border-y border-slate-100 relative z-20">
+              <div className="w-auto -ml-4 -mr-4 pl-4 pr-4 md:-ml-8 md:-mr-8 md:pl-8 md:pr-8 lg:-ml-[calc((100%+3rem)/7+2rem)] lg:pl-[calc((100%+3rem)/7+2rem)] lg:-mr-[calc((100%+3rem)/7*4+2rem)] lg:pr-0 bg-transparent md:bg-[#F9FAFB] py-8 mt-6 mb-8 border-y border-slate-100 md:border-y-slate-100 relative z-20">
                 <div className="lg:pr-8">
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg md:text-xl font-bold text-slate-800">Sponsored Content</h2>
