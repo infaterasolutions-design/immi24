@@ -687,7 +687,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                               {item.sponsor_name}
                             </p>
                           </div>
-                          <div className="w-[110px] h-[75px] md:w-[80px] md:h-[80px] flex-shrink-0 bg-slate-100 border border-slate-100 overflow-hidden relative rounded-md">
+                          <div className="w-[140px] h-[95px] md:w-[80px] md:h-[80px] flex-shrink-0 bg-slate-100 border border-slate-100 overflow-hidden relative rounded-md">
                             {item.image_url ? (
                               <img src={item.image_url} alt={item.title} className="w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300" />
                             ) : (
