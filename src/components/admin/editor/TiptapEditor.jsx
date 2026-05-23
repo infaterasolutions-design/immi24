@@ -144,6 +144,66 @@ export default function TiptapEditor({ content, onChange }) {
       attributes: {
         class: "prose prose-lg prose-slate max-w-none focus:outline-none min-h-[500px]",
       },
+      transformPastedHTML(html) {
+        if (typeof window === 'undefined' || !html) return html;
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+
+        // 1. Google Docs often wraps normal text in <b style="font-weight:normal;">
+        // We must unwrap these fake bold tags so normal text doesn't become bold.
+        const bTags = doc.querySelectorAll('b, strong');
+        bTags.forEach(b => {
+          if (b.style && b.style.fontWeight === 'normal') {
+            const span = doc.createElement('span');
+            span.innerHTML = b.innerHTML;
+            b.parentNode.replaceChild(span, b);
+          }
+        });
+
+        // 2. Google Docs uses <span style="font-weight: 700"> for true bold text, and font-style for italics.
+        // If we just strip styles, true bold/italics are lost. We must convert them to actual <b> and <i> tags!
+        const spans = doc.querySelectorAll('span');
+        spans.forEach(span => {
+          if (span.style) {
+            const isBold = span.style.fontWeight === '700' || span.style.fontWeight === 'bold' || parseInt(span.style.fontWeight) >= 600;
+            const isItalic = span.style.fontStyle === 'italic';
+            const isUnderline = span.style.textDecoration === 'underline';
+
+            if (isBold) {
+              const b = doc.createElement('b');
+              b.innerHTML = span.innerHTML;
+              span.innerHTML = '';
+              span.appendChild(b);
+            }
+            if (isItalic) {
+              const i = doc.createElement('i');
+              // We must grab the innerHTML again in case we just wrapped it in <b>
+              i.innerHTML = span.innerHTML;
+              span.innerHTML = '';
+              span.appendChild(i);
+            }
+            if (isUnderline) {
+              const u = doc.createElement('u');
+              u.innerHTML = span.innerHTML;
+              span.innerHTML = '';
+              span.appendChild(u);
+            }
+          }
+        });
+
+        // 3. Now it is safe to completely strip messy attributes from all elements
+        const elements = doc.querySelectorAll('*');
+        elements.forEach((el) => {
+          el.removeAttribute('style');
+          el.removeAttribute('class');
+          el.removeAttribute('dir');
+          el.removeAttribute('id');
+          el.removeAttribute('face');
+          el.removeAttribute('size');
+          el.removeAttribute('color');
+        });
+
+        return doc.body.innerHTML;
+      },
       handleKeyDown: (view, event) => {
         // Ctrl+K or Cmd+K to open link modal
         if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
