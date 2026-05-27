@@ -18,6 +18,17 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
   const [isExpanded, setIsExpanded] = useState(false);
   const [readMoreArticles, setReadMoreArticles] = useState([]);
   const sliderRef = useRef(null);
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    // If the article content is short, automatically expand it 
+    // so the Read More and Sponsored Content are not permanently hidden.
+    if (contentRef.current && !isExpanded) {
+      if (contentRef.current.scrollHeight < 450) {
+        setIsExpanded(true);
+      }
+    }
+  }, [article.id, isExpanded]);
 
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
@@ -529,7 +540,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
             `relative transition-[max-height] duration-[1500ms] ease-in-out ` +
             (isExpanded ? 'max-h-[50000px] overflow-visible' : 'max-h-[250px] md:max-h-[400px] overflow-hidden')
           }>
-            <div className={`prose prose-lg max-w-none font-body pb-2 text-slate-800 mt-4`}>
+            <div ref={contentRef} className={`prose prose-lg max-w-none font-body pb-2 text-slate-800 mt-4`}>
               
               {decodedContent ? (
                  (() => {
@@ -606,6 +617,14 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                   {article.subParagraphs?.map((p, idx) => (
                     <p key={`sub-${idx}`} className="mb-6">{p}</p>
                   ))}
+                  
+                  {endArticles.length > 0 && (
+                    <RelatedArticles
+                      title="WHAT TO READ NEXT"
+                      articles={endArticles}
+                      variant="end"
+                    />
+                  )}
                 </>
               )}
 
@@ -718,10 +737,6 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
               </div>
             )}
 
-
-
-            {/* End of article recommendation widget has been moved to the rich text parsing logic */}
-            
             {/* Gradient Overlay & Button */}
             <div className={
               `w-full flex items-end justify-center transition-opacity duration-1000 ` +

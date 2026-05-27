@@ -3,6 +3,7 @@ import CategoryIndexPage from "@/components/CategoryIndexPage";
 import LiveUpdatePageContent from "@/components/LiveUpdatePageContent";
 import { fetchArticleInitialDataBySlug, fetchNextArticleAction } from "@/app/actions/article";
 import { getSidebarData } from "@/app/actions/sidebar";
+import { getActiveSponsoredContent } from "@/app/actions/sponsoredActions";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { getCategoryBySlug, isParentCategory } from "@/lib/categoryConfig";
@@ -192,9 +193,10 @@ export default async function SlugPage({ params }) {
   }
 
   // ─── Otherwise, render as article page ───
-  const [article, sidebarData] = await Promise.all([
+  const [article, sidebarData, { data: sponsoredContent }] = await Promise.all([
     fetchArticleInitialDataBySlug(slug),
     getSidebarData(),
+    getActiveSponsoredContent()
   ]);
 
   const now = new Date();
@@ -284,6 +286,6 @@ export default async function SlugPage({ params }) {
   };
 
   return (
-    <InfiniteScrollContainer initialArticle={article} sidebarData={sidebarData} nextArticle={nextArticle} customWidgets={customWidgets} />
+    <InfiniteScrollContainer initialArticle={article} sidebarData={sidebarData} nextArticle={nextArticle} customWidgets={customWidgets} sponsoredContent={sponsoredContent || []} />
   );
 }
