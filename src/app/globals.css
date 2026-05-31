@@ -602,3 +602,17 @@ img {
     font-size: 14px !important;
   }
 }
+
+/* =========================================
+   Responsive Tables (Fix mobile overflow)
+   ========================================= */
+.prose table, .tiptap-content table {
+  display: block !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  -webkit-overflow-scrolling: touch;
+}
+.prose table th, .prose table td {
+  min-width: 100px;
+}
