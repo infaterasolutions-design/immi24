@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { name: 'Subscribers', path: '/admin/subscribers', icon: '📧', roles: ['super_admin', 'editor'], section: 'Audience' },
   { name: 'Homepage Layout', path: '/admin/layout', icon: '📑', roles: ['super_admin', 'editor'], section: 'Settings' },
   { name: 'Users', path: '/admin/users', icon: '👤', roles: ['super_admin'], section: 'Settings' },
+  { name: 'Authors', path: '/admin/authors', icon: '✍️', roles: ['super_admin', 'editor'], section: 'Settings' },
 ];
 
 export default function AdminSidebar({ user }) {

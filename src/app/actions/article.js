@@ -56,6 +56,7 @@ function mapDbToFrontend(article) {
     clusterSlug: article.cluster_slug,
     authorName: article.author_name,
     authorImage: article.author_image,
+    authorRole: article.author_role,
     mainImage: article.main_image,
     imageCaption: article.image_caption,
     subTitle: article.sub_title,
@@ -80,6 +81,25 @@ async function resolveArticle(article) {
   if (mapped.cluster_slug) {
     mapped.clusterDisplayName = await getClusterDisplayName(mapped.cluster_slug);
   }
+
+  // Fetch full author details
+  if (mapped.authorName) {
+    try {
+      const authorSlug = mapped.authorName.toLowerCase().replace(/\s+/g, '-');
+      // Inline the fetch to avoid circular dependency if any, or just import it at top
+      const { data: authorObj } = await supabase
+        .from("authors")
+        .select("*")
+        .eq("slug", authorSlug)
+        .single();
+      if (authorObj) {
+        mapped.authorDetails = authorObj;
+      }
+    } catch (e) {
+      console.error("Failed to fetch author details:", e);
+    }
+  }
+
   return mapped;
 }
 

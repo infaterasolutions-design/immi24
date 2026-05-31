@@ -16,6 +16,7 @@ export default function EditArticle() {
   const user = typeof window !== "undefined" ? window.__adminUser : null;
   const [categories, setCategories] = useState([]);
   const [clusters, setClusters] = useState([]);
+  const [authors, setAuthors] = useState([]);
 
   const [form, setForm] = useState({
     title: "",
@@ -42,12 +43,15 @@ export default function EditArticle() {
 
   useEffect(() => {
     async function fetchData() {
-      const [{ data: catData }, { data: clustersData }, { data: articleData, error }] = await Promise.all([
+      const [{ data: catData }, { data: clustersData }, { data: authorsData }, { data: articleData, error }] = await Promise.all([
         supabase.from("categories").select("*"),
         supabase.from("clusters").select("*").order("name", { ascending: true }),
+        supabase.from("authors").select("*").order("name", { ascending: true }),
         supabase.from("articles").select("*").eq("id", params.id).single()
       ]);
 
+      if (authorsData) setAuthors(authorsData);
+      
       if (catData) {
         const rows = catData || [];
         const parents = rows.filter((r) => !r.parent_slug);
@@ -275,7 +279,7 @@ export default function EditArticle() {
 
           {/* Settings Sidebar (Right) */}
           <div className="lg:col-span-4 overflow-y-auto pr-2 custom-scrollbar space-y-6">
-            <SettingsPanel form={form} handleChange={handleChange} categories={categories} clusters={clusters} />
+            <SettingsPanel form={form} handleChange={handleChange} categories={categories} clusters={clusters} authors={authors} />
             <SEOPanel form={form} handleChange={handleChange} />
           </div>
 

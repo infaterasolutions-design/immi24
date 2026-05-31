@@ -244,7 +244,43 @@ export default async function SubcategoryPage({ params }) {
     end: enrichWidget(rawWidgets.end || [])
   };
 
+  const SITE_URL = "https://www.unitedstatesimmigrationnews.com";
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.meta_description || article.sub_title,
+    image: article.main_image,
+    datePublished: article.published_at,
+    dateModified: article.updated_at || article.published_at,
+    author: {
+      '@type': 'Person',
+      name: article.authorName,
+      jobTitle: article.authorRole,
+      url: `${SITE_URL}/author/${article.authorName?.toLowerCase()}`,
+    },
+    publisher: {
+      '@type': 'NewsMediaOrganization',
+      name: 'United States Immigration News',
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/images/logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/${article.cluster_slug}/${article.slug}`,
+    },
+  };
+
   return (
-    <InfiniteScrollContainer initialArticle={article} sidebarData={sidebarData} nextArticle={nextArticle} customWidgets={customWidgets} sponsoredContent={sponsoredContent || []} />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <InfiniteScrollContainer initialArticle={article} sidebarData={sidebarData} nextArticle={nextArticle} customWidgets={customWidgets} sponsoredContent={sponsoredContent || []} />
+    </>
   );
 }

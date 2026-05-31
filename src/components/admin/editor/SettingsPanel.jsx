@@ -4,7 +4,7 @@ import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
 import LocationSelector from "./LocationSelector";
 import CustomWidgetBuilder from "./CustomWidgetBuilder";
 
-export default function SettingsPanel({ form, handleChange, categories, clusters = [] }) {
+export default function SettingsPanel({ form, handleChange, categories, clusters = [], authors = [] }) {
   const [isUploading, setIsUploading] = useState(false);
   const [tagsInput, setTagsInput] = useState("");
   const fileInputRef = useRef(null);
@@ -146,14 +146,39 @@ export default function SettingsPanel({ form, handleChange, categories, clusters
 
           <div>
             <label className="block text-xs text-slate-500 mb-1">Author</label>
-            <input 
-              type="text" 
-              name="author_name" 
-              value={form.author_name || ""} 
-              onChange={handleChange}
-              placeholder="e.g. John Doe"
-              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
-            />
+            {authors && authors.length > 0 ? (
+              <select
+                name="author_name"
+                value={form.author_name || ""}
+                onChange={(e) => {
+                  const selectedName = e.target.value;
+                  const author = authors.find(a => a.name === selectedName);
+                  if (author) {
+                    handleChange({ target: { name: "author_name", value: author.name } });
+                    handleChange({ target: { name: "author_role", value: author.role } });
+                    handleChange({ target: { name: "author_image", value: author.photo_url || "" } });
+                    handleChange({ target: { name: "author_id", value: author.id } });
+                  } else {
+                    handleChange({ target: { name: "author_name", value: selectedName } });
+                  }
+                }}
+                className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
+              >
+                <option value="">Select Author...</option>
+                {authors.map((a) => (
+                  <option key={a.id} value={a.name}>{a.name}</option>
+                ))}
+              </select>
+            ) : (
+              <input 
+                type="text" 
+                name="author_name" 
+                value={form.author_name || ""} 
+                onChange={handleChange}
+                placeholder="e.g. John Doe"
+                className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
+              />
+            )}
           </div>
           
           <div>
@@ -164,7 +189,7 @@ export default function SettingsPanel({ form, handleChange, categories, clusters
               value={form.author_role || ""} 
               onChange={handleChange}
               placeholder="e.g. Immigration Analyst"
-              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-800 outline-none focus:border-indigo-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-sm text-slate-500 outline-none focus:border-indigo-500"
             />
           </div>
 
