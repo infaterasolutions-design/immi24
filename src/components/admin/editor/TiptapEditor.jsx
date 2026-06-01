@@ -348,7 +348,7 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
   if (!editor) return null;
 
   return (
-    <div className="tiptap-container rounded-lg border border-slate-200 bg-slate-50 relative overflow-hidden">
+    <div className="tiptap-container rounded-lg border border-slate-200 bg-slate-50 relative">
       <EditorToolbar
         editor={editor}
         onImageUpload={(file) => handleImageUpload(file, null, null)}
