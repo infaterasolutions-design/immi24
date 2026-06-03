@@ -9,6 +9,8 @@ export async function getRecommendedPopupData() {
       .from('articles')
       .select('id, title, slug, cluster_slug, main_image')
       .eq('is_recommended_popup', true)
+      .eq('status', 'published')
+      .lte('published_at', new Date().toISOString())
       .order('published_at', { ascending: false })
       .limit(1)
       .single();

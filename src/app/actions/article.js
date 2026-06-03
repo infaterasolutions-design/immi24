@@ -111,6 +111,7 @@ export async function fetchNextArticleAction(slug, publishedAt) {
   const { data, error } = await supabase.from('articles')
     .select(ARTICLE_SELECT)
     .eq('status', 'published')
+    .lte('published_at', new Date().toISOString())
     .eq('is_indexed', true)
     .gt('published_at', publishedAt)
     .neq('slug', slug)
@@ -146,6 +147,7 @@ export async function fetchReadMoreArticles(currentArticleId) {
   const { data } = await supabase.from('articles')
     .select(ARTICLE_SELECT)
     .eq('status', 'published')
+    .lte('published_at', new Date().toISOString())
     .neq('id', currentArticleId)
     .order('published_at', { ascending: false })
     .limit(6);

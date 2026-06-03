@@ -1,18 +1,6 @@
 import { supabase } from "./supabase";
 
-const cache = {
-  articlesById: new Map(),
-  articlesByCategory: new Map(),
-  allArticles: { data: null, timestamp: 0 },
-};
-
-const CACHE_TTL = 60000; // 60 seconds
-
 export async function getArticleById(id) {
-  if (cache.articlesById.has(id)) {
-    const cached = cache.articlesById.get(id);
-    if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
-  }
 
   const { data, error } = await supabase.from('articles').select('*').eq('id', id).eq('status', 'published').single();
   if (error || !data) {
@@ -20,7 +8,6 @@ export async function getArticleById(id) {
     return null;
   }
   const mapped = mapArticle(data);
-  cache.articlesById.set(id, { data: mapped, timestamp: Date.now() });
   return mapped;
 }
 
@@ -33,11 +20,6 @@ export async function getNextArticle(currentId) {
 }
 
 export async function getArticlesByCategorySlug(categorySlug) {
-  const cacheKey = categorySlug;
-  if (cache.articlesByCategory.has(cacheKey)) {
-    const cached = cache.articlesByCategory.get(cacheKey);
-    if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
-  }
 
   const { data, error } = await supabase.from('articles')
     .select('*')
@@ -47,16 +29,10 @@ export async function getArticlesByCategorySlug(categorySlug) {
     .order('published_at', { ascending: false });
   
   const mapped = (data || []).map(mapArticle);
-  cache.articlesByCategory.set(cacheKey, { data: mapped, timestamp: Date.now() });
   return mapped;
 }
 
 export async function getArticlesBySubcategorySlug(categorySlug, subCategorySlug) {
-  const cacheKey = `${categorySlug}_${subCategorySlug}`;
-  if (cache.articlesByCategory.has(cacheKey)) {
-    const cached = cache.articlesByCategory.get(cacheKey);
-    if (Date.now() - cached.timestamp < CACHE_TTL) return cached.data;
-  }
 
   const { data, error } = await supabase.from('articles')
     .select('*')
@@ -67,14 +43,10 @@ export async function getArticlesBySubcategorySlug(categorySlug, subCategorySlug
     .order('published_at', { ascending: false });
   
   const mapped = (data || []).map(mapArticle);
-  cache.articlesByCategory.set(cacheKey, { data: mapped, timestamp: Date.now() });
   return mapped;
 }
 
 export async function getAllArticles() {
-  if (cache.allArticles.data && (Date.now() - cache.allArticles.timestamp < CACHE_TTL)) {
-    return cache.allArticles.data;
-  }
 
   const { data, error } = await supabase.from('articles')
     .select('*')
@@ -83,7 +55,6 @@ export async function getAllArticles() {
     .order('published_at', { ascending: false });
   
   const mapped = data ? data.map(mapArticle) : [];
-  cache.allArticles = { data: mapped, timestamp: Date.now() };
   return mapped;
 }
 

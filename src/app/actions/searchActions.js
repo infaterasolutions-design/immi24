@@ -9,6 +9,7 @@ export async function searchInternalArticles(query) {
     .from('articles')
     .select('title, slug, cluster_slug, category_label, published_at')
     .eq('status', 'published')
+    .lte('published_at', new Date().toISOString())
     .or(`title.ilike.%${query}%,slug.ilike.%${query}%`)
     .order('published_at', { ascending: false })
     .limit(10);
