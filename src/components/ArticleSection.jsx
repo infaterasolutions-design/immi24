@@ -614,7 +614,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      else aboveParts.push(part);
                    });
 
-                   const renderPart = (part, index) => {
+                   const renderPart = (part, index, isFirstOverall) => {
                      if (part === 'WIDGET_MID') {
                        return midArticles.length > 0 ? (
                          <RelatedArticles key={`mid-${index}`} title="Read More" articles={midArticles} variant="mid" />
@@ -628,7 +628,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      return part ? (
                        <div 
                          key={`html-${index}`} 
-                         className={index === 0 && part.trimStart().startsWith('<p') ? 'drop-cap-article' : ''} 
+                         className={isFirstOverall && part.trimStart().startsWith('<p') ? 'drop-cap-article' : ''} 
                          dangerouslySetInnerHTML={{ __html: part }} 
                        />
                      ) : null;
@@ -639,11 +639,11 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                    return (
                      <>
                        {/* Always render Above the Fold */}
-                       {aboveParts.map(renderPart)}
+                       {aboveParts.map((part, idx) => renderPart(part, idx, idx === 0))}
                        
                        {/* Render Below the Fold conditionally */}
-                       <div className={`transition-[max-height] duration-[1500ms] ease-in-out overflow-hidden ${isExpanded || !hasBelow ? 'max-h-[50000px]' : 'max-h-0'}`}>
-                         {belowParts.map(renderPart)}
+                       <div className={`transition-[max-height] duration-[1500ms] ease-in-out overflow-hidden [&>div:first-child>p:first-child]:!mt-0 ${isExpanded || !hasBelow ? 'max-h-[50000px]' : 'max-h-0'}`}>
+                         {belowParts.map((part, idx) => renderPart(part, idx, false))}
                          
                          {/* Render End widget at the bottom if not manually placed inside the text */}
                          {!usedEnd && endArticles.length > 0 && (
