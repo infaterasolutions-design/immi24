@@ -25,6 +25,25 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
       topStoriesRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
     }
   };
+
+  const getTimeAgo = (dateStr) => {
+    if (!dateStr) return "RECENTLY";
+    const date = new Date(dateStr.endsWith('Z') || dateStr.includes('+') ? dateStr : dateStr + 'Z');
+    const diff = Date.now() - date.getTime();
+    
+    if (diff < 60000) return "JUST NOW";
+    
+    const minutes = Math.floor(diff / (1000 * 60));
+    if (minutes < 60) return `${minutes} MIN${minutes === 1 ? '' : 'S'} AGO`;
+    
+    const hours = Math.floor(minutes / 60);
+    if (hours === 1) return "1 HOUR AGO";
+    if (hours < 24) return `${hours} HOURS AGO`;
+    
+    const days = Math.floor(hours / 24);
+    if (days === 1) return "1 DAY AGO";
+    return `${days} DAYS AGO`;
+  };
   // Helper to find article by ID
   const findById = (id) => id ? articles.find(a => a.id === id) : null;
 
@@ -204,7 +223,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
                       {idx > 0 && <div className="h-px w-full bg-slate-200/60 mb-4 lg:mb-5"></div>}
                       <Link href={art.cluster_slug || art.clusterSlug ? `/${art.cluster_slug || art.clusterSlug}/${art.slug}` : `/${art.slug}`} className="group block">
                         <div className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: idx === 0 ? '#e11d48' : '#64748b' }}>
-                          {idx === 0 ? "BREAKING" : art.date}
+                          {getTimeAgo(art.published_at || art.created_at)}
                         </div>
                         <h4 className="text-sm font-bold leading-snug group-hover:text-primary transition-colors text-slate-800">{art.title}</h4>
                       </Link>
