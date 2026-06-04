@@ -57,12 +57,21 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
   // Helper to format "X hours ago"
   const getTimeAgo = (dateStr) => {
     if (!dateStr) return "RECENTLY";
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    if (hours < 1) return "JUST NOW";
+    const date = new Date(dateStr.endsWith('Z') || dateStr.includes('+') ? dateStr : dateStr + 'Z');
+    const diff = Date.now() - date.getTime();
+    
+    if (diff < 60000) return "JUST NOW";
+    
+    const minutes = Math.floor(diff / (1000 * 60));
+    if (minutes < 60) return `${minutes} MIN${minutes === 1 ? '' : 'S'} AGO`;
+    
+    const hours = Math.floor(minutes / 60);
     if (hours === 1) return "1 HOUR AGO";
-    if (hours > 24) return `${Math.floor(hours / 24)} DAYS AGO`;
-    return `${hours} HOURS AGO`;
+    if (hours < 24) return `${hours} HOURS AGO`;
+    
+    const days = Math.floor(hours / 24);
+    if (days === 1) return "1 DAY AGO";
+    return `${days} DAYS AGO`;
   };
 
   return (
