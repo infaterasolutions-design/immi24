@@ -15,7 +15,7 @@ export default function RelatedArticles({ title, articles, variant }) {
     }
 
     return (
-      <div className="my-8 bg-transparent not-prose">
+      <div className="mt-4 mb-8 bg-transparent not-prose">
         <div className="flex items-center gap-4 mb-0">
           <div className="flex-1 h-[2px] bg-[#d4d4d4]" />
           <h3 className="text-[14px] font-serif uppercase text-[#333333] tracking-wider whitespace-nowrap">
@@ -25,19 +25,19 @@ export default function RelatedArticles({ title, articles, variant }) {
         </div>
         <ul className="list-none p-0 m-0 -mt-1">
           {articles.map((article, idx) => (
-            <li key={article.url || idx} className={`py-4 flex items-start gap-3 md:gap-4 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
-              <Link href={article.url || '#'} className="flex-shrink-0">
+            <li key={article.url || idx} className={`py-2 flex items-center gap-4 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
+              <Link href={article.url || '#'} className="flex-shrink-0 block">
                 <Image
                   src={article.main_image || '/images/logo.png'}
                   alt={article.title}
-                  width={110}
-                  height={75}
-                  className="object-cover w-[110px] h-[75px] related-articles-img"
+                  width={96}
+                  height={64}
+                  className="object-cover w-[96px] h-[64px] min-w-[96px] max-w-[96px] min-h-[64px] max-h-[64px] rounded-sm"
                 />
               </Link>
               <div className="flex-grow min-w-0">
                 <Link href={article.url || '#'} className="block group">
-                  <h4 className="text-[19px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3 -mt-1">
+                  <h4 className="text-[16px] md:text-[17px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3">
                     {article.title}
                   </h4>
                 </Link>
@@ -52,7 +52,7 @@ export default function RelatedArticles({ title, articles, variant }) {
 
   if (variant === 'end') {
     return (
-      <div className="my-12 bg-transparent not-prose">
+      <div className="mt-6 mb-12 bg-transparent not-prose">
         <div className="flex items-center gap-4 mb-0">
           <div className="flex-1 h-[2px] bg-[#d4d4d4]" />
           <h3 className="text-[14px] font-serif uppercase text-[#333333] tracking-wider whitespace-nowrap">
@@ -62,19 +62,19 @@ export default function RelatedArticles({ title, articles, variant }) {
         </div>
         <ul className="list-none p-0 m-0 -mt-1">
           {articles.map((article, idx) => (
-            <li key={article.url || idx} className={`py-4 flex items-start gap-3 md:gap-4 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
-              <Link href={article.url || '#'} className="flex-shrink-0">
+            <li key={article.url || idx} className={`py-2 flex items-center gap-4 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
+              <Link href={article.url || '#'} className="flex-shrink-0 block">
                 <Image
                   src={article.main_image || '/images/logo.png'}
                   alt={article.title}
-                  width={110}
-                  height={75}
-                  className="object-cover w-[110px] h-[75px] related-articles-img"
+                  width={96}
+                  height={64}
+                  className="object-cover w-[96px] h-[64px] min-w-[96px] max-w-[96px] min-h-[64px] max-h-[64px] rounded-sm"
                 />
               </Link>
               <div className="flex-grow min-w-0">
                 <Link href={article.url || '#'} className="block group">
-                  <h4 className="text-[19px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3 -mt-1">
+                  <h4 className="text-[16px] md:text-[17px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3">
                     {article.title}
                   </h4>
                 </Link>
