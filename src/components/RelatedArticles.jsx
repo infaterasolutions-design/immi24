@@ -25,7 +25,7 @@ export default function RelatedArticles({ title, articles, variant }) {
         </div>
         <ul className="list-none p-0 m-0 -mt-1">
           {articles.map((article, idx) => (
-            <li key={article.url || idx} className={`py-4 flex items-center gap-4 md:gap-5 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
+            <li key={article.url || idx} className={`py-4 flex items-center gap-5 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
               <Link href={article.url || '#'} className="flex-shrink-0">
                 <Image
                   src={article.main_image || '/images/logo.png'}
@@ -37,7 +37,7 @@ export default function RelatedArticles({ title, articles, variant }) {
               </Link>
               <div className="flex-grow min-w-0">
                 <Link href={article.url || '#'} className="block group">
-                  <h4 className="text-[17px] md:text-[19px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                  <h4 className="text-[19px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3">
                     {article.title}
                   </h4>
                 </Link>
@@ -62,7 +62,7 @@ export default function RelatedArticles({ title, articles, variant }) {
         </div>
         <ul className="list-none p-0 m-0 -mt-1">
           {articles.map((article, idx) => (
-            <li key={article.url || idx} className={`py-4 flex items-center gap-4 md:gap-5 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
+            <li key={article.url || idx} className={`py-4 flex items-center gap-5 ${idx !== articles.length - 1 ? 'border-b border-[#ececec]' : ''}`}>
               <Link href={article.url || '#'} className="flex-shrink-0">
                 <Image
                   src={article.main_image || '/images/logo.png'}
@@ -74,7 +74,7 @@ export default function RelatedArticles({ title, articles, variant }) {
               </Link>
               <div className="flex-grow min-w-0">
                 <Link href={article.url || '#'} className="block group">
-                  <h4 className="text-[17px] md:text-[19px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                  <h4 className="text-[19px] font-serif text-[#222222] leading-snug group-hover:text-primary transition-colors line-clamp-3">
                     {article.title}
                   </h4>
                 </Link>
