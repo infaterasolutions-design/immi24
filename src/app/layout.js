@@ -48,6 +48,12 @@ export const metadata = {
   },
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({ children }) {
   // Use environment variable, fallback to empty string if not set
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-PLACEHOLDER';
@@ -55,7 +61,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable} ${poppins.variable}`} suppressHydrationWarning={true}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="fb:app_id" content="2003958383541773" />
         <link rel="preconnect" href="https://elbxclhtmlbdlegsfzqh.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://elbxclhtmlbdlegsfzqh.supabase.co" />

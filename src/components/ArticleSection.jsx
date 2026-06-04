@@ -883,8 +883,8 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           </div>
 
           {/* Mobile Floating Action Bar */}
-          <div className={`sticky bottom-[120px] z-[45] flex lg:hidden justify-end pointer-events-none w-full h-0 overflow-visible transition-all duration-300 ${showMobileSidebar ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'}`}>
-            <div className="flex flex-col items-center justify-center gap-5 pointer-events-auto pr-3 -mt-[150px]">
+          <div className={`sticky bottom-[120px] z-[45] flex lg:hidden justify-end pointer-events-none w-full h-0 overflow-visible transition-all duration-300 ${showMobileSidebar ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}>
+            <div className="flex flex-col items-center justify-center gap-5 pointer-events-auto mr-0 pr-0 -mt-[150px]">
               <button
                 onClick={() => handleInteraction("left", "like")}
                 className={`flex flex-col items-center justify-center gap-0.5 transition-all ${
