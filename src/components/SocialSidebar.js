@@ -10,7 +10,18 @@ export default function SocialSidebar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setVisible(window.scrollY > 200);
+      const scrollY = window.scrollY;
+      const isScrolledDown = scrollY > 200;
+      
+      const documentHeight = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+      );
+      const distanceToBottom = documentHeight - (window.innerHeight + scrollY);
+      const isNearBottom = distanceToBottom < 400; // Footer height is approx 300-400px
+
+      setVisible(isScrolledDown && !isNearBottom);
     };
     window.addEventListener("scroll", handleScroll);
     
