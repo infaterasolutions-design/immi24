@@ -643,11 +643,18 @@ img {
     border: none !important;
     background: transparent;
     transition: width 250ms ease;
-    outline: none;
+    outline: none !important;
     font-size: 14px;
     color: var(--color-on-surface);
     -webkit-appearance: none !important;
     appearance: none !important;
+  }
+
+  .reuters-search-input:focus,
+  .reuters-search-input:focus-visible,
+  .reuters-search-input:active {
+    outline: none !important;
+    box-shadow: none !important;
   }
 
   .search-open .reuters-search-input.expanded {
