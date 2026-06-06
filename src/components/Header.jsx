@@ -35,7 +35,6 @@ export default function Header() {
   };
   const [searchQuery, setSearchQuery] = useState("");
   const [CATEGORIES, setCATEGORIES] = useState([]);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const mobileSearchInputRef = useRef(null);
   
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
@@ -192,7 +191,7 @@ export default function Header() {
   return (
     <>
       {/* ===== HEADER BAR ===== */}
-      <header ref={headerRef} className="sticky top-0 z-50 w-full bg-white border-b border-slate-200">
+      <header ref={headerRef} className={`sticky top-0 z-50 w-full bg-white border-b border-slate-200 ${searchOpen ? 'search-open' : ''}`}>
         <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-4 py-2 md:py-3 min-h-[60px]">
           
           {/* Left: Logo */}
@@ -212,31 +211,58 @@ export default function Header() {
           <MegaMenu categories={CATEGORIES} menuOpen={menuOpen} onClose={closeMenu} />
 
           {/* Right: Search + Subscribe */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="right-section flex items-center gap-3 flex-shrink-0">
             
-            {/* Desktop Advanced Search */}
-            <div className="hidden lg:block relative">
-              <form 
-                onSubmit={handleSearchSubmit} 
-                className={`flex items-center bg-slate-100 px-3 py-1.5 border transition-all duration-300 ease-in-out rounded-full shadow-inner ${isSearchFocused ? 'border-primary ring-2 ring-primary/20 w-80' : 'border-slate-200 w-64'}`}
-              >
-                <button type="submit" className="text-slate-400 hover:text-primary transition-colors flex items-center justify-center">
-                  <span className="material-symbols-outlined text-lg">search</span>
-                </button>
+            {/* Reuters-style Inline Search */}
+            <div className="reuters-search-container" ref={dropdownRef}>
+              <form onSubmit={handleSearchSubmit} className="relative flex items-center">
                 <input 
+                  ref={searchInputRef}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-                  className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none mx-2 text-slate-700" 
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      e.preventDefault();
+                      if (searchQuery.length > 0) {
+                        setSearchQuery('');
+                      } else {
+                        closeAll();
+                      }
+                    }
+                  }}
+                  className={`reuters-search-input ${searchOpen ? 'expanded' : ''}`}
                   placeholder="Search news, updates..." 
                   type="text" 
                 />
+                
+                <button 
+                  type="button" 
+                  className="reuters-search-icon" 
+                  onClick={() => {
+                    if (!searchOpen) openSearch();
+                    else if (searchQuery.trim()) handleSearchSubmit(new Event('submit'));
+                  }} 
+                  aria-label="Search"
+                >
+                  <span className="material-symbols-outlined text-[22px]">search</span>
+                </button>
+                
+                <button 
+                  type="button" 
+                  className={`reuters-close-btn ${searchOpen ? 'visible' : ''}`} 
+                  onClick={() => {
+                    setSearchQuery('');
+                    closeAll();
+                  }}
+                  aria-label="Close search"
+                >
+                  <span className="material-symbols-outlined text-[18px]">close</span>
+                </button>
               </form>
 
-              {/* Desktop Live Suggestions Dropdown */}
-              {isSearchFocused && (suggestions.length > 0 || (searchQuery.length >= 2 && !isSearching)) && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 shadow-xl z-[60] py-2 max-h-[360px] overflow-y-auto" onMouseDown={(e) => e.preventDefault()}>
+              {/* Live Suggestions Dropdown */}
+              {searchOpen && (suggestions.length > 0 || (searchQuery.length >= 2 && !isSearching)) && (
+                <div className="reuters-search-dropdown" onMouseDown={(e) => e.preventDefault()}>
                   {isSearching && (
                     <div className="p-4 text-center text-slate-500 text-sm">Searching...</div>
                   )}
@@ -248,7 +274,7 @@ export default function Header() {
                           <Link 
                             href={`/${item.slug}`} 
                             onClick={closeAll}
-                            className="flex justify-between items-center px-5 py-2.5 cursor-pointer transition-colors hover:bg-slate-50"
+                            className="flex justify-between items-center px-5 py-2.5 cursor-pointer transition-colors hover:bg-slate-50 border-b border-slate-100 last:border-0"
                           >
                             <span className="text-[14px] text-primary font-normal truncate pr-4">{item.title}</span>
                             <span className="text-[11px] px-2 py-0.5 rounded-full bg-black/5 text-slate-500 whitespace-nowrap ml-3">{item.category_label}</span>
@@ -265,20 +291,9 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile: Search / Mic Icons */}
-            <div className="flex lg:hidden items-center gap-1">
-
-              <button 
-                className="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary rounded-full hover:bg-slate-50 transition-colors"
-                onClick={searchOpen ? closeAll : openSearch}
-              >
-                <span className="material-symbols-outlined text-[22px]">{searchOpen ? "close" : "search"}</span>
-              </button>
-            </div>
-
             {/* Mobile: Hamburger / Close */}
             <button
-              className="lg:hidden w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary rounded-lg transition-colors"
+              className="hamburger-btn lg:hidden w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary rounded-lg transition-colors"
               onClick={menuOpen ? closeAll : openMenu}
               aria-label="Toggle navigation menu"
             >

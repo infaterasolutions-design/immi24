@@ -608,3 +608,126 @@ img {
 .prose table th, .prose table td {
   min-width: 100px;
 }
+
+.nav-links {
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+.search-open .nav-links {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reuters-search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.reuters-search-container form {
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 250ms ease;
+  padding-bottom: 2px; /* Slight padding so border isn't touching text */
+}
+
+.search-open .reuters-search-container form {
+  border-bottom-color: var(--color-on-surface);
+}
+
+.reuters-search-input {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none !important;
+  background: transparent;
+  transition: width 250ms ease;
+  outline: none;
+  font-size: 14px;
+  color: var(--color-on-surface);
+}
+
+.search-open .reuters-search-input.expanded {
+  width: 220px;
+  opacity: 1;
+  padding: 6px 8px; /* Standard padding */
+}
+
+.reuters-search-icon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px !important;
+  color: var(--color-on-surface);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reuters-search-icon:hover {
+  background: var(--color-surface-container-lowest, #ffffff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Remove hover effect from search icon when search is open */
+.search-open .reuters-search-icon:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.reuters-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px !important;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-surface);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.reuters-close-btn.visible {
+  display: flex;
+}
+
+.reuters-close-btn:hover {
+  background: var(--color-surface-container-lowest, #ffffff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.reuters-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 100%;
+  min-width: 240px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .reuters-search-dropdown {
+    width: 320px;
+  }
+}
+
+.hamburger-btn {
+  transition: opacity 150ms ease;
+}
+
+.search-open .hamburger-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
