@@ -184,7 +184,13 @@ export default function Header() {
 
   useEffect(() => {
     if (searchOpen) {
-      setTimeout(() => searchInputRef.current?.focus(), 100);
+      setTimeout(() => {
+        if (window.innerWidth >= 1024) {
+          searchInputRef.current?.focus();
+        } else {
+          mobileSearchInputRef.current?.focus();
+        }
+      }, 100);
     }
   }, [searchOpen]);
 
@@ -213,8 +219,8 @@ export default function Header() {
           {/* Right: Search + Subscribe */}
           <div className="right-section flex items-center gap-3 flex-shrink-0">
             
-            {/* Reuters-style Inline Search */}
-            <div className="reuters-search-container" ref={dropdownRef}>
+            {/* Reuters-style Inline Search (Desktop Only) */}
+            <div className="hidden lg:flex reuters-search-container" ref={dropdownRef}>
               <form onSubmit={handleSearchSubmit} className="relative flex items-center">
                 <input 
                   ref={searchInputRef}
@@ -291,6 +297,16 @@ export default function Header() {
               )}
             </div>
 
+            {/* Mobile: Search Icon */}
+            <div className="flex lg:hidden items-center gap-1">
+              <button 
+                className="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary rounded-full hover:bg-slate-50 transition-colors"
+                onClick={searchOpen ? closeAll : openSearch}
+              >
+                <span className="material-symbols-outlined text-[22px]">{searchOpen ? "close" : "search"}</span>
+              </button>
+            </div>
+
             {/* Mobile: Hamburger / Close */}
             <button
               className="hamburger-btn lg:hidden w-10 h-10 flex items-center justify-center text-slate-500 hover:text-primary rounded-lg transition-colors"
@@ -332,21 +348,13 @@ export default function Header() {
           <div className="w-full bg-white border-b border-black/5 p-[12px_20px] flex items-center gap-3">
             <span className="material-symbols-outlined text-[18px] text-slate-400 select-none">search</span>
             <input
-              ref={searchInputRef}
+              ref={mobileSearchInputRef}
               type="text"
               className="w-full border-none outline-none bg-transparent text-[16px] text-slate-900 placeholder-slate-400"
               placeholder="Search immigration news..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            {searchQuery.length > 0 && (
-              <button 
-                onClick={() => { setSearchQuery(''); searchInputRef.current?.focus(); }}
-                className="text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                <span className="material-symbols-outlined text-[16px]">close</span>
-              </button>
-            )}
           </div>
           
           {/* Live Suggestions List */}
