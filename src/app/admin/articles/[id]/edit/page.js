@@ -8,6 +8,7 @@ import SEOPanel from "../../../../../components/admin/editor/SEOPanel";
 import SettingsPanel from "../../../../../components/admin/editor/SettingsPanel";
 import FAQPanel from "../../../../../components/admin/editor/FAQPanel";
 import RoleGuard from "../../../../../components/admin/RoleGuard";
+import { getAllAuthors } from "@/app/actions/authorActions";
 
 export default function EditArticle() {
   const router = useRouter();
@@ -49,10 +50,10 @@ export default function EditArticle() {
 
   useEffect(() => {
     async function fetchData() {
-      const [{ data: catData }, { data: clustersData }, { data: authorsData }, { data: articleData, error }, { data: faqsData }] = await Promise.all([
+      const [{ data: catData }, { data: clustersData }, authorsData, { data: articleData, error }, { data: faqsData }] = await Promise.all([
         supabase.from("categories").select("*"),
         supabase.from("clusters").select("*").order("name", { ascending: true }),
-        supabase.from("authors").select("*").order("name", { ascending: true }),
+        getAllAuthors(),
         supabase.from("articles").select("*").eq("id", params.id).single(),
         supabase.from("article_faqs").select("*").eq("article_id", params.id).order("display_order", { ascending: true })
       ]);

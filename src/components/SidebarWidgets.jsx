@@ -106,7 +106,7 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
           <div className="space-y-6">
             {latestNews.length > 0 ? latestNews.map((article, idx) => (
               <Link key={article.id} href={article.cluster_slug ? `/${article.cluster_slug}/${article.slug}` : (article.slug ? `/${article.slug}` : `/article/${article.id}`)} className="group block">
-                <div className={`text-xs font-bold mb-1 ${idx === 0 ? 'text-tertiary' : 'text-slate-500'}`}>
+                <div suppressHydrationWarning className={`text-xs font-bold mb-1 ${idx === 0 ? 'text-tertiary' : 'text-slate-500'}`}>
                   {getTimeAgo(article.published_at)}
                 </div>
                 <h4 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors text-slate-800">

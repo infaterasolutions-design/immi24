@@ -8,6 +8,7 @@ import SEOPanel from "../../../../components/admin/editor/SEOPanel";
 import SettingsPanel from "../../../../components/admin/editor/SettingsPanel";
 import FAQPanel from "../../../../components/admin/editor/FAQPanel";
 import RoleGuard from "../../../../components/admin/RoleGuard";
+import { getAllAuthors } from "@/app/actions/authorActions";
 
 export default function NewArticle() {
   const router = useRouter();
@@ -49,10 +50,10 @@ export default function NewArticle() {
 
   useEffect(() => {
     async function fetchData() {
-      const [{ data: catData }, { data: clustersData }, { data: authorsData }] = await Promise.all([
+      const [{ data: catData }, { data: clustersData }, authorsData] = await Promise.all([
         supabase.from("categories").select("*"),
         supabase.from("clusters").select("*").order("name", { ascending: true }),
-        supabase.from("authors").select("*").order("name", { ascending: true })
+        getAllAuthors()
       ]);
       if (authorsData) setAuthors(authorsData);
       if (catData) {
