@@ -22,6 +22,9 @@ Disallow: /admin
 Disallow: /dashboard/
 Disallow: /dashboard
 
+# Block old categories
+Disallow: /category/
+
 # Block API routes
 Disallow: /api/
 Disallow: /api

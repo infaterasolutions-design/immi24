@@ -81,7 +81,7 @@ export async function GET() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${Array.from(urls).map(path => {
+  ${Array.from(urls).filter(path => !["/category/", "/maryland/", "/minnesota/", "/live-updates/"].some(prefix => path.startsWith(prefix))).map(path => {
     const lastMod = dateMap[path] ? new Date(dateMap[path]).toISOString() : fallbackDate;
     return `
   <url>

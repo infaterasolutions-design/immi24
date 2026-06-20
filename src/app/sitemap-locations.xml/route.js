@@ -28,9 +28,15 @@ export async function GET() {
     }
   });
 
+  const excludedPrefixes = ['/maryland/', '/minnesota/'];
+  const finalUrls = urls.filter(u => {
+    const path = new URL(u.loc).pathname;
+    return !excludedPrefixes.some(prefix => path.startsWith(prefix));
+  });
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${urls.map(urlData => `
+  ${finalUrls.map(urlData => `
   <url>
     <loc>${urlData.loc}</loc>
     <lastmod>${urlData.lastmod}</lastmod>
