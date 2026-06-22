@@ -138,9 +138,11 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function SlugPage({ params, searchParams }) {
+import { draftMode } from "next/headers";
+
+export default async function SlugPage({ params }) {
   const { slug } = await params;
-  const isPreview = (await searchParams)?.preview === 'true';
+  const { isEnabled: isPreview } = await draftMode();
 
   // ─── Smart Detection: Is this a category page? ───
   const category = await getCategoryBySlug(slug);

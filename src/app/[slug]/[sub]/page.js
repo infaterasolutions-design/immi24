@@ -129,9 +129,11 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function SubcategoryPage({ params, searchParams }) {
+import { draftMode } from "next/headers";
+
+export default async function SubcategoryPage({ params }) {
   const { slug, sub } = await params;
-  const isPreview = (await searchParams)?.preview === 'true';
+  const { isEnabled: isPreview } = await draftMode();
 
   // 1. Validate parent category exists
   const category = await getCategoryBySlug(slug);
