@@ -30,7 +30,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata = {
   title: "US Immigration News & Updates | Visas, Green Cards, USCIS & ICE News",
-  description: "Get the latest USA immigration news, visa updates, green card processing times, USCIS announcements, and ICE policy changes. Trusted daily immigration updates and guides.",
+  description: "Get the latest US immigration news, visa updates, green card processing times, USCIS announcements, and ICE policy changes. Trusted daily guides.",
   alternates: {
     canonical: 'https://www.unitedstatesimmigrationnews.com/',
     languages: {
