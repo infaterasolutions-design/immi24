@@ -159,8 +159,8 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
         <div className="bg-primary rounded-2xl p-8 text-on-primary shadow-xl shadow-primary/20 relative overflow-hidden mt-6">
           <div className="relative z-10">
             <span className="material-symbols-outlined mb-4" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
-            <h3 className="font-headline font-bold text-xl mb-2 text-white">Editorial Digest</h3>
-            <p className="text-sm text-white/80 leading-relaxed mb-6">Stay updated with critical immigration law changes delivered to your inbox weekly.</p>
+            <h3 className="font-headline font-bold text-xl mb-2 text-white">Global Briefing</h3>
+            <p className="text-sm text-white opacity-80 leading-relaxed mb-6">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <input 
                 value={email}

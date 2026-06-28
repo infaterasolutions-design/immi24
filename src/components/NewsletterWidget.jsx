@@ -23,8 +23,8 @@ export default function NewsletterWidget({ isMobile = false }) {
     return (
       <div className="lg:hidden">
         <div className="bg-primary p-5 text-white shadow-lg rounded-xl">
-          <h3 className="text-lg font-extrabold headline-font mb-2">Global Briefing</h3>
-          <p className="text-sm mb-4 opacity-90 leading-relaxed">Get critical immigration news delivered to your inbox weekly.</p>
+          <h3 className="text-xl font-extrabold headline-font mb-2 !text-white">Global Briefing</h3>
+          <p className="text-sm mb-4 !text-white opacity-80 leading-relaxed">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
           <form onSubmit={handleSubscribe} className="space-y-3 relative">
             <input 
               value={email}
@@ -49,8 +49,8 @@ export default function NewsletterWidget({ isMobile = false }) {
 
   return (
     <div className="bg-primary p-6 text-white shadow-lg rounded-xl">
-      <h3 className="text-xl font-extrabold headline-font mb-2">Global Briefing</h3>
-      <p className="text-sm mb-6 opacity-90 leading-relaxed">Get the week&apos;s most critical immigration news and policy analysis directly in your inbox.</p>
+      <h3 className="text-xl font-extrabold headline-font mb-2 !text-white">Global Briefing</h3>
+      <p className="text-sm mb-6 !text-white opacity-80 leading-relaxed">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
       <form onSubmit={handleSubscribe} className="space-y-3 relative">
         <input 
           value={email}

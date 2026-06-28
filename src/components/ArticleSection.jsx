@@ -22,6 +22,8 @@ const FAQAccordion = dynamic(() => import('./FAQAccordion'), {
   ssr: false,
 });
 
+import NewsletterWidget from './NewsletterWidget';
+
 const FALLBACK_IMAGE = "/images/logo.png";
 
 export default function ArticleSection({ article, isFirst = false, customWidgets = { mid: [], end: [] }, sponsoredContent = [] }) {
@@ -629,6 +631,20 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      htmlContent = htmlContent.replace(/(<\/p>)/i, '$1|||WIDGET_MID|||');
                    }
 
+                   // Auto-inject Newsletter halfway through content
+                   let pMatches = htmlContent.match(/<\/p>/gi);
+                   if (pMatches && pMatches.length >= 4) {
+                     let middleIndex = Math.floor(pMatches.length / 2);
+                     let pCount = 0;
+                     htmlContent = htmlContent.replace(/<\/p>/gi, (match) => {
+                       pCount++;
+                       if (pCount === middleIndex) {
+                         return match + '|||WIDGET_NEWSLETTER|||';
+                       }
+                       return match;
+                     });
+                   }
+
                    let processedHtml = htmlContent
                      .replace(/<p[^>]*>(?:(?!<\/p>)[\s\S])*?\[WIDGET_MID\](?:(?!<\/p>)[\s\S])*?<\/p>/gi, '|||WIDGET_MID|||')
                      .replace(/<p[^>]*>(?:(?!<\/p>)[\s\S])*?\[WIDGET_END\](?:(?!<\/p>)[\s\S])*?<\/p>/gi, '|||WIDGET_END|||')
@@ -650,13 +666,24 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                    const renderPart = (part, index, isFirstOverall) => {
                      if (part === 'WIDGET_MID') {
                        return midArticles.length > 0 ? (
-                         <RelatedArticles key={`mid-${index}`} title="Read More" articles={midArticles} variant="mid" />
+                         <div key={`mid-${index}`} className="not-prose">
+                           <RelatedArticles title="Read More" articles={midArticles} variant="mid" />
+                         </div>
                        ) : null;
                      }
                      if (part === 'WIDGET_END') {
                        return endArticles.length > 0 ? (
-                         <RelatedArticles key={`end-${index}`} title="WHAT TO READ NEXT" articles={endArticles} variant="end" />
+                         <div key={`end-${index}`} className="not-prose">
+                           <RelatedArticles title="WHAT TO READ NEXT" articles={endArticles} variant="end" />
+                         </div>
                        ) : null;
+                     }
+                     if (part === 'WIDGET_NEWSLETTER') {
+                       return (
+                         <div key={`nl-${index}`} className="not-prose my-10 w-full max-w-[800px] mx-auto border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                           <NewsletterWidget isMobile={false} />
+                         </div>
+                       );
                      }
                      return part ? (
                        <div 

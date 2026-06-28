@@ -408,8 +408,8 @@ export default function Header({ initialCategories = [] }) {
             </button>
             
             <span className="material-symbols-outlined text-4xl mb-6 opacity-90" style={{fontVariationSettings: "'FILL' 1"}}>mail</span>
-            <h3 className="text-2xl font-extrabold headline-font mb-3">Global Briefing</h3>
-            <p className="text-sm mb-8 opacity-90 leading-relaxed">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
+            <h3 className="text-2xl font-extrabold headline-font mb-3 text-white">Global Briefing</h3>
+            <p className="text-sm mb-8 text-white opacity-80 leading-relaxed">Get the week's most critical immigration news and policy analysis directly in your inbox.</p>
             
             <form onSubmit={handleSubscribe} className="space-y-4 relative">
               <input 
