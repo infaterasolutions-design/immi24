@@ -469,12 +469,12 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                 <span className="text-sm leading-none">📍</span>
                 {article.location.parentSlug ? (
                   <>
-                    <Link href={`/${article.location.parentSlug}`} className="hover:opacity-80 transition-opacity">
-                      {article.location.parentName}
-                    </Link>
-                    <span className="text-[#1e3a8a]/40 text-xs leading-none relative -top-[1px]">|</span>
                     <Link href={`/${article.location.parentSlug}/${article.location.slug}`} className="hover:opacity-80 transition-opacity">
                       {article.location.name}
+                    </Link>
+                    <span className="text-[#1e3a8a]/40 text-xs leading-none relative -top-[1px]">|</span>
+                    <Link href={`/${article.location.parentSlug}`} className="hover:opacity-80 transition-opacity">
+                      {article.location.parentName}
                     </Link>
                   </>
                 ) : (
