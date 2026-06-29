@@ -34,7 +34,7 @@ export default function LatestUpdatesFeed({ articles }) {
         >
           <Link prefetch={true} href={article.cluster_slug ? `/${article.cluster_slug}/${article.slug}` : `/${article.slug}`} className="flex-grow min-w-0">
             <div className="flex items-center gap-2 mb-1 md:mb-2">
-              <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{article.displayCategory || article.categoryLabel || article.category}</span>
+              <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{article.categoryLabel || article.category}</span>
               <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
               <span className="text-[10px] text-slate-400 font-medium uppercase">{article.date}</span>
             </div>

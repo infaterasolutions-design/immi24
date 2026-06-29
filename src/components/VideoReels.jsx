@@ -250,7 +250,7 @@ export default function VideoReels({ videos, startIndex = 0, onClose }) {
             <div className="absolute bottom-0 left-0 right-16 z-20 p-5 pb-8">
               <div className="flex items-center gap-2 mb-3">
                 <span className="bg-primary px-2.5 py-0.5 text-[9px] font-bold text-white uppercase tracking-wider rounded-sm">
-                  {video.displayCategory || video.categoryLabel || "Video"}
+                  {video.categoryLabel || "Video"}
                 </span>
                 <span className="text-white/60 text-[10px] font-medium">
                   {video.date}

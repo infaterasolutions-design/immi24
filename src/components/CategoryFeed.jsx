@@ -55,7 +55,7 @@ export default function CategoryFeed({ title, description, articles }) {
                        alt={article.title} 
                      />
                      <div className="absolute top-3 left-3 bg-primary px-3 py-1 text-[10px] font-bold text-white uppercase tracking-widest rounded-sm shadow-md">
-                        {article.displayCategory || article.categoryLabel || article.category}
+                        {article.categoryLabel || article.category}
                      </div>
                    </div>
                    <div className="px-3 md:px-4 space-y-2 md:space-y-3 flex-grow border-x border-b border-transparent group-hover:border-slate-100 rounded-b-xl transition-all">

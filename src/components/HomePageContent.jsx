@@ -106,7 +106,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
                   <Image width={800} height={500} quality={60} priority fetchPriority="high" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={heroArticle.mainImage || FALLBACK_IMAGE} alt={heroArticle.title} />
                 </div>
                 <div className="space-y-2 md:space-y-3">
-                  <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.displayCategory || heroArticle.categoryLabel}</span>
+                  <span className="text-primary text-[10px] font-bold uppercase tracking-widest">{heroArticle.categoryLabel}</span>
                   <h1 className="text-on-surface text-2xl md:text-3xl font-bold headline-font leading-tight group-hover:text-primary transition-colors">
                     {heroArticle.title}
                   </h1>
@@ -123,7 +123,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
                     <div className="aspect-[4/3] overflow-hidden rounded-md relative">
                       <Image width={400} height={300} quality={40} loading="lazy" decoding="async" sizes="(max-width: 768px) 50vw, 25vw" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
                     </div>
-                    <span className="text-primary text-[10px] font-bold uppercase tracking-widest block mt-2">{art.displayCategory || art.categoryLabel}</span>
+                    <span className="text-primary text-[10px] font-bold uppercase tracking-widest block mt-2">{art.categoryLabel}</span>
                     <h3 className="font-bold headline-font text-xs md:text-sm leading-tight group-hover:text-primary transition-colors text-slate-900">{art.title}</h3>
                     <p className="text-[10px] text-slate-400 font-medium">{art.date}</p>
                   </Link>
@@ -152,7 +152,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
                   <Link prefetch={true} key={art.id} href={art.cluster_slug || art.clusterSlug ? `/${art.cluster_slug || art.clusterSlug}/${art.slug}` : (art.slug ? `/${art.slug}` : `/article/${art.id}`)} className="flex-shrink-0 w-[240px] md:w-[280px] snap-start group cursor-pointer block">
                     <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 rounded-md">
                       <Image width={300} height={200} quality={40} loading="lazy" decoding="async" sizes="280px" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={art.mainImage || FALLBACK_IMAGE} alt={art.title} />
-                      <div className="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter rounded-sm">{art.displayCategory || art.categoryLabel}</div>
+                      <div className="absolute top-2 left-2 bg-primary px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-tighter rounded-sm">{art.categoryLabel}</div>
                     </div>
                     <h4 className="font-bold text-sm leading-snug group-hover:text-primary transition-colors mb-2 line-clamp-2 text-slate-900">{art.title}</h4>
                     <div className="flex items-center gap-3 text-[10px] text-slate-500 font-medium">
@@ -248,7 +248,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
                       <span className="text-3xl font-black text-slate-200 headline-font italic">{String(idx + 1).padStart(2, '0')}</span>
                       <div>
                         <h4 className="text-sm font-bold leading-snug text-slate-800 group-hover:text-primary transition-colors">{art.title}</h4>
-                        <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">{art.displayCategory || art.categoryLabel}</span>
+                        <span className="text-[11px] text-slate-500 font-medium uppercase tracking-tighter">{art.categoryLabel}</span>
                       </div>
                     </Link>
                   ))}

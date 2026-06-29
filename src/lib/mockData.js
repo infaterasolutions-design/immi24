@@ -68,10 +68,6 @@ function mapArticle(a) {
     }
   }
 
-  const catLabel = a.category_label || (a.category_slug ? a.category_slug.replace(/-/g, ' ') : "");
-  const subCatStr = a.sub_category_slug ? a.sub_category_slug.replace(/-/g, ' ') : "";
-  const displayCategory = subCatStr ? `${subCatStr} | ${catLabel}` : catLabel;
-
   return {
     ...a,
     date: formattedDate,
@@ -79,7 +75,6 @@ function mapArticle(a) {
     subCategorySlug: a.sub_category_slug,
     cluster_slug: a.cluster_slug,
     categoryLabel: a.category_label,
-    displayCategory: displayCategory,
     readTime: a.read_time,
     authorName: a.author_name,
     authorRole: a.author_role,
