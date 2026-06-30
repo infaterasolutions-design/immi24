@@ -1,5 +1,5 @@
 import { BubbleMenu } from "@tiptap/react/menus";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useCallback } from "react";
 import { 
   Bold, Italic, Underline, Heading1, Heading2, Heading3, Heading4, Heading5,
   List, ListOrdered, Quote, Link2, RemoveFormatting
@@ -21,10 +21,17 @@ export default function EditorBubbleMenu({ editor, onEmbedClick }) {
 
   const currentFontSize = editor.getAttributes('textStyle')?.fontSize || '';
 
+  const shouldShow = useCallback(({ editor, view, state }) => {
+    if (!view.hasFocus()) return false;
+    // Show the menu if text is highlighted OR if the cursor is inside a link
+    return !state.selection.empty || editor.isActive('link');
+  }, []);
+
   return (
     <BubbleMenu 
       editor={editor} 
       tippyOptions={{ duration: 100 }}
+      shouldShow={shouldShow}
       className="flex flex-wrap items-center gap-1 p-1.5 bg-white border border-slate-200 shadow-xl rounded-lg"
     >
       <select

@@ -2,22 +2,28 @@ import React, { useState, useEffect, useRef } from "react";
 import { searchInternalArticles } from "@/app/actions/searchActions";
 import { Search, Link as LinkIcon, ExternalLink, X } from "lucide-react";
 
-export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUrl = "" }) {
+export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUrl = "", initialOpenInNewTab = true }) {
   const [query, setQuery] = useState(initialUrl);
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [openInNewTab, setOpenInNewTab] = useState(true);
+  const [openInNewTab, setOpenInNewTab] = useState(initialOpenInNewTab);
   const inputRef = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
-      setQuery(initialUrl);
+      let displayUrl = initialUrl || "";
+      // If the link was saved as a relative path (like '/'), show the full domain so it's not confusing
+      if (displayUrl.startsWith('/')) {
+        const domain = "https://unitedstatesimmigrationnews.com";
+        displayUrl = displayUrl === '/' ? domain : domain + displayUrl;
+      }
+      setQuery(displayUrl);
       setTimeout(() => inputRef.current?.focus(), 100);
     } else {
       setQuery("");
       setResults([]);
     }
-  }, [isOpen, initialUrl]);
+  }, [isOpen, initialUrl, initialOpenInNewTab]);
 
   // Extract slug from own-site URLs
   const extractSlugFromOwnUrl = (url) => {
@@ -109,16 +115,7 @@ export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUr
     
     let url = query.trim();
     
-    // Automatically strip production/dev domains so it saves as a clean internal relative URL
-    if (url.includes('unitedstatesimmigrationnews.com')) {
-      const parts = url.split('unitedstatesimmigrationnews.com');
-      url = parts[1] || '/';
-      if (!url.startsWith('/')) url = '/' + url;
-    } else if (url.includes('localhost:3000')) {
-      const parts = url.split('localhost:3000');
-      url = parts[1] || '/';
-      if (!url.startsWith('/')) url = '/' + url;
-    } else if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("/")) {
+    if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("/")) {
       url = "https://" + url;
     }
 

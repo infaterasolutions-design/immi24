@@ -114,9 +114,38 @@ body {
 
 /* Base prose styles from article page */
 .prose p:not(.not-prose *) { margin-bottom: 1.5rem; line-height: 1.75; color: var(--color-on-surface-variant); }
-.prose h2:not(.not-prose *), .prose h3:not(.not-prose *) { font-family: var(--font-headline); font-weight: 700; font-size: 20px !important; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--color-on-surface); letter-spacing: -0.02em; }
-.prose h4:not(.not-prose *), .prose h5:not(.not-prose *) { font-family: var(--font-headline); font-weight: 700; font-size: 18px !important; margin-top: 2rem; margin-bottom: 1rem; color: var(--color-on-surface); letter-spacing: -0.02em; }
+.prose h2:not(.not-prose *), .prose h3:not(.not-prose *) { font-family: var(--font-headline); font-weight: 700; font-size: 24px !important; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--color-on-surface); letter-spacing: -0.02em; }
+@media (min-width: 768px) {
+  .prose h2:not(.not-prose *) { font-size: 25px !important; }
+}
+.prose h4:not(.not-prose *), .prose h5:not(.not-prose *) { font-family: var(--font-headline); font-weight: 700; font-size: 20px !important; margin-top: 2rem; margin-bottom: 1rem; color: var(--color-on-surface); letter-spacing: -0.02em; }
 .prose blockquote:not(.not-prose *) { border-left: 4px solid var(--color-primary); padding-left: 1.5rem; font-style: italic; margin: 2rem 0; color: var(--color-on-surface); }
+
+/* Premium inline link styles */
+.article-content a:not(.btn):not(.button),
+.prose a:not(.btn):not(.button),
+.article-body a:not(.btn):not(.button) {
+  color: var(--color-primary);
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+  text-decoration-color: color-mix(in srgb, var(--color-primary) 38%, transparent);
+  transition:
+    color 220ms ease,
+    text-decoration-color 220ms ease,
+    text-underline-offset 220ms ease;
+}
+
+.article-content a:not(.btn):not(.button):hover,
+.article-content a:not(.btn):not(.button):focus-visible,
+.prose a:not(.btn):not(.button):hover,
+.prose a:not(.btn):not(.button):focus-visible,
+.article-body a:not(.btn):not(.button):hover,
+.article-body a:not(.btn):not(.button):focus-visible {
+  color: color-mix(in srgb, var(--color-primary) 60%, white);
+  text-decoration-color: color-mix(in srgb, var(--color-primary) 95%, transparent);
+  text-underline-offset: 0.22em;
+}
 .prose ul:not(.not-prose *), .prose ol:not(.not-prose *) { margin: 1rem 0 !important; padding-left: 1.5rem; }
 .prose li:not(.not-prose *) { margin-bottom: 0.25rem !important; line-height: 1.65; }
 .prose li:not(.not-prose *) > p { margin-bottom: 0 !important; }
@@ -567,7 +596,13 @@ img {
   margin-top: 1.2em;
 }
 
-/* Tiptap base editor styles */
+/* Force links in the editor to not open on click */
+.tiptap-editor-content a {
+  pointer-events: none !important;
+  cursor: text !important;
+}
+
+/* Tiptap editor core styling */
 .tiptap-editor-content .ProseMirror {
   outline: none;
   min-height: 300px;

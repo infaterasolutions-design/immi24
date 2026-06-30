@@ -60,6 +60,7 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkModalInitialUrl, setLinkModalInitialUrl] = useState("");
+  const [linkModalInitialTarget, setLinkModalInitialTarget] = useState(true);
   const [, setEditorUpdate] = useState(0);
   const fileInputRef = useRef(null);
 
@@ -115,6 +116,7 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
         linkOnPaste: true,
         defaultProtocol: 'https',
         HTMLAttributes: {
+          target: null,
           rel: 'noopener noreferrer',
         },
       }),
@@ -141,6 +143,14 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
       setEditorUpdate((v) => v + 1);
     },
     editorProps: {
+      handleClick: (view, pos, event) => {
+        // Prevent clicking links from navigating away in the editor
+        if (event.target && event.target.closest('a')) {
+          event.preventDefault();
+          return false;
+        }
+        return false;
+      },
       attributes: {
         class: `prose prose-lg prose-slate max-w-none focus:outline-none ${minHeightClass}`,
       },
@@ -212,9 +222,9 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
           const { selection } = state;
           
           if (!selection.empty) {
-            const marks = state.doc.resolve(selection.from).marks();
-            const linkMark = marks.find(mark => mark.type.name === 'link');
-            setLinkModalInitialUrl(linkMark ? linkMark.attrs.href : "");
+            const attrs = editor.getAttributes('link');
+            setLinkModalInitialUrl(attrs.href || "");
+            setLinkModalInitialTarget(attrs.target === '_blank' || attrs.target === undefined);
             setShowLinkModal(true);
             return true;
           }
@@ -332,7 +342,7 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
           editor.chain().focus().extendMarkRange('link').unsetLink().run();
           return;
         }
-        editor.chain().focus().extendMarkRange('link').setLink({ href: url, target: openInNewTab ? '_blank' : '_self' }).run();
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url, target: openInNewTab ? '_blank' : null }).run();
       }
     },
     [editor]
@@ -356,7 +366,15 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
       />
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
 
-      <div className={`p-8 relative bg-white ${minHeightClass}`}>
+      <div 
+        className={`p-8 relative bg-white ${minHeightClass}`}
+        onClickCapture={(e) => {
+          // Forcefully prevent links from opening while editing
+          if (e.target.closest('a')) {
+            e.preventDefault();
+          }
+        }}
+      >
         {isUploading && (
           <div className="absolute top-4 right-4 bg-indigo-600 text-white px-3 py-1 rounded text-xs font-semibold shadow z-10 animate-pulse">
             Uploading...
@@ -366,10 +384,9 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
         <EditorBubbleMenu 
           editor={editor} 
           onEmbedClick={() => {
-            const { state } = editor;
-            const marks = state.doc.resolve(state.selection.from).marks();
-            const linkMark = marks.find(mark => mark.type.name === 'link');
-            setLinkModalInitialUrl(linkMark ? linkMark.attrs.href : "");
+            const attrs = editor.getAttributes('link');
+            setLinkModalInitialUrl(attrs.href || "");
+            setLinkModalInitialTarget(attrs.target === '_blank' || attrs.target === undefined);
             setShowLinkModal(true);
           }} 
         />
@@ -389,6 +406,7 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
         onClose={() => setShowLinkModal(false)}
         onInsert={handleLinkInsert}
         initialUrl={linkModalInitialUrl}
+        initialOpenInNewTab={linkModalInitialTarget}
       />
     </div>
   );
