@@ -116,7 +116,6 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
         linkOnPaste: true,
         defaultProtocol: 'https',
         HTMLAttributes: {
-          target: null,
           rel: 'noopener noreferrer',
         },
       }),
@@ -342,7 +341,7 @@ export default function TiptapEditor({ content, onChange, minHeightClass = "min-
           editor.chain().focus().extendMarkRange('link').unsetLink().run();
           return;
         }
-        editor.chain().focus().extendMarkRange('link').setLink({ href: url, target: openInNewTab ? '_blank' : null }).run();
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url, target: openInNewTab ? '_blank' : '_self' }).run();
       }
     },
     [editor]
