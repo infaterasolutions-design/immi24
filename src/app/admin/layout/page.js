@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
-import { getHomepageLayout, updateHomepageLayout } from "../../actions/homepageLayout";
+import { getHomepageLayout, revalidateHomepage } from "../../actions/homepageLayout";
 import Link from "next/link";
 
 export default function HomepageLayoutAdmin() {
@@ -47,17 +47,26 @@ export default function HomepageLayoutAdmin() {
   const handleSave = async () => {
     setSaving(true);
     setMessage("");
-    const res = await updateHomepageLayout({
+    
+    const payload = {
+      id: 1, // Fixed ID for homepage layout
       hero_article_id: layout.hero_article_id || null,
       grid1_article_id: layout.grid1_article_id || null,
       grid2_article_id: layout.grid2_article_id || null,
       grid3_article_id: layout.grid3_article_id || null,
       grid4_article_id: layout.grid4_article_id || null,
-    });
-    if (res.success) {
+    };
+
+    // Use client-side supabase instance to ensure auth token is sent
+    const { error } = await supabase.from('homepage_layout').upsert(payload);
+    
+    if (!error) {
+      // Revalidate cache
+      await revalidateHomepage();
       setMessage("Layout saved successfully! The homepage has been updated.");
     } else {
-      setMessage("Error saving layout. Ensure you created the database table.");
+      console.error("Error updating layout:", error);
+      setMessage("Error saving layout: " + error.message);
     }
     setSaving(false);
   };

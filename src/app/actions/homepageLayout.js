@@ -24,3 +24,7 @@ export async function updateHomepageLayout(payload) {
   
   return { success: true };
 }
+
+export async function revalidateHomepage() {
+  revalidatePath("/", "page");
+}
