@@ -1,7 +1,17 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { searchLocations, createLocation, getLocationWithParent, getAllStates } from "@/app/actions/locationActions";
+import { searchLocations, getLocationWithParent, getAllStates } from "@/app/actions/locationActions";
+import { supabase } from "@/lib/supabase";
+
+function generateSlug(name) {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/--+/g, "-");
+}
 
 export default function LocationSelector({ locationId, onLocationChange }) {
   const [query, setQuery] = useState("");
@@ -94,13 +104,32 @@ export default function LocationSelector({ locationId, onLocationChange }) {
     try {
       let parentId = null;
 
+      // Helper function to create a location directly from the client to ensure auth token is attached
+      const createLocationClient = async (locName, pId = null) => {
+        const trimmedName = locName.trim();
+        const slug = generateSlug(trimmedName);
+        if (!trimmedName || !slug) return { error: "Invalid location name" };
+
+        // Check if exists
+        const { data: existing } = await supabase.from("locations").select("id, name, slug, parent_id").ilike("name", trimmedName).maybeSingle();
+        if (existing) return { data: existing };
+        
+        const { data: existingBySlug } = await supabase.from("locations").select("id, name, slug, parent_id").eq("slug", slug).maybeSingle();
+        if (existingBySlug) return { data: existingBySlug };
+
+        // Insert
+        const { data: newLocation, error } = await supabase.from("locations").insert({ name: trimmedName, slug, parent_id: pId }).select("id, name, slug, parent_id").single();
+        if (error) return { error: error.message };
+        return { data: newLocation };
+      };
+
       // If user chose to create with an existing state
       if (createMode === "existing" && selectedStateId) {
         parentId = selectedStateId;
       }
       // If user wants to create a new state
       else if (createMode === "new" && newStateName.trim()) {
-        const stateResult = await createLocation({ name: newStateName.trim() });
+        const stateResult = await createLocationClient(newStateName.trim());
         if (stateResult.error) {
           alert("Failed to create state: " + stateResult.error);
           setCreating(false);
@@ -110,7 +139,7 @@ export default function LocationSelector({ locationId, onLocationChange }) {
       }
 
       // Create the city
-      const cityResult = await createLocation({ name: newCityName.trim(), parentId });
+      const cityResult = await createLocationClient(newCityName.trim(), parentId);
       if (cityResult.error) {
         alert("Failed to create location: " + cityResult.error);
         setCreating(false);
