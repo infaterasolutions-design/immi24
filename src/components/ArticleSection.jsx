@@ -191,10 +191,10 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
     }
   };
 
-  // Decode Tiptap's escaped HTML embeds directly before rendering
   const decodedContent = useMemo(() => {
     if (!article.contentHtml) return "";
-    return article.contentHtml.replace(
+    
+    let html = article.contentHtml.replace(
       /<div class="html-embed-content">([\s\S]*?)<\/div>/g,
       (match, p1) => {
         const unescaped = p1
@@ -208,6 +208,15 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
         return `<div class="html-embed-content">${unescaped}</div>`;
       }
     );
+
+    // Backwards compatibility: If any <a> tag is missing a target attribute
+    // (due to previous bugs stripping it), default it to target="_blank".
+    // Links with target="_self" or target="_blank" already will be ignored.
+    html = html.replace(/<a(?![^>]*\btarget=)[^>]*>/g, (match) => {
+      return match.replace('<a', '<a target="_blank"');
+    });
+
+    return html;
   }, [article.contentHtml]);
 
   useEffect(() => {
