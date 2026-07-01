@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { 
-  getAllAuthors, 
-  createAuthor, 
-  updateAuthor, 
-  deleteAuthor as removeAuthor 
+  getAllAuthors 
 } from "../../../app/actions/authorActions";
 import { revalidateServerPath } from "../../../app/actions/revalidate";
 import { uploadMediaToSupabase } from "../../../lib/adminHelpers";
+import { supabase } from "../../../lib/supabase";
 import DataTable from "../../../components/admin/DataTable";
 import RoleGuard from "../../../components/admin/RoleGuard";
 
@@ -36,18 +34,18 @@ export default function AdminAuthors() {
   }
 
   async function handleSave(formData) {
-    let error;
+    let errorMsg = null;
     if (formData.id) {
       const { id, ...updateData } = formData;
-      const res = await updateAuthor(id, updateData);
-      error = res.error;
+      const { error } = await supabase.from("authors").update(updateData).eq("id", id).select().single();
+      errorMsg = error?.message;
     } else {
-      const res = await createAuthor(formData);
-      error = res.error;
+      const { error } = await supabase.from("authors").insert(formData).select().single();
+      errorMsg = error?.message;
     }
 
-    if (error) { 
-      showToast(error, "error"); 
+    if (errorMsg) { 
+      showToast(errorMsg, "error"); 
       return; 
     }
     
@@ -63,8 +61,8 @@ export default function AdminAuthors() {
 
   async function handleDelete(id) {
     if (!confirm("Are you sure you want to delete this author?")) return;
-    const { error } = await removeAuthor(id);
-    if (error) { showToast(error, "error"); return; }
+    const { error } = await supabase.from("authors").delete().eq("id", id);
+    if (error) { showToast(error.message, "error"); return; }
     showToast("Author deleted");
     fetchAuthors();
   }
