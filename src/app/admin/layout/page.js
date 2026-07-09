@@ -77,8 +77,8 @@ export default function HomepageLayoutAdmin() {
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    const value = layout[name];
-    const selectedOption = options.find(opt => opt.id === value);
+    const value = layout[name] ? String(layout[name]) : "";
+    const selectedOption = options.find(opt => String(opt.id) === value);
     const displayValue = selectedOption ? selectedOption.title : "";
 
     const filteredOptions = options.filter(opt => 

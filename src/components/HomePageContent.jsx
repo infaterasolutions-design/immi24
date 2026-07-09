@@ -49,7 +49,7 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
   const standardArticles = articles.filter(a => a.category_slug !== 'insights' && a.categorySlug !== 'insights');
 
   // Helper to find article by ID
-  const findById = (id) => id ? standardArticles.find(a => a.id === id) : null;
+  const findById = (id) => id ? standardArticles.find(a => String(a.id) === String(id)) : null;
 
   // 2. Determine Hero Article
   // Prioritize manually selected hero, then fallback to is_featured, then newest article
