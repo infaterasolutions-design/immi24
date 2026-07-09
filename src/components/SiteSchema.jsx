@@ -8,7 +8,7 @@ export default function SiteSchema() {
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     sameAs: [
-      "https://www.facebook.com/USImmigrationNewsApp",
+      "https://www.facebook.com/unitedstatesimmigrationnews/",
       "https://x.com/Immi24_news"
     ],
     description: "Fast, fact-checked analysis of shifting U.S. immigration policies, visa updates, and procedural changes — updated 24/7."

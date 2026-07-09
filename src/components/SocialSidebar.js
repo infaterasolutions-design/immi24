@@ -48,7 +48,7 @@ export default function SocialSidebar() {
     },
     {
       name: "Facebook",
-      url: "https://www.facebook.com/profile.php?id=61580097382101",
+      url: "https://www.facebook.com/unitedstatesimmigrationnews/",
       icon: <FaFacebook size={18} />,
       hoverClass: "hover:bg-blue-600 hover:border-blue-600",
     },

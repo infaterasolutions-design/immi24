@@ -8,7 +8,7 @@ import { FaXTwitter, FaLinkedinIn, FaFacebook, FaYoutube, FaInstagram } from "re
 const SOCIALS = [
   { name: "X", url: "https://x.com/usimminews", icon: FaXTwitter, bgColor: "#000000" },
   { name: "LinkedIn", url: "https://www.linkedin.com/company/united-states-immigration-news", icon: FaLinkedinIn, bgColor: "#0077B5" },
-  { name: "Facebook", url: "https://www.facebook.com/profile.php?id=61580097382101", icon: FaFacebook, bgColor: "#1877F2" },
+  { name: "Facebook", url: "https://www.facebook.com/unitedstatesimmigrationnews/", icon: FaFacebook, bgColor: "#1877F2" },
   { name: "YouTube", url: "https://www.youtube.com/@unitedstatesimmigrationnews", icon: FaYoutube, bgColor: "#FF0000" },
   { name: "Instagram", url: "https://www.instagram.com/unitedstatesimmigrationnews/", icon: FaInstagram, bgColor: "#E1306C" },
 ];
