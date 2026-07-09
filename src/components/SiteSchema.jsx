@@ -6,7 +6,7 @@ export default function SiteSchema() {
     "@type": "Organization",
     name: "United States Immigration News",
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/images/logo.png`,
     sameAs: [
       "https://www.facebook.com/unitedstatesimmigrationnews/",
       "https://x.com/Immi24_news"
