@@ -20,10 +20,10 @@ export default function Footer() {
           <div>
             <h4 className="font-bold uppercase tracking-widest text-xs mb-4 md:mb-6 text-slate-900">RESOURCES</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">Visa Fee Calculator</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">USCIS Processing Times</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">Visa Bulletin Archive</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors py-1 block">H1B Lottery Data</Link></li>
+              <li><a href="https://www.uscis.gov/feecalculator" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors py-1 block">Visa Fee Calculator</a></li>
+              <li><a href="https://egov.uscis.gov/processing-times" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors py-1 block">USCIS Processing Times</a></li>
+              <li><a href="https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors py-1 block">Visa Bulletin Archive</a></li>
+              <li><a href="https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations/h-1b-electronic-registration-process" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors py-1 block">H1B Lottery Data</a></li>
               <li><a href="/rss.xml" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors py-1 flex items-center gap-2"><span className="material-symbols-outlined text-[16px]">rss_feed</span> RSS Feed</a></li>
             </ul>
           </div>
