@@ -9,7 +9,7 @@ export default function Footer() {
             <span className="text-2xl font-extrabold tracking-tighter headline-font block mb-4 md:mb-6 text-slate-900">
               <img
                 alt="United States Immigration News Logo"
-                className="w-auto object-contain mb-4 md:mb-6 h-10 md:h-14"
+                className="w-auto object-contain mb-4 md:mb-6 h-10 md:h-14 mix-blend-multiply"
                 src="/images/logo.png"
               />
             </span>
