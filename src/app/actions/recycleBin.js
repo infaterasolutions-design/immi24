@@ -3,7 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function moveToRecycleBin(tableName, id, titleColumn = "title") {
@@ -37,6 +37,15 @@ export async function moveToRecycleBin(tableName, id, titleColumn = "title") {
     if (insertError) {
       console.error("Failed to insert into recycle_bin:", insertError);
       return { success: false, error: insertError.message };
+    }
+
+    // NEW: Delete linked videos if this is an article (runs with service role to bypass RLS)
+    if (tableName === "articles") {
+      const { error: videoError } = await supabase.from("videos").delete().eq("article_id", id);
+      if (videoError) {
+        console.error("Failed to delete linked videos:", videoError);
+        // Continue anyway, it might not have videos or we just want to attempt the article delete
+      }
     }
 
     // 3. Delete from original table

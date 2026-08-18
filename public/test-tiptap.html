@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="module">
+    import { Editor } from 'https://esm.sh/@tiptap/core';
+    import StarterKit from 'https://esm.sh/@tiptap/starter-kit';
+    import Link from 'https://esm.sh/@tiptap/extension-link';
+
+    const editor = new Editor({
+      element: document.querySelector('.editor'),
+      extensions: [
+        StarterKit,
+        Link.configure({
+          HTMLAttributes: { rel: 'noopener noreferrer' }
+        })
+      ],
+      content: '<p><a href="https://example.com" target="_blank">Blank target</a> and <a href="https://example.com" target="_self">Self target</a> and <a href="https://example.com">No target</a></p>',
+    });
+
+    console.log(editor.getHTML());
+    document.getElementById('output').textContent = editor.getHTML();
+  </script>
+</head>
+<body>
+  <div class="editor"></div>
+  <pre id="output"></pre>
+</body>
+</html>
