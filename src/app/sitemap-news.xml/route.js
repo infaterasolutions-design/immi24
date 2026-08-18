@@ -8,6 +8,7 @@ export async function GET() {
     .select('title, slug, cluster_slug, published_at')
     .eq('status', 'published')
     .eq('is_indexed', true)
+    .neq('category_slug', 'insights')
     .gte('published_at', fortyEightHoursAgo)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });

@@ -6,6 +6,7 @@ export async function GET() {
     .select('slug, cluster_slug, published_at')
     .eq('status', 'published')
     .eq('is_indexed', true)
+    .neq('category_slug', 'insights')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
 
