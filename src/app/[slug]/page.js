@@ -22,14 +22,13 @@ export async function generateMetadata({ params }) {
   // ─── Check if slug is a parent category ───
   const category = await getCategoryBySlug(slug);
   if (category) {
-    const isInsights = slug === 'insights';
     return {
       title: category.seo_title || `${category.name} - United States Immigration News`,
       description: category.seo_description || category.description || `Latest ${category.name} news and updates.`,
       alternates: {
         canonical: `https://www.unitedstatesimmigrationnews.com/${category.slug}`,
       },
-      robots: { index: !isInsights, follow: !isInsights, 'max-image-preview': 'large' },
+      robots: { index: true, follow: true, 'max-image-preview': 'large' },
     };
   }
 
@@ -93,8 +92,6 @@ export async function generateMetadata({ params }) {
   const url = `${SITE_URL}/${article.slug}`;
   const ogImageUrl = `${SITE_URL}/_next/image?url=${encodeURIComponent(rawImage)}&w=1200&q=75`;
 
-  const isInsights = article.category_slug === 'insights';
-
   return {
     title: `${title} - United States Immigration News`,
     description,
@@ -106,8 +103,8 @@ export async function generateMetadata({ params }) {
       },
     },
     robots: {
-      index: !isInsights,
-      follow: !isInsights,
+      index: true,
+      follow: true,
       'max-image-preview': 'large',
     },
     openGraph: {
