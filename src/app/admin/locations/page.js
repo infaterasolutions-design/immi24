@@ -5,6 +5,7 @@ import RoleGuard from "../../../components/admin/RoleGuard";
 
 export default function AdminLocations() {
   const [locations, setLocations] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editLocation, setEditLocation] = useState(null);
@@ -73,6 +74,21 @@ export default function AdminLocations() {
     fetchLocations();
   }
 
+  const filteredLocations = locations.map(loc => {
+    if (!searchQuery.trim()) return loc;
+    const query = searchQuery.toLowerCase();
+    const matchesParent = loc.name.toLowerCase().includes(query) || loc.slug.toLowerCase().includes(query);
+    const matchedChildren = (loc.children || []).filter(child => child.name.toLowerCase().includes(query) || child.slug.toLowerCase().includes(query));
+    
+    if (matchesParent || matchedChildren.length > 0) {
+      return {
+        ...loc,
+        children: matchesParent ? loc.children : matchedChildren
+      };
+    }
+    return null;
+  }).filter(Boolean);
+
   if (loading) return <p style={{ color: "#71717a" }}>Loading locations...</p>;
 
   return (
@@ -89,11 +105,24 @@ export default function AdminLocations() {
         </RoleGuard>
       </div>
 
+      <div style={{ marginBottom: "20px" }}>
+        <input 
+          type="text" 
+          placeholder="Search locations by state or city..." 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="admin-form-input"
+          style={{ maxWidth: "400px" }}
+        />
+      </div>
+
       {locations.length === 0 ? (
         <div className="admin-empty-state">No locations found. Create your first state or region!</div>
+      ) : filteredLocations.length === 0 ? (
+        <div className="admin-empty-state">No locations match your search.</div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {locations.map((loc) => (
+          {filteredLocations.map((loc) => (
             <div key={loc.id} className="admin-section" style={{ marginBottom: 0, display: "flex", alignItems: "flex-start", gap: 16 }}>
               
               {/* Location info */}
