@@ -14,6 +14,8 @@ export async function GET() {
   const pages = [
     { path: '/', priority: '1.0', changefreq: 'daily' },
     { path: '/about-us/', priority: '0.5', changefreq: 'monthly' },
+    { path: '/our-team/', priority: '0.5', changefreq: 'monthly' },
+    { path: '/careers/', priority: '0.5', changefreq: 'monthly' },
     { path: '/contact-us/', priority: '0.5', changefreq: 'monthly' },
     { path: '/privacy-policy/', priority: '0.4', changefreq: 'monthly' },
     { path: '/disclaimer/', priority: '0.4', changefreq: 'monthly' },
