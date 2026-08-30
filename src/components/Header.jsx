@@ -91,11 +91,11 @@ export default function Header({ initialCategories = [] }) {
         }
       }
 
-      // Show popup after 3 seconds
+      // Show popup after 15 seconds
       timer = setTimeout(() => {
         sessionStorage.setItem('popup_shown_this_session', 'true');
         setShowSubscribeModal(true);
-      }, 3000);
+      }, 15000);
     };
 
     checkAndShow();
@@ -421,7 +421,7 @@ export default function Header({ initialCategories = [] }) {
                 type="email" 
               />
               <button type="submit" className="w-full bg-white text-primary font-bold py-3.5 text-[12px] tracking-widest hover:bg-slate-50 transition-all uppercase rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl">
-                {isSubscribed ? "Subscribed!" : "Subscribe Document"}
+                {isSubscribed ? "Subscribed!" : "SUBSCRIBE NOW"}
               </button>
               {isSubscribed && (
                 <p className="text-xs text-green-300 text-center font-bold absolute -bottom-6 left-0 right-0">Success! Welcome to the briefing.</p>
