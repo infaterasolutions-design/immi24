@@ -496,8 +496,17 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           )}
 
           {/* Action Bar (Above the image) */}
-          <div className="flex justify-end gap-5 mb-3 relative z-20 w-full items-center">
-             <button
+          <div className="flex justify-between gap-5 mb-4 relative z-20 w-full items-center">
+             
+             {/* Google Button */}
+             <a href="https://www.google.com/preferences/source?q=unitedstatesimmigrationnews.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 transition-colors rounded-full text-slate-700 hover:text-slate-900 text-[13px] font-bold font-sans tracking-wide">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-4 h-4" />
+               <span>Prefer US Immigration News on Google</span>
+             </a>
+
+             {/* Right Actions */}
+             <div className="flex items-center gap-5">
+               <button
                onClick={() => handleInteraction("top", "like")}
                className={`flex items-center justify-center gap-1.5 transition-all ${
                  topIsLiked ? 'text-primary scale-105' : 'text-slate-500 hover:text-primary'
@@ -562,6 +571,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                    )}
                  </div>
                </div>
+             </div>
              </div>
           </div>
 
