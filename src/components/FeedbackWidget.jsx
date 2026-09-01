@@ -14,11 +14,33 @@ export default function FeedbackWidget() {
     setMounted(true);
   }, []);
 
+  const openModal = () => {
+    setIsOpen(true);
+    window.history.pushState({ feedbackModalOpen: true }, '');
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    if (window.history.state?.feedbackModalOpen) {
+      window.history.back();
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isOpen]);
+
   return (
     <>
       {/* Sidebar Widget Box */}
       <button 
-        onClick={() => setIsOpen(true)}
+        onClick={openModal}
         className="w-full bg-white transition-shadow hover:shadow-md cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 mb-6"
         style={{
           boxSizing: "border-box",
@@ -44,9 +66,8 @@ export default function FeedbackWidget() {
         </span>
       </button>
 
-      {/* Modal Overlay via Portal */}
       {mounted && isOpen && createPortal(
-        <FeedbackModal onClose={() => setIsOpen(false)} />,
+        <FeedbackModal onClose={closeModal} />,
         document.body
       )}
     </>
