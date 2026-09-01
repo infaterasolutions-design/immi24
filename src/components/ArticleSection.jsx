@@ -679,7 +679,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      if (part === 'WIDGET_MID') {
                        return midArticles.length > 0 ? (
                          <div key={`mid-${index}`} className="not-prose">
-                           <RelatedArticles title="Read More" articles={midArticles} variant="mid" />
+                           <RelatedArticles title="YOU MAY LIKE" articles={midArticles} variant="mid" />
                          </div>
                        ) : null;
                      }
@@ -746,7 +746,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                       <p className={idx === 0 ? "text-xl text-slate-900 leading-relaxed font-medium mb-8 drop-cap-first" : "mb-6"}>{p}</p>
                       {idx === 2 && midArticles.length > 0 && (
                         <RelatedArticles
-                          title={`Read More on ${article.category_label || "Immigration"}`}
+                          title="YOU MAY LIKE"
                           articles={midArticles}
                           variant="mid"
                         />
