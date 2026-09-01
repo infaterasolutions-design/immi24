@@ -27,7 +27,7 @@ export default function RecommendedPopup() {
 
   return (
     <div 
-      className={`fixed ${isArticlePage ? 'bottom-16 sm:bottom-20' : 'bottom-6'} right-0 z-[60] w-[150px]`}
+      className={`fixed ${isArticlePage ? 'bottom-16 sm:bottom-20' : 'bottom-6'} right-0 z-[60] w-[150px] hide-on-mobile-menu`}
       style={{ height: '46.1px' }}
     >
       <div className="bg-white rounded-l-md shadow-2xl overflow-hidden border-y border-l border-slate-200 h-full w-full flex items-center shadow-red-500/10">

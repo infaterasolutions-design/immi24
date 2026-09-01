@@ -110,13 +110,13 @@ export default function MegaMenu({ categories, menuOpen, onClose }) {
         {/* Live Updates */}
         <Link
           href="/live-updates"
-          className={`flex items-center gap-3 px-5 py-4 text-[15px] font-bold border-b border-slate-100 active:bg-slate-50 relative group ${
+          className={`flex items-center gap-2 px-5 py-2 text-[14px] font-bold border-b border-slate-100 active:bg-slate-50 relative group ${
             pathname.startsWith("/live-updates") ? "text-primary" : "text-slate-900"
           }`}
           onClick={onClose}
         >
-          <span className="absolute left-6 w-2 h-2 bg-red-500 rounded-full animate-pulse-red"></span>
-          <span className="material-symbols-outlined text-transparent text-[20px]"></span>
+          <span className="absolute left-6 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse-red"></span>
+          <span className="material-symbols-outlined text-transparent text-[18px]"></span>
           <span className="ml-1">Live Updates</span>
         </Link>
 
@@ -125,10 +125,10 @@ export default function MegaMenu({ categories, menuOpen, onClose }) {
           const isActive = activeParent?.slug === cat.slug;
           return (
             <div key={cat.slug} className="border-b border-slate-100">
-              <div className="flex items-center justify-between px-5 py-4 active:bg-slate-50">
+              <div className="flex items-center justify-between px-5 py-1.5 active:bg-slate-50">
                 <Link
                   href={`/${cat.slug}/`}
-                  className={`text-[15px] font-bold flex-grow py-1 ${
+                  className={`text-[14px] font-bold flex-grow py-0.5 ${
                     isActive ? "text-primary" : "text-slate-900"
                   }`}
                   onClick={onClose}
@@ -137,24 +137,24 @@ export default function MegaMenu({ categories, menuOpen, onClose }) {
                 </Link>
                 {cat.subcategories?.length > 0 && (
                   <button
-                    className="p-2 -mr-2 text-slate-500 transition-transform duration-300"
+                    className="p-1 -mr-1 text-slate-500 transition-transform duration-300"
                     style={{ transform: expandedSlugs[cat.slug] ? "rotate(180deg)" : "rotate(0deg)" }}
                     onClick={() => handleToggle(cat.slug)}
                     aria-label="Toggle subcategories"
                   >
-                    <span className="material-symbols-outlined text-[20px]">expand_more</span>
+                    <span className="material-symbols-outlined text-[18px]">expand_more</span>
                   </button>
                 )}
               </div>
 
               {/* Subcategories accordion */}
               {cat.subcategories?.length > 0 && expandedSlugs[cat.slug] && (
-                <div className="bg-slate-50 px-5 py-2 border-t border-slate-100/50 shadow-inner">
+                <div className="bg-slate-50 px-5 py-1.5 border-t border-slate-100/50 shadow-inner">
                   {cat.subcategories.map((sub) => (
                     <Link
                       key={sub.slug}
                       href={`/${cat.slug}/${sub.slug}/`}
-                      className={`block py-3 pl-4 text-[14px] font-medium ${
+                      className={`block py-1.5 pl-4 text-[13px] font-medium ${
                         isSubActive(cat.slug, sub.slug)
                           ? "text-primary font-semibold"
                           : "text-slate-600 active:text-primary"
@@ -171,10 +171,10 @@ export default function MegaMenu({ categories, menuOpen, onClose }) {
         })}
 
         {/* Social media links */}
-        <div className="px-5 pb-[calc(24px+env(safe-area-inset-bottom))]">
-          <hr className="border-t border-slate-200 opacity-60 my-4" />
-          <p className="text-[11px] uppercase tracking-[0.1em] text-slate-500 mb-3 font-bold">Follow Us</p>
-          <div className="flex flex-row gap-2.5 items-center">
+        <div className="px-5 pb-[calc(16px+env(safe-area-inset-bottom))]">
+          <hr className="border-t border-slate-200 opacity-60 my-2" />
+          <p className="text-[10px] uppercase tracking-[0.1em] text-slate-500 mb-1.5 font-bold">Follow Us</p>
+          <div className="flex flex-row gap-2 items-center">
             {SOCIALS.map((social) => (
               <a
                 key={social.name}
@@ -182,10 +182,10 @@ export default function MegaMenu({ categories, menuOpen, onClose }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.name}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-opacity duration-200 active:opacity-80"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white transition-opacity duration-200 active:opacity-80"
                 style={{ backgroundColor: social.bgColor }}
               >
-                <social.icon size={18} />
+                <social.icon size={14} />
               </a>
             ))}
           </div>

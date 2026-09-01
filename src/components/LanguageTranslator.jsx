@@ -71,7 +71,7 @@ export default function LanguageTranslator() {
   };
 
   return (
-    <div className={`fixed ${isArticlePage ? 'bottom-16 sm:bottom-20' : 'bottom-6'} left-6 z-[60]`}>
+    <div className={`fixed ${isArticlePage ? 'bottom-16 sm:bottom-20' : 'bottom-6'} left-6 z-[60] hide-on-mobile-menu`}>
       {/* Hidden Native Google Translate Element */}
       <div id="google_translate_element" className="hidden"></div>
       

@@ -105,15 +105,18 @@ export default function Header({ initialCategories = [] }) {
     };
   }, [pathname]);
 
-  // Lock body scroll when menu is open
+  // Lock body scroll and hide floating elements when menu is open
   useEffect(() => {
     if (menuOpen || searchOpen) {
       document.body.style.overflow = "hidden";
+      document.body.classList.add("menu-open");
     } else {
       document.body.style.overflow = "";
+      document.body.classList.remove("menu-open");
     }
     return () => {
       document.body.style.overflow = "";
+      document.body.classList.remove("menu-open");
     };
   }, [menuOpen, searchOpen]);
 

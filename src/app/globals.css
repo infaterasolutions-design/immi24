@@ -420,8 +420,8 @@ img {
   color: #0f172a;
 }
 
-/* Tailwind prose override */
-.prose .drop-cap-article > p:first-of-type::first-letter,
+/* Tailwind Prose Compatibility */
+.prose .drop-cap-article p:first-of-type::first-letter,
 .prose .drop-cap-first::first-letter {
   float: left;
   font-size: 4.5rem;
@@ -431,6 +431,11 @@ img {
   margin-top: 6px;
   font-family: Georgia, 'Times New Roman', serif;
   color: #0f172a;
+}
+
+/* Hide floating elements when mobile menu is open */
+body.menu-open .hide-on-mobile-menu {
+  display: none !important;
 }
 
 /* EXPLICITLY RESET — bullet points, 
