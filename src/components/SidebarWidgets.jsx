@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { getSidebarData } from "@/app/actions/sidebar";
 import { getLiveEventUrlMap, getLiveEventUrlFromMap } from "@/lib/liveEventUrls";
+import FeedbackWidget from "./FeedbackWidget";
 
 export default function SidebarWidgets({ className = "", showLiveCoverage = true, initialData }) {
   const [email, setEmail] = useState("");
@@ -99,6 +100,8 @@ export default function SidebarWidgets({ className = "", showLiveCoverage = true
             </div>
           </div>
         )}
+
+        <FeedbackWidget />
 
         {/* Latest News Sidebar */}
         <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">

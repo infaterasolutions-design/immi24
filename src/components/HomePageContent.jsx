@@ -9,6 +9,7 @@ import LiveTickerSlider from "@/components/LiveTickerSlider";
 import NewsletterWidget from "@/components/NewsletterWidget";
 import VideoHighlights from "@/components/VideoHighlights";
 import MoreLiveCoverageWidget from "@/components/MoreLiveCoverageWidget";
+import FeedbackWidget from "@/components/FeedbackWidget";
 
 const LatestUpdatesFeed = dynamic(() => import("@/components/LatestUpdatesFeed"));
 const FloatingShareButton = dynamic(() => import("@/components/FloatingShareButton"));
@@ -221,6 +222,8 @@ export default function HomePageContent({ articles = [], tickerItems = [], video
               </div>
 
               <MoreLiveCoverageWidget events={tickerItems} />
+              
+              <FeedbackWidget />
               
               {/* Latest News */}
               <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/10">
