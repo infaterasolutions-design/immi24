@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "../../../lib/supabase";
 import DataTable from "../../../components/admin/DataTable";
 import RoleGuard from "../../../components/admin/RoleGuard";
@@ -262,9 +263,9 @@ export default function AdminArticles() {
               >
                 View
               </a>
-              <button className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => router.push(`/admin/articles/${row.id}/edit`)}>
+              <a className="admin-btn admin-btn-ghost admin-btn-sm" href={`/admin/articles/${row.id}/edit`}>
                 Edit
-              </button>
+              </a>
               <RoleGuard user={user} allowedRoles={["super_admin"]}>
                 <button className="admin-btn admin-btn-danger admin-btn-sm" onClick={() => handleDelete(row.id)}>
                   Delete
