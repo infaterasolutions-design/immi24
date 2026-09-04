@@ -56,7 +56,7 @@ export default function RelatedArticles({ title, articles, variant }) {
               <div className="flex-none w-[112px] h-[75px] relative overflow-hidden bg-slate-100 !m-0 !mt-0 !p-0">
                 <Image
                   src={article.main_image || article.mainImage || '/images/logo.png'}
-                  alt={article.title}
+                  alt={article.title || article.original_title || "Article"}
                   fill
                   className="!m-0 !p-0 object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="112px"
@@ -66,7 +66,7 @@ export default function RelatedArticles({ title, articles, variant }) {
               {/* Text Container */}
               <div className="flex flex-col !justify-start !items-start gap-[8px] flex-grow min-w-0 !pt-0 !m-0">
                 <h3 className="font-headline font-semibold text-[16px] leading-[22px] !text-[#1F1E19] group-hover:!text-primary transition-colors !m-0 !p-0 line-clamp-2 !no-underline">
-                  {article.title}
+                  {article.title || article.original_title}
                 </h3>
                 <span className="font-sans font-normal text-[14px] leading-[19px] !text-[#68645A] !m-0 !p-0 !no-underline">
                   {getReadTime(article)}
