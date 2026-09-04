@@ -70,7 +70,7 @@ export async function generateMetadata({ params }) {
   // 2. Is this a Clustered Article page? (slug = cluster, sub = article slug)
   const { data: article } = await supabase
     .from("articles")
-    .select("title, sub_title, main_image, author_name, category_label, slug, cluster_slug")
+    .select("title, sub_title, main_image, author_name, category_label, slug, cluster_slug, published_at, updated_at, last_reviewed_date")
     .eq("slug", sub)
     .eq("cluster_slug", slug)
     .single();
@@ -103,6 +103,8 @@ export async function generateMetadata({ params }) {
       description,
       url,
       type: "article",
+      publishedTime: article.published_at ? new Date(article.published_at).toISOString() : undefined,
+      modifiedTime: article.last_reviewed_date ? new Date(article.last_reviewed_date).toISOString() : (article.updated_at ? new Date(article.updated_at).toISOString() : undefined),
       siteName: "United States Immigration News",
       images: [
         {
@@ -271,7 +273,7 @@ export default async function SubcategoryPage({ params, searchParams }) {
     description: article.meta_description || article.sub_title,
     image: article.main_image,
     datePublished: article.published_at,
-    dateModified: article.updated_at || article.published_at,
+    dateModified: article.last_reviewed_date || article.updated_at || article.published_at,
     author: {
       '@type': 'Person',
       name: article.authorName,

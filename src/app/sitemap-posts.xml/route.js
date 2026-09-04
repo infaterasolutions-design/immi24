@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 export async function GET() {
   const { data: articles } = await supabase
     .from('articles')
-    .select('slug, cluster_slug, published_at')
+    .select('slug, cluster_slug, published_at, updated_at, last_reviewed_date')
     .eq('status', 'published')
     .eq('is_indexed', true)
     .lte('published_at', new Date().toISOString())
@@ -17,10 +17,16 @@ export async function GET() {
   }).map(article => {
     const path = article.cluster_slug ? `/${article.cluster_slug}/${article.slug}` : `/${article.slug}`;
     const pubDate = new Date(article.published_at).toISOString();
+    let modDate = pubDate;
+    if (article.last_reviewed_date) {
+      modDate = new Date(article.last_reviewed_date).toISOString();
+    } else if (article.updated_at) {
+      modDate = new Date(article.updated_at).toISOString();
+    }
     return `
   <url>
     <loc>https://www.unitedstatesimmigrationnews.com${path}</loc>
-    <lastmod>${pubDate}</lastmod>
+    <lastmod>${modDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>`;
