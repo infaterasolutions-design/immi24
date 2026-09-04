@@ -438,36 +438,49 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           )}
 
           {/* Author Info */}
-          <div className="flex items-center gap-4 mb-1 pb-2 border-b border-slate-100">
-            <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
-              {article.authorImage ? (
-                <Image 
-                  width={56} height={56}
-                  alt={article.authorName}
-                  className="w-full h-full object-cover" 
-                  src={article.authorImage}
-                />
-              ) : (
-                <span className="text-xl font-bold text-primary">
-                  {(article.authorName || "A").charAt(0).toUpperCase()}
-                </span>
-              )}
+          <div className="flex items-center justify-between gap-4 mb-1 pb-2 border-b border-slate-100 flex-wrap md:flex-nowrap">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-md overflow-hidden bg-slate-100 shrink-0 flex items-center justify-center">
+                {article.authorImage ? (
+                  <Image 
+                    width={56} height={56}
+                    alt={article.authorName}
+                    className="w-full h-full object-cover" 
+                    src={article.authorImage}
+                  />
+                ) : (
+                  <span className="text-xl font-bold text-primary">
+                    {(article.authorName || "A").charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col justify-center gap-1.5">
+                <Link href={`/author/${article.authorDetails?.slug || article.authorName?.toLowerCase().replace(/\s+/g, '-')}`} className="text-slate-900 font-bold text-[16px] leading-none hover:text-primary transition-colors">{article.authorName}</Link>
+                {article.authorRole && (
+                  <div className="text-primary text-[13px] font-semibold tracking-wide uppercase mt-0.5 mb-1">{article.authorRole}</div>
+                )}
+                <div suppressHydrationWarning className="text-slate-500 text-[14px] leading-none">{(() => {
+                  const d = article.published_at ? new Date(article.published_at) : null;
+                  if (!d) return article.date || "";
+                  const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+                  const day = d.getDate();
+                  const year = d.getFullYear();
+                  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+                  const tz = d.toLocaleTimeString("en-US", { timeZoneName: "short" }).split(" ").pop();
+                  return `${month} ${day}, ${year} at ${time} ${tz}`;
+                })()}</div>
+              </div>
             </div>
-            <div className="flex flex-col justify-center gap-1.5">
-              <Link href={`/author/${article.authorDetails?.slug || article.authorName?.toLowerCase().replace(/\s+/g, '-')}`} className="text-slate-900 font-bold text-[16px] leading-none hover:text-primary transition-colors">{article.authorName}</Link>
-              {article.authorRole && (
-                <div className="text-primary text-[13px] font-semibold tracking-wide uppercase mt-0.5 mb-1">{article.authorRole}</div>
-              )}
-              <div suppressHydrationWarning className="text-slate-500 text-[14px] leading-none">{(() => {
-                const d = article.published_at ? new Date(article.published_at) : null;
-                if (!d) return article.date || "";
-                const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
-                const day = d.getDate();
-                const year = d.getFullYear();
-                const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
-                const tz = d.toLocaleTimeString("en-US", { timeZoneName: "short" }).split(" ").pop();
-                return `${month} ${day}, ${year} at ${time} ${tz}`;
-              })()}</div>
+
+            {/* Google Button (Desktop) */}
+            <div className="hidden md:block mt-2 sm:mt-0 animate-pulse hover:animate-none">
+              <a href="https://www.google.com/preferences/source?q=unitedstatesimmigrationnews.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 px-6 py-3 bg-slate-100 hover:bg-slate-200 transition-all rounded-md text-slate-800 border border-slate-200 shadow-sm">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-8 h-8" />
+                <div className="flex flex-col font-sans">
+                  <span className="text-[16px] font-extrabold leading-tight">Prefer US Immigration News</span>
+                  <span className="text-[14px] font-bold text-slate-500 leading-tight">on Google</span>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -496,16 +509,16 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           )}
 
           {/* Action Bar (Above the image) */}
-          <div className="flex justify-between gap-5 mb-4 relative z-20 w-full items-center">
+          <div className="flex justify-between md:justify-end gap-5 mb-4 relative z-20 w-full items-center">
              
-             {/* Google Button */}
-             <a href="https://www.google.com/preferences/source?q=unitedstatesimmigrationnews.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 transition-colors rounded-full text-slate-700 hover:text-slate-900 text-[13px] font-bold font-sans tracking-wide">
+             {/* Google Button (Mobile) */}
+             <a href="https://www.google.com/preferences/source?q=unitedstatesimmigrationnews.com" target="_blank" rel="noopener noreferrer" className="md:hidden flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 transition-colors rounded-full text-slate-700 hover:text-slate-900 text-[12px] font-bold font-sans tracking-wide flex-1 justify-center animate-pulse hover:animate-none">
                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-4 h-4" />
-               <span>Prefer US Immigration News on Google</span>
+               <span className="truncate">Prefer US Immigration News on Google</span>
              </a>
 
              {/* Right Actions */}
-             <div className="flex items-center gap-5">
+             <div className="flex items-center gap-5 md:ml-auto">
                <button
                onClick={() => handleInteraction("top", "like")}
                className={`flex items-center justify-center gap-1.5 transition-all ${
