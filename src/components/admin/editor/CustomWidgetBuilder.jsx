@@ -27,7 +27,7 @@ export default function CustomWidgetBuilder({ widgets, onChange }) {
     onChange(updated);
   };
 
-  const handleInsertLink = ({ url }) => {
+  const handleInsertLink = ({ url, title }) => {
     if (!url) {
       // If URL is null, they removed the link
       if (modalState.index !== null) {
@@ -41,8 +41,9 @@ export default function CustomWidgetBuilder({ widgets, onChange }) {
 
     if (index !== null) {
       updated[variant][index].url = url;
+      if (title) updated[variant][index].title = title;
     } else {
-      updated[variant].push({ url, title: "Custom Title (Click to edit)" });
+      updated[variant].push({ url, title: title || "" });
     }
     onChange(updated);
   };

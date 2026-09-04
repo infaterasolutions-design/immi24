@@ -95,7 +95,7 @@ export default function InternalLinkModal({ isOpen, onClose, onInsert, initialUr
     const url = article.cluster_slug 
       ? `/${article.cluster_slug}/${article.slug}`
       : `/${article.slug}`;
-    onInsert({ url, openInNewTab });
+    onInsert({ url, openInNewTab, title: article.title });
     onClose();
   };
 
