@@ -183,11 +183,11 @@ export default function NewArticle() {
     if (payload.cluster_slug && payload.slug) {
       await revalidateServerPath(`/${payload.cluster_slug}/${payload.slug}`, "page");
     }
-    if (payload.category_slug) {
-      await revalidateServerPath(`/category/${payload.category_slug}`, "page");
+    if (finalStatus === 'draft') {
+      router.push(`/admin/articles/${payload.id}/edit`);
+    } else {
+      router.push(`/admin/articles`);
     }
-    
-    router.push(`/admin/articles`);
   };
 
   return (
@@ -207,6 +207,24 @@ export default function NewArticle() {
           </div>
 
           <div className="flex items-center gap-3">
+            {form.slug && (
+              <a 
+                href={`/${form.slug}?preview=true`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  // Prevent previewing if article has never been saved to DB
+                  if (!form.created_at && !form.published_at) {
+                    e.preventDefault();
+                    alert("Please click 'Save Draft' first before previewing.");
+                  }
+                }}
+                className="px-4 py-2 rounded-md text-sm font-medium border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors flex items-center gap-1"
+              >
+                Preview
+                <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+              </a>
+            )}
             <button 
               onClick={() => handleSave('draft')}
               disabled={loading}

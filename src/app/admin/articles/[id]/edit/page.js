@@ -15,6 +15,7 @@ export default function EditArticle() {
   const params = useParams();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [lastSavedState, setLastSavedState] = useState(null);
   const user = typeof window !== "undefined" ? window.__adminUser : null;
   const [categories, setCategories] = useState([]);
   const [clusters, setClusters] = useState([]);
@@ -125,6 +126,24 @@ export default function EditArticle() {
     if (params.id) fetchData();
   }, [params.id, router]);
 
+  useEffect(() => {
+    if (loading || !form.title || saving || form.status === 'published') return;
+    
+    // Initialize the baseline state if not set
+    if (!lastSavedState) {
+      setLastSavedState(JSON.stringify({ form, faqs }));
+      return;
+    }
+
+    const currentState = JSON.stringify({ form, faqs });
+    if (currentState !== lastSavedState) {
+      const timer = setTimeout(() => {
+        handleSave('draft', true);
+      }, 5000); // Auto-save 5 seconds after changes stop
+      return () => clearTimeout(timer);
+    }
+  }, [form, faqs, lastSavedState, loading, saving]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const finalValue = type === 'checkbox' ? checked : value;
@@ -152,8 +171,8 @@ export default function EditArticle() {
     });
   };
 
-  const handleSave = async (statusOverride) => {
-    setSaving(true);
+  const handleSave = async (statusOverride, isAutoSave = false) => {
+    if (!isAutoSave) setSaving(true);
     const finalStatus = statusOverride || form.status;
     
     const payload = { 
@@ -200,7 +219,7 @@ export default function EditArticle() {
     const { error } = await supabase.from("articles").update(payload).eq("id", params.id);
     
     if (error) {
-      setSaving(false);
+      if (!isAutoSave) setSaving(false);
       alert("Failed to update: " + error.message);
       return;
     }
@@ -221,7 +240,7 @@ export default function EditArticle() {
       }
     }
 
-    setSaving(false);
+    if (!isAutoSave) setSaving(false);
 
     // Clear cache for homepage, specific article page, and category page
     await revalidateServerPath("/", "layout");
@@ -235,7 +254,13 @@ export default function EditArticle() {
       await revalidateServerPath(`/category/${payload.category_slug}`, "page");
     }
 
-    router.push(`/admin/articles`);
+    setLastSavedState(JSON.stringify({ form, faqs }));
+
+    if (finalStatus !== 'draft') {
+      router.push(`/admin/articles`);
+    } else if (!isAutoSave) {
+      // Optional: Show a subtle toast here in the future. For now, the button switches back from "Saving..."
+    }
   };
 
   if (loading) return <div className="text-slate-500 py-10 text-center">Loading editor...</div>;
@@ -271,10 +296,21 @@ export default function EditArticle() {
           </div>
 
           <div className="flex items-center gap-3">
+            {form.slug && (
+              <a 
+                href={`/${form.slug}?preview=true`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-md text-sm font-medium border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors flex items-center gap-1"
+              >
+                Preview
+                <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+              </a>
+            )}
             <button 
               onClick={() => handleSave('draft')}
               disabled={saving}
-              className="px-4 py-2 rounded-md text-sm font-medium border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+              className="px-4 py-2 rounded-md text-sm font-medium border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors relative"
             >
               {saving ? "Saving..." : "Save Draft"}
             </button>
