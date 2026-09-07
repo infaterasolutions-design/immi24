@@ -509,16 +509,16 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           )}
 
           {/* Action Bar (Above the image) */}
-          <div className="flex justify-between md:justify-end gap-5 mb-4 relative z-20 w-full items-center">
+          <div className="flex justify-between md:justify-end gap-3 md:gap-5 mb-4 relative z-20 w-full items-center">
              
              {/* Google Button (Mobile) */}
-             <a href="https://www.google.com/preferences/source?q=unitedstatesimmigrationnews.com" target="_blank" rel="noopener noreferrer" className="md:hidden flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 transition-colors rounded-full text-slate-700 hover:text-slate-900 text-[12px] font-bold font-sans tracking-wide flex-1 justify-center animate-pulse hover:animate-none">
-               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-4 h-4" />
+             <a href="https://www.google.com/preferences/source?q=unitedstatesimmigrationnews.com" target="_blank" rel="noopener noreferrer" className="md:hidden flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 transition-colors rounded-full text-slate-700 hover:text-slate-900 text-[12px] font-bold font-sans tracking-wide flex-1 justify-center animate-pulse hover:animate-none min-w-0">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" className="w-4 h-4 shrink-0" />
                <span className="truncate">Prefer US Immigration News on Google</span>
              </a>
 
              {/* Right Actions */}
-             <div className="flex items-center gap-5 md:ml-auto">
+             <div className="flex items-center gap-3 md:gap-5 md:ml-auto shrink-0">
                <button
                onClick={() => handleInteraction("top", "like")}
                className={`flex items-center justify-center gap-1.5 transition-all ${
