@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { recordInteraction } from "@/app/actions/interactions";
@@ -25,6 +25,16 @@ const FAQAccordion = dynamic(() => import('./FAQAccordion'), {
 import NewsletterWidget from './NewsletterWidget';
 
 const FALLBACK_IMAGE = "/images/logo.png";
+
+const HtmlPart = memo(({ part, isFirstOverall }) => {
+  return (
+    <div 
+      suppressHydrationWarning
+      className={isFirstOverall && part.trimStart().startsWith('<p') ? 'drop-cap-article' : ''} 
+      dangerouslySetInnerHTML={{ __html: part }} 
+    />
+  );
+});
 
 export default function ArticleSection({ article, isFirst = false, customWidgets = { mid: [], end: [] }, sponsoredContent = [] }) {
   const midArticles = customWidgets.mid || [];
@@ -192,6 +202,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
   };
 
   const decodedContent = useMemo(() => {
+    console.log('PIP Debug: decodedContent re-evaluating for article', article.id);
     if (!article.contentHtml) return "";
     
     let html = article.contentHtml.replace(
@@ -274,7 +285,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
     return () => observer.disconnect();
   }, [decodedContent, article.id]);
 
-  // Ensure external links open in new tab, and internal links open normally without losing referrer
+    // Ensure external links open in new tab, and internal links open normally without losing referrer
   useEffect(() => {
     const articleEl = document.getElementById(`article-${article.id}`);
     if (!articleEl) return;
@@ -303,6 +314,127 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
       }
     });
   });
+
+  // YouTube Air-Play / PIP mode for embedded videos
+  useEffect(() => {
+    if (!contentRef.current) return;
+    
+    const obs = new MutationObserver((mutations) => {
+      let removedNodes = false;
+      let removedNames = [];
+      mutations.forEach(m => { 
+        if (m.removedNodes.length > 0) {
+          removedNodes = true;
+          Array.from(m.removedNodes).forEach(n => removedNames.push(n.nodeName + (n.className ? '.' + n.className : '')));
+        }
+      });
+      if (removedNodes) {
+        console.log('PIP Debug: MutationObserver change in article', article.id, 'mutations:', mutations.length, 'removed:', removedNames.join(', '));
+      }
+    });
+    obs.observe(contentRef.current, { childList: true, subtree: true });
+
+    // Ensure we handle client-side script execution for embeds
+    // 1. Process blockquotes for Instagram/Twitters
+    const timer = setTimeout(() => {
+      const iframes = contentRef.current.querySelectorAll('iframe[src*="youtube"]');
+      console.log('PIP Debug: Found iframes:', iframes.length);
+      if (iframes.length === 0) return;
+
+      const observers = [];
+      const closeButtons = new Map();
+
+      iframes.forEach((iframe) => {
+        let isClosed = false;
+        
+        // Observe the container so the layout doesn't collapse when the iframe becomes fixed
+        const wrapper = iframe.closest('.embed-block') || iframe.closest('[data-youtube-video]') || iframe.parentElement;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'pip-close-btn material-symbols-outlined rounded-full items-center justify-center text-white cursor-pointer hover:bg-slate-800 transition-colors shadow-md';
+        closeBtn.innerHTML = 'close';
+        closeBtn.title = 'Close Floating Video';
+        closeBtn.style.fontSize = '18px';
+        closeBtn.style.display = 'none';
+        document.body.appendChild(closeBtn);
+        
+        closeButtons.set(iframe, closeBtn);
+
+        // Save for cleanup
+        const state = { isClosed: false };
+
+        // ADD AUTOPLAY
+        try {
+          const src = new URL(iframe.src);
+          if (!src.searchParams.has('autoplay')) {
+            src.searchParams.set('autoplay', '1');
+            src.searchParams.set('mute', '1');
+            iframe.src = src.toString();
+          }
+        } catch(e) {}
+        
+        const onScroll = () => {
+          if (state.isClosed) return;
+          
+          // Use the wrapper (which stays in flow) to measure position
+          const rect = wrapper.getBoundingClientRect();
+          
+          // If the bottom of the original position is above the viewport, it's scrolled out
+          if (rect.bottom < 0) {
+            if (!iframe.classList.contains('pip-mode')) {
+              // Apply PIP directly to the iframe so we don't mutate the DOM structure
+              iframe.classList.add('pip-mode');
+              closeBtn.style.display = 'flex';
+              
+              const isMobile = window.innerWidth < 768;
+              const h = isMobile ? 124 : 180;
+              const b = isMobile ? 90 : 20;
+              const r = isMobile ? 10 : 20;
+              closeBtn.style.setProperty('bottom', (b + h - 16) + 'px', 'important');
+              closeBtn.style.setProperty('right', (r - 16) + 'px', 'important');
+              closeBtn.style.setProperty('top', 'auto', 'important');
+              closeBtn.style.setProperty('left', 'auto', 'important');
+            }
+          } else {
+            if (iframe.classList.contains('pip-mode')) {
+              iframe.classList.remove('pip-mode');
+              closeBtn.style.display = 'none';
+            }
+          }
+        };
+
+        // Run once on load just in case it's already scrolled
+        onScroll();
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        observers.push({ disconnect: () => window.removeEventListener('scroll', onScroll) });
+
+        closeBtn.onclick = () => {
+          state.isClosed = true;
+          iframe.classList.remove('pip-mode');
+          closeBtn.style.display = 'none';
+        };
+      });
+
+      // Save for cleanup
+      contentRef.current._pipObservers = observers;
+      contentRef.current._pipCloseBtns = closeButtons;
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      // We must disconnect observers even if contentRef.current is null on unmount
+      if (contentRef.current && contentRef.current._pipObservers) {
+        contentRef.current._pipObservers.forEach(obs => obs.disconnect());
+        contentRef.current._pipCloseBtns.forEach(btn => {
+          if (btn.parentNode) btn.parentNode.removeChild(btn);
+        });
+      } else {
+        // Fallback: If we can't get observers from DOM node, we can't easily clean them up
+        // unless we store them in a local variable in the closure!
+      }
+    };
+  }, [decodedContent]);
 
   if (!article) return null;
 
@@ -698,48 +830,44 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      else aboveParts.push(part);
                    });
 
-                   const renderPart = (part, index, isFirstOverall) => {
+                   const renderPart = (part, index, isFirstOverall, prefix) => {
                      if (part === 'WIDGET_MID') {
                        return midArticles.length > 0 ? (
-                         <div key={`mid-${index}`} className="not-prose">
+                         <div key={`${prefix}-mid-${index}`} className="not-prose">
                            <RelatedArticles title="YOU MAY LIKE" articles={midArticles} variant="mid" />
                          </div>
                        ) : null;
                      }
                      if (part === 'WIDGET_END') {
                        return endArticles.length > 0 ? (
-                         <div key={`end-${index}`} className="not-prose">
+                         <div key={`${prefix}-end-${index}`} className="not-prose">
                            <RelatedArticles title="WHAT TO READ NEXT" articles={endArticles} variant="end" />
                          </div>
                        ) : null;
                      }
                      if (part === 'WIDGET_NEWSLETTER') {
                        return (
-                         <div key={`nl-${index}`} className="not-prose my-10 w-full max-w-[800px] mx-auto border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                         <div key={`${prefix}-nl-${index}`} className="not-prose my-10 w-full max-w-[800px] mx-auto border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                            <NewsletterWidget isMobile={false} />
                          </div>
                        );
                      }
-                     return part ? (
-                       <div 
-                         key={`html-${index}`} 
-                         suppressHydrationWarning
-                         className={isFirstOverall && part.trimStart().startsWith('<p') ? 'drop-cap-article' : ''} 
-                         dangerouslySetInnerHTML={{ __html: part }} 
-                       />
-                     ) : null;
-                   };
+                     if (part) {
+                        return (
+                          <HtmlPart key={`${prefix}-html-${index}`} part={part} isFirstOverall={isFirstOverall} />
+                        );
+                      }
+                      return null;
+                    };
 
                    const hasBelow = belowParts.some(p => p.trim() !== '' && p !== 'WIDGET_END');
 
                    return (
                      <>
-                       {/* Always render Above the Fold */}
-                       {aboveParts.map((part, idx) => renderPart(part, idx, idx === 0))}
+                       {aboveParts.map((part, idx) => renderPart(part, idx, idx === 0, 'above'))}
                        
-                       {/* Render Below the Fold conditionally */}
                        <div className={`transition-[max-height] duration-[1500ms] ease-in-out overflow-hidden [&>div:first-child>p:first-child]:!mt-0 ${isExpanded || !hasBelow ? 'max-h-[50000px]' : 'max-h-0'}`}>
-                         {belowParts.map((part, idx) => renderPart(part, idx, false))}
+                         {belowParts.map((part, idx) => renderPart(part, idx, false, 'below'))}
                          
                          {/* Render End widget at the bottom if not manually placed inside the text */}
                          {!usedEnd && endArticles.length > 0 && (

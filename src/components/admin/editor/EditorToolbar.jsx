@@ -114,7 +114,6 @@ export default function EditorToolbar({ editor, onImageUpload, onEmbedClick }) {
       <ToolbarButton icon={<ImageIcon size={16} />} onClick={triggerFileUpload} title="Upload Image" />
       <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
       
-      <ToolbarButton icon={<Video size={16} />} onClick={addYoutubeVideo} title="Embed YouTube" />
       <ToolbarButton icon={<Table size={16} />} onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} title="Insert Table" />
       <ToolbarButton icon={<Link2 size={16} />} onClick={onEmbedClick} title="Embed URL (YouTube, Twitter, Instagram...)" />
 
