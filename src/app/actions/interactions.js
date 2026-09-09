@@ -7,6 +7,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+import { revalidatePath } from "next/cache";
+
 export async function recordInteraction(articleId, type) {
   try {
     // Determine which column to update based on the type
@@ -40,6 +42,13 @@ export async function recordInteraction(articleId, type) {
     if (updateError) {
       console.error("Failed to update interaction count:", updateError);
       return { success: false, error: updateError.message };
+    }
+
+    // Bust the Next.js cache so the updated count is served on refresh
+    try {
+      revalidatePath('/', 'layout');
+    } catch (e) {
+      console.log("Could not revalidate path in server action");
     }
 
     return { success: true, count: newValue };

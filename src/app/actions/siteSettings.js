@@ -28,12 +28,12 @@ export async function getHomepageShares() {
 
 export async function incrementHomepageShares() {
   try {
-    // 1. Fetch current count
+    // 1. Fetch current count (use maybeSingle so it doesn't error if row doesn't exist)
     const { data: currentData, error: fetchError } = await supabase
       .from("site_settings")
       .select("homepage_shares_count")
       .eq("id", 1)
-      .single();
+      .maybeSingle();
 
     if (fetchError) {
       console.error("Failed to fetch homepage shares for incrementing:", fetchError);
@@ -42,11 +42,10 @@ export async function incrementHomepageShares() {
 
     const newCount = (currentData?.homepage_shares_count || 0) + 1;
 
-    // 2. Update count
+    // 2. Upsert count (create row if missing)
     const { error: updateError } = await supabase
       .from("site_settings")
-      .update({ homepage_shares_count: newCount })
-      .eq("id", 1);
+      .upsert({ id: 1, homepage_shares_count: newCount });
 
     if (updateError) {
       console.error("Failed to update homepage shares count:", updateError);
