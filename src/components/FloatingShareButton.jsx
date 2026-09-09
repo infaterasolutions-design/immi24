@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { getHomepageShares, incrementHomepageShares } from "@/app/actions/siteSettings";
 
 export default function FloatingShareButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,17 +9,9 @@ export default function FloatingShareButton() {
   const pathname = usePathname();
 
   useEffect(() => {
-    async function loadInitialCount() {
-      const result = await getHomepageShares();
-      if (result.success) {
-        setShareCount(result.count);
-      } else {
-        // Fallback to local storage if table not yet created
-        const localShares = parseInt(localStorage.getItem('homepage_shares_fallback') || '0', 10);
-        setShareCount(localShares);
-      }
-    }
-    loadInitialCount();
+    // Read from localStorage only
+    const localShares = parseInt(localStorage.getItem('homepage_shares_fallback') || '0', 10);
+    setShareCount(localShares);
   }, []);
 
   if (pathname !== "/") return null;
@@ -31,23 +22,20 @@ export default function FloatingShareButton() {
     url: typeof window !== "undefined" ? window.location.href : "https://example.com",
   };
 
-  const incrementShare = async () => {
-    // Optimistic UI update
-    setShareCount(prev => prev + 1);
-    
-    // Server update
-    const result = await incrementHomepageShares();
-    if (!result.success) {
-      // Fallback if table doesn't exist
-      localStorage.setItem('homepage_shares_fallback', (parseInt(localStorage.getItem('homepage_shares_fallback') || '0', 10) + 1).toString());
-    }
+  const incrementShare = () => {
+    // Update local state and localStorage
+    setShareCount(prev => {
+      const next = prev + 1;
+      localStorage.setItem('homepage_shares_fallback', next.toString());
+      return next;
+    });
   };
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        await incrementShare();
+        incrementShare();
       } catch (err) {
         if (err.name !== "AbortError") {
           console.error("Error sharing:", err);
@@ -56,7 +44,7 @@ export default function FloatingShareButton() {
       }
     } else {
       setIsOpen(!isOpen);
-      await incrementShare();
+      incrementShare();
     }
   };
 

@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { recordInteraction } from "@/app/actions/interactions";
+// removed recordInteraction import
 import Breadcrumb from "./Breadcrumb";
 import { fetchReadMoreArticles } from "@/app/actions/article";
 import dynamic from 'next/dynamic';
@@ -109,7 +109,28 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
     setLeftIsSaved(!!localStorage.getItem(`saved_left_${article.id}`));
     setTopIsLiked(!!localStorage.getItem(`liked_top_${article.id}`));
     setTopIsSaved(!!localStorage.getItem(`saved_top_${article.id}`));
-  }, [article.id]);
+
+    // Read local counts (bypassing backend)
+    const localLikes = localStorage.getItem(`count_likes_${article.id}`);
+    if (localLikes) {
+      const parsedLikes = parseInt(localLikes, 10);
+      setLeftLikesCount(parsedLikes);
+      setTopLikesCount(parsedLikes);
+    } else {
+      setLeftLikesCount(article.likes_count || 0);
+      setTopLikesCount(article.likes_count || 0);
+    }
+
+    const localSaves = localStorage.getItem(`count_saves_${article.id}`);
+    if (localSaves) {
+      const parsedSaves = parseInt(localSaves, 10);
+      setLeftSavesCount(parsedSaves);
+      setTopSavesCount(parsedSaves);
+    } else {
+      setLeftSavesCount(article.saves_count || 0);
+      setTopSavesCount(article.saves_count || 0);
+    }
+  }, [article.id, article.likes_count, article.saves_count]);
 
   const handleInteraction = async (position, type) => {
     const storageKey = `${type}_${position}_${article.id}`;
@@ -117,17 +138,26 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
 
     localStorage.setItem(storageKey, "true");
 
-    // Optimistic UI update
-    if (position === "left") {
-      if (type === "like") { setLeftIsLiked(true); setLeftLikesCount(c => c + 1); }
-      if (type === "save") { setLeftIsSaved(true); setLeftSavesCount(c => c + 1); }
-    } else {
-      if (type === "like") { setTopIsLiked(true); setTopLikesCount(c => c + 1); }
-      if (type === "save") { setTopIsSaved(true); setTopSavesCount(c => c + 1); }
+    // Optimistic UI update and LocalStorage save
+    if (type === "like") {
+      setLeftIsLiked(true);
+      setTopIsLiked(true);
+      setLeftLikesCount(c => {
+        const next = c + 1;
+        localStorage.setItem(`count_likes_${article.id}`, next.toString());
+        return next;
+      });
+      setTopLikesCount(c => c + 1);
+    } else if (type === "save") {
+      setLeftIsSaved(true);
+      setTopIsSaved(true);
+      setLeftSavesCount(c => {
+        const next = c + 1;
+        localStorage.setItem(`count_saves_${article.id}`, next.toString());
+        return next;
+      });
+      setTopSavesCount(c => c + 1);
     }
-
-    // Server action
-    await recordInteraction(article.id, type);
   };
 
   // Build the full public URL for this article
@@ -173,7 +203,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
     window.open(shareUrl, 'share_popup', 'width=600,height=500,scrollbars=yes,resizable=yes,noopener,noreferrer');
     setShowLeftShare(false);
     setShowTopShare(false);
-    recordInteraction(article.id, "share");
+    // recordInteraction(article.id, "share");
   };
 
   const handleCopyLink = async () => {
@@ -577,7 +607,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      navigator.share({
                        title: article.title || "Article",
                        url: getArticleUrl(),
-                     }).then(() => recordInteraction(article.id, "share")).catch((err) => console.log("Share canceled", err));
+                     }).catch((err) => console.log("Share canceled", err));
                    } else {
                      setShowLeftShare(!showLeftShare);
                    }
@@ -781,7 +811,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      navigator.share({
                        title: article.title || "Article",
                        url: getArticleUrl(),
-                     }).then(() => recordInteraction(article.id, "share")).catch((err) => console.log("Share canceled", err));
+                     }).catch((err) => console.log("Share canceled", err));
                    } else {
                      setShowTopShare(!showTopShare);
                    }
@@ -1219,7 +1249,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                     navigator.share({
                       title: article.title || "Article",
                       url: getArticleUrl(),
-                    }).then(() => recordInteraction(article.id, "share")).catch((err) => console.log("Share canceled", err));
+                    }).catch((err) => console.log("Share canceled", err));
                   }
                 }}
                 className="flex flex-col items-center justify-center gap-0.5 transition-all text-slate-500 hover:text-primary"
