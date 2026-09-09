@@ -183,11 +183,8 @@ export default function NewArticle() {
     if (payload.cluster_slug && payload.slug) {
       await revalidateServerPath(`/${payload.cluster_slug}/${payload.slug}`, "page");
     }
-    if (finalStatus === 'draft') {
-      router.push(`/admin/articles/${payload.id}/edit`);
-    } else {
-      router.push(`/admin/articles`);
-    }
+    // Always redirect to the edit page of this new article so the user stays in the editor
+    router.push(`/admin/articles/${payload.id}/edit`);
   };
 
   return (

@@ -256,9 +256,7 @@ export default function EditArticle() {
 
     setLastSavedState(JSON.stringify({ form, faqs }));
 
-    if (finalStatus !== 'draft') {
-      router.push(`/admin/articles`);
-    } else if (!isAutoSave) {
+    if (!isAutoSave) {
       // Optional: Show a subtle toast here in the future. For now, the button switches back from "Saving..."
     }
   };
