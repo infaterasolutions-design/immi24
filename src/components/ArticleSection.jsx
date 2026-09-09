@@ -368,7 +368,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
           const src = new URL(iframe.src);
           if (!src.searchParams.has('autoplay')) {
             src.searchParams.set('autoplay', '1');
-            src.searchParams.set('mute', '1');
+            src.searchParams.set('mute', '0'); // User requested unmuted autoplay
             iframe.src = src.toString();
           }
         } catch(e) {}
@@ -376,29 +376,112 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
         const onScroll = () => {
           if (state.isClosed) return;
           
-          // Use the wrapper (which stays in flow) to measure position
           const rect = wrapper.getBoundingClientRect();
           
-          // If the bottom of the original position is above the viewport, it's scrolled out
-          if (rect.bottom < 0) {
-            if (!iframe.classList.contains('pip-mode')) {
-              // Apply PIP directly to the iframe so we don't mutate the DOM structure
-              iframe.classList.add('pip-mode');
-              closeBtn.style.display = 'flex';
+          // Trigger PIP before the video completely leaves the screen (e.g. when it hits the top nav)
+          if (rect.top < 100) {
+            if (iframe.dataset.returnTimeout) {
+              clearTimeout(parseInt(iframe.dataset.returnTimeout));
+              delete iframe.dataset.returnTimeout;
+              delete iframe.dataset.isReturning;
+            }
+
+            if (!iframe.classList.contains('pip-mode-active')) {
+              // Save original inline styles so we can restore them later (crucial for rich text iframes)
+              if (typeof iframe.dataset.originalCssText === 'undefined') {
+                iframe.dataset.originalCssText = iframe.getAttribute('style') || '';
+              }
+            
+              // 1. Get exact visual bounding box
+              const currentRect = iframe.getBoundingClientRect();
               
+              // 2. Disable transition so we can snap it to fixed without animating from top:0
+              iframe.style.setProperty('transition', 'none', 'important');
+              
+              // 3. Set exact fixed coordinates
+              iframe.style.setProperty('width', currentRect.width + 'px', 'important');
+              iframe.style.setProperty('height', currentRect.height + 'px', 'important');
+              iframe.style.setProperty('top', currentRect.top + 'px', 'important');
+              iframe.style.setProperty('left', currentRect.left + 'px', 'important');
+              iframe.style.setProperty('bottom', 'auto', 'important');
+              iframe.style.setProperty('right', 'auto', 'important');
+              
+              // 4. Make it fixed
+              iframe.classList.add('pip-mode-active');
+              
+              // 5. Force layout so the browser registers the fixed position AT currentRect
+              void iframe.offsetWidth;
+              
+              // 6. Enable transition
+              iframe.style.setProperty('transition', 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)', 'important');
+              
+              // 7. Calculate target coordinates
               const isMobile = window.innerWidth < 768;
-              const h = isMobile ? 124 : 180;
+              const targetW = isMobile ? 220 : 320;
+              const targetH = isMobile ? 124 : 180;
               const b = isMobile ? 90 : 20;
               const r = isMobile ? 10 : 20;
-              closeBtn.style.setProperty('bottom', (b + h - 16) + 'px', 'important');
+              
+              const targetTop = window.innerHeight - b - targetH;
+              const targetLeft = window.innerWidth - r - targetW;
+              
+              // 8. Set target coordinates, triggering the transition!
+              iframe.style.setProperty('width', targetW + 'px', 'important');
+              iframe.style.setProperty('height', targetH + 'px', 'important');
+              iframe.style.setProperty('top', targetTop + 'px', 'important');
+              iframe.style.setProperty('left', targetLeft + 'px', 'important');
+
+              // Setup close button
+              closeBtn.style.opacity = '0';
+              closeBtn.style.display = 'flex';
+              closeBtn.style.setProperty('bottom', (b + targetH - 16) + 'px', 'important');
               closeBtn.style.setProperty('right', (r - 16) + 'px', 'important');
               closeBtn.style.setProperty('top', 'auto', 'important');
               closeBtn.style.setProperty('left', 'auto', 'important');
+              
+              requestAnimationFrame(() => {
+                closeBtn.style.transition = 'opacity 0.4s ease 0.2s';
+                closeBtn.style.opacity = '1';
+              });
             }
           } else {
-            if (iframe.classList.contains('pip-mode')) {
-              iframe.classList.remove('pip-mode');
-              closeBtn.style.display = 'none';
+            if (iframe.classList.contains('pip-mode-active') && !iframe.dataset.isReturning) {
+              iframe.dataset.isReturning = "true";
+              
+              closeBtn.style.opacity = '0';
+              
+              // Ensure transition is active for the return trip
+              iframe.style.setProperty('transition', 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)', 'important');
+              
+              // Animate back to the wrapper's original position
+              iframe.style.setProperty('width', rect.width + 'px', 'important');
+              iframe.style.setProperty('height', rect.height + 'px', 'important');
+              iframe.style.setProperty('top', rect.top + 'px', 'important');
+              iframe.style.setProperty('left', rect.left + 'px', 'important');
+              
+              const timeoutId = setTimeout(() => {
+                iframe.classList.remove('pip-mode-active');
+                
+                // Restore original inline styles
+                if (typeof iframe.dataset.originalCssText !== 'undefined') {
+                  iframe.setAttribute('style', iframe.dataset.originalCssText);
+                } else {
+                  // Fallback just in case
+                  iframe.style.removeProperty('transition');
+                  iframe.style.removeProperty('width');
+                  iframe.style.removeProperty('height');
+                  iframe.style.removeProperty('top');
+                  iframe.style.removeProperty('left');
+                  iframe.style.removeProperty('bottom');
+                  iframe.style.removeProperty('right');
+                }
+                
+                closeBtn.style.display = 'none';
+                delete iframe.dataset.isReturning;
+                delete iframe.dataset.returnTimeout;
+              }, 400);
+              
+              iframe.dataset.returnTimeout = timeoutId.toString();
             }
           }
         };
@@ -411,8 +494,22 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
 
         closeBtn.onclick = () => {
           state.isClosed = true;
-          iframe.classList.remove('pip-mode');
+          iframe.classList.remove('pip-mode-active');
+          
+          if (typeof iframe.dataset.originalCssText !== 'undefined') {
+            iframe.setAttribute('style', iframe.dataset.originalCssText);
+          } else {
+            iframe.style.removeProperty('transition');
+            iframe.style.removeProperty('width');
+            iframe.style.removeProperty('height');
+            iframe.style.removeProperty('top');
+            iframe.style.removeProperty('left');
+            iframe.style.removeProperty('bottom');
+            iframe.style.removeProperty('right');
+          }
+          
           closeBtn.style.display = 'none';
+          closeBtn.style.opacity = '0';
         };
       });
 
