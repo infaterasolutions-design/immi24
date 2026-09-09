@@ -336,6 +336,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
 
     // Ensure we handle client-side script execution for embeds
     // 1. Process blockquotes for Instagram/Twitters
+    let pipCleanup = null;
     const timer = setTimeout(() => {
       const iframes = contentRef.current.querySelectorAll('iframe[src*="youtube"]');
       console.log('PIP Debug: Found iframes:', iframes.length);
@@ -515,20 +516,26 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
 
       // Save for cleanup
       contentRef.current._pipObservers = observers;
-      contentRef.current._pipCloseBtns = closeButtons;
+      contentRef.current._pipCloseBtns = Array.from(closeButtons.values());
+      
+      pipCleanup = () => {
+        observers.forEach(obs => obs.disconnect());
+        closeButtons.forEach(btn => {
+          if (btn && btn.parentNode) btn.parentNode.removeChild(btn);
+        });
+      };
     }, 100);
 
     return () => {
       clearTimeout(timer);
-      // We must disconnect observers even if contentRef.current is null on unmount
-      if (contentRef.current && contentRef.current._pipObservers) {
+      if (pipCleanup) {
+        pipCleanup();
+      } else if (contentRef.current && contentRef.current._pipObservers) {
+        // Fallback for safety
         contentRef.current._pipObservers.forEach(obs => obs.disconnect());
         contentRef.current._pipCloseBtns.forEach(btn => {
-          if (btn.parentNode) btn.parentNode.removeChild(btn);
+          if (btn && btn.parentNode) btn.parentNode.removeChild(btn);
         });
-      } else {
-        // Fallback: If we can't get observers from DOM node, we can't easily clean them up
-        // unless we store them in a local variable in the closure!
       }
     };
   }, [decodedContent]);
