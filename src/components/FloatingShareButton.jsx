@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { getHomepageShares, incrementHomepageShares } from "@/app/actions/siteSettings";
 
 export default function FloatingShareButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,9 +10,16 @@ export default function FloatingShareButton() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Read from localStorage only
-    const localShares = parseInt(localStorage.getItem('homepage_shares_fallback') || '0', 10);
-    setShareCount(localShares);
+    async function loadInitialCount() {
+      const result = await getHomepageShares();
+      if (result.success) {
+        setShareCount(result.count);
+      } else {
+        const localShares = parseInt(localStorage.getItem('homepage_shares_fallback') || '0', 10);
+        setShareCount(localShares);
+      }
+    }
+    loadInitialCount();
   }, []);
 
   if (pathname !== "/") return null;
@@ -22,13 +30,16 @@ export default function FloatingShareButton() {
     url: typeof window !== "undefined" ? window.location.href : "https://example.com",
   };
 
-  const incrementShare = () => {
-    // Update local state and localStorage
+  const incrementShare = async () => {
+    // Update local state and localStorage for optimistic UI
     setShareCount(prev => {
       const next = prev + 1;
       localStorage.setItem('homepage_shares_fallback', next.toString());
       return next;
     });
+    
+    // Server update
+    await incrementHomepageShares();
   };
 
   const handleShare = async () => {

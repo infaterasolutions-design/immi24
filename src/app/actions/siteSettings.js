@@ -28,31 +28,15 @@ export async function getHomepageShares() {
 
 export async function incrementHomepageShares() {
   try {
-    // 1. Fetch current count (use maybeSingle so it doesn't error if row doesn't exist)
-    const { data: currentData, error: fetchError } = await supabase
-      .from("site_settings")
-      .select("homepage_shares_count")
-      .eq("id", 1)
-      .maybeSingle();
+    // Call the secure RPC function to bypass RLS for this specific action
+    const { error: rpcError } = await supabase.rpc('increment_homepage_share');
 
-    if (fetchError) {
-      console.error("Failed to fetch homepage shares for incrementing:", fetchError);
-      return { success: false, error: fetchError.message };
+    if (rpcError) {
+      console.error("Failed to update homepage shares count via RPC:", rpcError);
+      return { success: false, error: rpcError.message };
     }
 
-    const newCount = (currentData?.homepage_shares_count || 0) + 1;
-
-    // 2. Upsert count (create row if missing)
-    const { error: updateError } = await supabase
-      .from("site_settings")
-      .upsert({ id: 1, homepage_shares_count: newCount });
-
-    if (updateError) {
-      console.error("Failed to update homepage shares count:", updateError);
-      return { success: false, error: updateError.message };
-    }
-
-    return { success: true, count: newCount };
+    return { success: true };
   } catch (error) {
     console.error("Increment server action failed:", error);
     return { success: false, error: error.message };

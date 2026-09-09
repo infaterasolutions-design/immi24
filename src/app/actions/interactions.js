@@ -11,37 +11,19 @@ import { revalidatePath } from "next/cache";
 
 export async function recordInteraction(articleId, type) {
   try {
-    // Determine which column to update based on the type
-    let columnToUpdate;
-    if (type === "like") columnToUpdate = "likes_count";
-    else if (type === "save") columnToUpdate = "saves_count";
-    else if (type === "share") columnToUpdate = "shares_count";
-    else return { success: false, error: "Invalid interaction type" };
-
-    // Fetch the current value
-    const { data: article, error: fetchError } = await supabase
-      .from("articles")
-      .select(columnToUpdate)
-      .eq("id", articleId)
-      .single();
-
-    if (fetchError) {
-      console.error("Failed to fetch article for interaction:", fetchError);
-      return { success: false, error: fetchError.message };
+    if (!["like", "save", "share"].includes(type)) {
+      return { success: false, error: "Invalid interaction type" };
     }
 
-    const currentValue = article[columnToUpdate] || 0;
-    const newValue = currentValue + 1;
+    // Call the secure RPC function to bypass RLS for this specific action
+    const { error: rpcError } = await supabase.rpc('increment_article_interaction', { 
+      p_article_id: articleId, 
+      p_interaction_type: type 
+    });
 
-    // Update the value
-    const { error: updateError } = await supabase
-      .from("articles")
-      .update({ [columnToUpdate]: newValue })
-      .eq("id", articleId);
-
-    if (updateError) {
-      console.error("Failed to update interaction count:", updateError);
-      return { success: false, error: updateError.message };
+    if (rpcError) {
+      console.error("Failed to update interaction count via RPC:", rpcError);
+      return { success: false, error: rpcError.message };
     }
 
     // Bust the Next.js cache so the updated count is served on refresh
@@ -51,7 +33,7 @@ export async function recordInteraction(articleId, type) {
       console.log("Could not revalidate path in server action");
     }
 
-    return { success: true, count: newValue };
+    return { success: true };
   } catch (error) {
     console.error("Interaction server action failed:", error);
     return { success: false, error: error.message };

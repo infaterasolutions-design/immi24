@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-// removed recordInteraction import
+import { recordInteraction } from "@/app/actions/interactions";
 import Breadcrumb from "./Breadcrumb";
 import { fetchReadMoreArticles } from "@/app/actions/article";
 import dynamic from 'next/dynamic';
@@ -158,6 +158,9 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
       });
       setTopSavesCount(c => c + 1);
     }
+
+    // Server action
+    await recordInteraction(article.id, type);
   };
 
   // Build the full public URL for this article
@@ -203,7 +206,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
     window.open(shareUrl, 'share_popup', 'width=600,height=500,scrollbars=yes,resizable=yes,noopener,noreferrer');
     setShowLeftShare(false);
     setShowTopShare(false);
-    // recordInteraction(article.id, "share");
+    recordInteraction(article.id, "share");
   };
 
   const handleCopyLink = async () => {
@@ -607,7 +610,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      navigator.share({
                        title: article.title || "Article",
                        url: getArticleUrl(),
-                     }).catch((err) => console.log("Share canceled", err));
+                     }).then(() => recordInteraction(article.id, "share")).catch((err) => console.log("Share canceled", err));
                    } else {
                      setShowLeftShare(!showLeftShare);
                    }
@@ -811,7 +814,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                      navigator.share({
                        title: article.title || "Article",
                        url: getArticleUrl(),
-                     }).catch((err) => console.log("Share canceled", err));
+                     }).then(() => recordInteraction(article.id, "share")).catch((err) => console.log("Share canceled", err));
                    } else {
                      setShowTopShare(!showTopShare);
                    }
@@ -1249,7 +1252,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                     navigator.share({
                       title: article.title || "Article",
                       url: getArticleUrl(),
-                    }).catch((err) => console.log("Share canceled", err));
+                    }).then(() => recordInteraction(article.id, "share")).catch((err) => console.log("Share canceled", err));
                   }
                 }}
                 className="flex flex-col items-center justify-center gap-0.5 transition-all text-slate-500 hover:text-primary"
