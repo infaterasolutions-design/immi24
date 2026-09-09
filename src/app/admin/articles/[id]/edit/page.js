@@ -294,6 +294,17 @@ export default function EditArticle() {
           </div>
 
           <div className="flex items-center gap-3">
+            {form.slug && form.status === 'published' && (
+              <a 
+                href={`/${form.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-md text-sm font-medium border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center gap-1"
+              >
+                View Live
+                <span className="material-symbols-outlined text-[16px]">visibility</span>
+              </a>
+            )}
             {form.slug && (
               <a 
                 href={`/${form.slug}?preview=true`}
