@@ -106,7 +106,7 @@ export default function FloatingShareButton() {
         aria-label="Share Website"
       >
         <span className="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">share</span>
-        {shareCount > 0 && <span className="text-[10px] font-bold leading-none text-slate-500">{shareCount}</span>}
+        {shareCount !== null && <span className="text-[10px] font-bold leading-none text-slate-500">{shareCount}</span>}
       </button>
     </div>
   );

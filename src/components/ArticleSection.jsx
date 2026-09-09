@@ -558,7 +558,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                }`}
              >
                <span className="material-symbols-outlined text-[22px]">thumb_up</span>
-               {leftLikesCount > 0 && <span className="text-sm font-bold">{leftLikesCount}</span>}
+               {leftLikesCount !== null && <span className="text-sm font-bold">{leftLikesCount}</span>}
              </button>
              <button
                onClick={() => handleInteraction("left", "save")}
@@ -567,7 +567,7 @@ export default function ArticleSection({ article, isFirst = false, customWidgets
                }`}
              >
                <span className="material-symbols-outlined text-[22px]">{leftIsSaved ? 'bookmark_added' : 'bookmark'}</span>
-               {leftSavesCount > 0 && <span className="text-sm font-bold">{leftSavesCount}</span>}
+                 {leftSavesCount !== null && <span className="text-[10px] font-bold leading-none">{leftSavesCount}</span>}
              </button>
              <div className="relative flex justify-end">
                <button
